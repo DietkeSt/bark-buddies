@@ -31,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '8000-dietkest-bark-buddies-q0kxl92vyc.us2.codeanyapp.com',
-    'bark-buddies.herokuapp.com',
+    'bark-buddies-f5470c68ef42.herokuapp.com',
     'localhost',
 ]
 
