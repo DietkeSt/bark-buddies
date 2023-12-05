@@ -8,7 +8,7 @@
         {% for service in service_list %}
         <div class="slide">
           <div class="card mb-4">
-            <div class="card-body">
+            <div class="card-body service-card-body">
               <div class="image-container">
                 {% if "placeholder" in service.featured_image.url %}
                 <img
@@ -25,7 +25,10 @@
                   <p class="price-text">Price: {{ service.price }}</p>
                 </div>
               </div>
-              <a href="#" class="service-link">
+              <a
+                href="{% url 'service_detail' service.slug %}"
+                class="service-link"
+              >
                 <h2 class="card-title">{{ service.title }}</h2>
               </a>
               <hr />
@@ -38,7 +41,8 @@
         </div>
         {% endfor %}
       </div>
-      {%endblock%}
     </div>
   </div>
 </div>
+
+{% endblock content %}
