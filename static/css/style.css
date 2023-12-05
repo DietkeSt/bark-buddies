@@ -137,6 +137,7 @@ body {
 .service-link {
     text-decoration: none;
     color: #445261;
+    text-align: center;
 }
 
 .service-link:hover,
@@ -144,14 +145,13 @@ body {
     color: #198754;
 }
 
+.card-text {
+    text-align: center;
+}
+
 .service-title {
     margin-top: 20%;
     margin-left: 5%;
-}
-
-.service-subtitle {
-    margin-left: 5%;
-    color: lightgray;
 }
 
 .btn-signup {
