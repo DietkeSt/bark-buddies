@@ -57,6 +57,10 @@ body {
 
 /* services */
 
+.slick-list {
+    padding-top: 1em;
+}
+
 .card {
     border: none;
     background-color: transparent;
@@ -71,7 +75,7 @@ body {
     border: 1px solid #445261;
     border-radius: 0.25rem;
     transition: all 0.5s ease;
-    margin: 0.5em;
+    margin: 1em;
     background-color: #fff;
 }
 
