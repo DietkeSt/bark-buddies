@@ -62,7 +62,8 @@ body {
     background-color: transparent;
 }
 
-.card-img {
+.card-img,
+.card-img-top {
     border-radius: 0.25rem;
 }
 
@@ -71,6 +72,7 @@ body {
     border-radius: 0.25rem;
     transition: all 0.5s ease;
     margin: 0.5em;
+    background-color: #fff;
 }
 
 
@@ -88,14 +90,14 @@ body {
     bottom: 5%;
     min-width: 30%;
     left: -2px;
-    background-color: #198754;
+    background-color: #eac351;
+    border-radius: 0.25rem;
 }
 
 .price-text {
-    color: white;
+    color: #445261;
     margin: 4px;
     text-transform: uppercase;
-    border-radius: 0.25rem;
 }
 
 .masthead {
@@ -139,7 +141,7 @@ body {
 
 .service-link:hover,
 .page-link {
-    color: #eac351;
+    color: #198754;
 }
 
 .service-title {
