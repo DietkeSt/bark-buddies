@@ -71,7 +71,7 @@ body {
     border-radius: 0.25rem;
 }
 
-.card-body {
+.service-card-body {
     border: 1px solid #445261;
     border-radius: 0.25rem;
     transition: all 0.5s ease;
@@ -80,9 +80,24 @@ body {
 }
 
 
-.card-body:hover {
+.service-card-body:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transform: scale(1.1);
+}
+
+.card-body {
+    border: 1px solid #445261;
+    border-radius: 0.25rem;
+    background-color: #fff;
+}
+
+.card-body-service-detail {
+    padding: 0;
+    margin: 1em;
+}
+
+.card-body-comments {
+    margin: 1em;
 }
 
 .image-container {
@@ -153,9 +168,13 @@ body {
     text-align: center;
 }
 
-.service-title {
-    margin-top: 20%;
-    margin-left: 5%;
+.service-text {
+    padding: 1em;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-signup {
