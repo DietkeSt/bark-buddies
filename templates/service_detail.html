@@ -1,0 +1,74 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container-fluid">
+  <div class="card mb-4 mt-3">
+    <div class="card-body card-body-service-detail">
+      <div class="row g-0">
+        <div class="col-md-6">
+          <div class="image-container">
+            {% if "placeholder" in service.featured_image.url %}
+            <img
+              src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg"
+              class="card-img-top"
+              alt="Service Image"
+            />
+            {% else %}
+            <img
+              src="{{ service.featured_image.url }}"
+              class="card-img-top"
+              alt="Service Image"
+            />
+            {% endif %}
+            <div class="image-flash">
+              <p class="price-text">Price: {{ service.price }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 service-text">
+          <h1 class="service-title">{{ service.title }}</h1>
+          <p class="card-text">{{ service.content | safe }}</p>
+          <div class="row">
+            <div class="col-5">
+              <strong class="text-secondary">
+                <i class="far fa-heart"></i> {{ service.number_of_likes }}
+              </strong>
+            </div>
+            <div class="col-5">
+              {% with comments.count as total_comments %}
+              <strong class="text-secondary">
+                <i class="far fa-comments"></i> {{ total_comments }}
+              </strong>
+              {% endwith %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 card mb-4 mt-3">
+      <h3>Customer Reviews:</h3>
+      <div class="card-body card-body-comments">
+        <div class="slider">
+          {% for comment in comments %}
+          <div class="slide">
+            <div class="comment">
+              <p class="font-weight-bold">
+                {{ comment.name }}
+                <span class="text-muted font-weight-normal"
+                  >{{ comment.created_on }}</span
+                >
+                wrote:
+              </p>
+              {{ comment.body | linebreaks }}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
