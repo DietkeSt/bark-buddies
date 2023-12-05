@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Blog Entries Column -->
+    <div class="col-12 mt-3 left">
+      <div class="slider">
+        {% for service in service_list %}
+        <div class="slide">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="image-container">
+                {% if "placeholder" in service.featured_image.url %}
+                <img
+                  class="card-img-top"
+                  src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg"
+                />
+                {% else %}
+                <img
+                  class="card-img-top"
+                  src=" {{ service.featured_image.url }}"
+                />
+                {% endif %}
+                <div class="image-flash">
+                  <p class="price-text">Price: {{ service.price }}</p>
+                </div>
+              </div>
+              <a href="#" class="service-link">
+                <h2 class="card-title">{{ service.title }}</h2>
+              </a>
+              <hr />
+              <p class="card-text text-muted h6">
+                <i class="far fa-heart"></i>
+                {{ service.number_of_likes }}
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {%endblock%}
+    </div>
+  </div>
+</div>
