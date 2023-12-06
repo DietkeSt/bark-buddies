@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic, View
-from .models import Service
+from .models import Service, AvailableTime
 
 
 class ServiceList(generic.ListView):
