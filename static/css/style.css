@@ -4,6 +4,10 @@ body {
     background-color: #F9FAFC;
 }
 
+main {
+    height: auto;
+}
+
 .thin {
     font-weight: 300;
 }
@@ -55,7 +59,7 @@ body {
     border-radius: 0.25rem;
 }
 
-/* login form */
+/* forms */
 
 .sign-up-link {
     color: #198754 !important;
@@ -66,7 +70,8 @@ body {
 }
 
 .mb-3 p:nth-child(1) label,
-.mb-3 p:nth-child(2) label {
+.mb-3 p:nth-child(2) label,
+form.signup label {
     display: block;
     margin-bottom: 5px;
 }
@@ -76,9 +81,14 @@ body {
 }
 
 .mb-3 input[type="text"],
-.mb-3 input[type="password"] {
+.mb-3 input[type="password"],
+form.signup input {
     width: 100%;
     margin-bottom: 10px;
+}
+
+.signup-card {
+    padding-bottom: 3em;
 }
 
 /* services */
