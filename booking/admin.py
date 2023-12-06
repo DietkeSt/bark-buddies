@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Service, Comment, Calendar, AvailableTime
+from .models import Service, Comment, AvailableTime
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -25,12 +25,6 @@ class CommentAdmin(admin.ModelAdmin):
         queryset.update(approved=True)
 
 
-@admin.register(Calendar)
-class CalendarAdmin(admin.ModelAdmin):
-    list_display = ('service',)
-    search_fields = ['service__title']
-
-
-@admin.register(AvailableTime)
-class AvailableTimeAdmin(admin.ModelAdmin):
-    list_display = ('day_of_week', 'start_time', 'end_time')
+class AvailableTimeInline(admin.StackedInline):
+    model = AvailableTime
+    extra = 1
