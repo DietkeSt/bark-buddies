@@ -55,6 +55,32 @@ body {
     border-radius: 0.25rem;
 }
 
+/* login form */
+
+.sign-up-link {
+    color: #198754 !important;
+}
+
+.helptext {
+    display: none;
+}
+
+.mb-3 p:nth-child(1) label,
+.mb-3 p:nth-child(2) label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.mb-3 input[type="checkbox"] {
+    margin-left: 5px;
+}
+
+.mb-3 input[type="text"],
+.mb-3 input[type="password"] {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
 /* services */
 
 .slick-list {
