@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'whitenoise.runserver_nostatic',
+    'whitenoise',
     'cloudinary_storage',
     'django.contrib.staticfiles',
     'cloudinary',
