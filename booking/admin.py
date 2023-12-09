@@ -16,13 +16,22 @@ class ServiceAdmin(SummernoteModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
 
-    list_display = ('name', 'body', 'post', 'created_on', 'approved')
+    list_display = ('name', 'body', 'service', 'created_on', 'approved')
     list_filter = ('approved', 'created_on')
     search_fields = ('name', 'email', 'body')
-    action = ['approve_comments']
+    actions = ['approve_comments']
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['email'].required = False
+        return form
 
     def approve_comments(self, request, queryset):
-        queryset.update(approved=True)
+        for obj in queryset:
+            obj.approved = True
+            obj.save()
+
+    approve_comments.short_description = "Approve selected comments"
 
 
 class AvailableTimeInline(admin.StackedInline):
