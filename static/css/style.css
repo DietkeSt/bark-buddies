@@ -10,6 +10,7 @@ body {
 
 main {
     height: auto;
+    margin: 0 2em;
 }
 
 .thin {
@@ -33,6 +34,10 @@ main {
 .navbar {
     height: 14vh;
     flex-wrap: none;
+}
+
+.navbar-container {
+    margin: 0 2em;
 }
 
 .navbar-brand img {
@@ -281,6 +286,12 @@ form.signup input {
     color: #eac351;
     background: transparent;
     border: none;
+}
+
+/* footer */
+
+.footer-container {
+    margin: 0 2em;
 }
 
 /* Media queries */
