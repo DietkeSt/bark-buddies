@@ -19,11 +19,6 @@
       href="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701453587/favicon_xyhrdl.png"
       type="image/x-icon"
     />
-
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -141,20 +136,29 @@
       </p>
     </footer>
     <script>
-      $(window).on("load", function () {
-        $(".slider").slick({
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          autoplay: false,
-          dots: true,
-        });
-      });
-      $(window).on("load", function () {
+        $(window).on("load", function () {
+                $(".slider").slick({
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    autoplay: false,
+                    dots: true,
+                    responsive: [
+                        {
+                            breakpoint: 768,
+                            settings: {
+                                slidesToShow: 1,
+                            },
+                        },
+                    ],
+                });
+            });
+        $(window).on("load", function () {
             $(".slider2").slick({
                 slidesToShow: 1,
                 slidesToScroll: 1,
                 autoplay: true,
                 dots: true,
+                arrows: false 
             });
         });
     </script>
