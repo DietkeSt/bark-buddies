@@ -1,5 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 
+{% load crispy_forms_tags %}
+
 <div class="container-fluid">
   <div class="card mb-4 mt-3">
     <div class="card-body card-body-service-detail">
@@ -47,27 +49,53 @@
   </div>
 
   <div class="row">
-    <div class="col-md-12 card mb-4 mt-3">
-      <h3>Customer Reviews:</h3>
-      <div class="card-body card-body-comments">
-        <div class="slider">
-          {% for comment in comments %}
-          <div class="slide">
-            <div class="comment">
-              <p class="font-weight-bold">
-                {{ comment.name }}
-                <span class="text-muted font-weight-normal"
-                  >{{ comment.created_on }}</span
-                >
-                wrote:
-              </p>
-              {{ comment.body | linebreaks }}
+    {% if not user.is_authenticated %}
+    <div class= "col-12 card mb-4">
+        <h3>Customer Reviews:</h3>
+        <div class="card-body card-body-comments comment-body">
+            <div class="slider2">
+                {% for comment in comments %}
+                <div class="slide comment mx-auto">
+                        <blockquote class="blockquote text-center">
+                            <p class="mb-0">{{ comment.body | linebreaks }}</p>
+                            <footer class="blockquote-footer">{{ comment.name }}</footer>
+                        </blockquote>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-          </div>
         </div>
-      </div>
     </div>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <div class="col-md-6 col-12 card mb-4">
+        <h3>Customer Reviews:</h3>
+        <div class="card-body card-body-comments comment-body">
+            <div class="slider">
+                {% for comment in comments %}
+                <div class="slide comment mx-auto">
+                    <blockquote class="blockquote text-center">
+                        <p class="mb-0">{{ comment.body | linebreaks }}</p>
+                        <footer class="blockquote-footer">{{ comment.name }}</footer>
+                    </blockquote>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-12 card mb-4">
+        <h3>Submit your review:</h3>
+        <div class="card-body card-body-comments">
+            <p>Writing as: {{ user.username }}</p>
+            <form method="post">
+                {{ comment_form | crispy }}
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success mt-2">
+                    Submit
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
   </div>
 </div>
 
