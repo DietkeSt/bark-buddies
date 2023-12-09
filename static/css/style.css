@@ -155,6 +155,20 @@ form.signup input {
     text-transform: uppercase;
 }
 
+/* comments */
+
+.comment-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.textarea {
+    max-height: 7.5em;
+    overflow-y: auto;
+}
+
+/* other */
 .masthead {
     margin-top: 10px;
     overflow: hidden;
