@@ -1,5 +1,9 @@
 /* global styling */
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background-color: #F9FAFC;
 }
@@ -203,13 +207,14 @@ form.signup input {
     z-index: 100;
 }
 
+.service-title,
 .service-link {
     text-decoration: none;
     color: #445261;
     text-align: center;
 }
 
-.service-link:hover,
+.service-title:hover,
 .page-link {
     color: #198754;
 }
@@ -261,3 +266,5 @@ form.signup input {
     background: transparent;
     border: none;
 }
+
+/* Media queries */
