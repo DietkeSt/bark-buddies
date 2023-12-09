@@ -179,6 +179,15 @@ form.signup input {
     overflow-y: auto;
 }
 
+#comment-count a {
+    text-decoration: none;
+    color: #6c757d;
+}
+
+#comment-count a:hover {
+    color: #198754;
+}
+
 /* other */
 .masthead {
     margin-top: 10px;
