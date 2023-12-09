@@ -30,15 +30,11 @@
           <h1 class="service-title">{{ service.title }}</h1>
           <p class="card-text">{{ service.content | safe }}</p>
           <div class="row">
-            <div class="col-5">
-              <strong class="text-secondary">
-                <i class="far fa-heart"></i> {{ service.number_of_likes }}
-              </strong>
-            </div>
-            <div class="col-5">
+            <div class="col-md-6 d-flex align-items-center">
               {% with comments.count as total_comments %}
               <strong class="text-secondary">
-                <i class="far fa-comments"></i> {{ total_comments }}
+                <i class="fa-regular fa-message"></i>
+                {{ total_comments }}
               </strong>
               {% endwith %}
             </div>
@@ -70,7 +66,7 @@
     <div class="col-md-6 col-12 card mb-4">
         <h3>Customer Reviews:</h3>
         <div class="card-body card-body-comments comment-body">
-            <div class="slider">
+            <div class="slider2">
                 {% for comment in comments %}
                 <div class="slide comment mx-auto">
                     <blockquote class="blockquote text-center">
@@ -84,6 +80,11 @@
     </div>
     <div class="col-md-6 col-12 card mb-4">
         <h3>Submit your review:</h3>
+        {% if commented %}
+        <div class="alert alert-success card-body-comments" role="alert">
+            Your comment is awaiting approval.
+        </div>
+        {% else %}
         <div class="card-body card-body-comments">
             <p>Writing as: {{ user.username }}</p>
             <form method="post">
@@ -95,6 +96,7 @@
             </form>
         </div>
     </div>
+    {% endif %}
     {% endif %}
   </div>
 </div>
