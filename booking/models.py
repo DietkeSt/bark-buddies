@@ -60,6 +60,7 @@ class Booking(models.Model):
     end_date = models.DateField()
     time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
     comments = models.TextField(blank=True, null=True)
+    is_cancelled = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user} booked {self.service} from {self.start_date} to {self.end_date} at {self.time_slot}'
@@ -67,4 +68,8 @@ class Booking(models.Model):
     # Add a method to check if the booking can be cancelled
     def can_cancel(self):
         return timezone.now() < (self.start_date - timezone.timedelta(days=1))
+
+    def cancel(self):
+        self.is_cancelled = True
+        self.save()
 
