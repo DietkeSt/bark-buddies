@@ -60,10 +60,17 @@ class BookingAdmin(admin.ModelAdmin):
 
     list_display = ('user', 'service', 'start_date',
                     'end_date', 'time_slot', 'comments')
-    list_filter = ['user', 'service', 'start_date', 'end_date']
+    list_filter = ['service', 'start_date', 'end_date']
     search_fields = ['user__username', 'service__title']
+    actions = ['cancel_bookings']
 
     def display_time_slots(self, obj):
         return ", ".join(map(str, obj.time_slots.all()))
 
     display_time_slots.short_description = 'Time Slots'
+
+    def cancel_bookings(self, request, queryset):
+        for booking in queryset:
+            booking.cancel()
+
+    cancel_bookings.short_description = "Cancel selected bookings"
