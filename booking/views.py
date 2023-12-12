@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.views import generic, View
 from .models import Service, Booking
 from .forms import CommentForm, BookingForm
+from django.utils import timezone
 
 
 class ServiceList(generic.ListView):
@@ -71,17 +72,46 @@ class ServiceDetail(View):
 @login_required
 def book_service(request, service_id):
     service = Service.objects.get(id=service_id)
+
     if request.method == 'POST':
-        form = BookingForm(request.POST)
+        form = BookingForm(request.POST, available_slots=get_available_slots())
         if form.is_valid():
             booking = form.save(commit=False)
+
+            # Check if the selected slot is marked as full
+            selected_slot = TimeSlot.objects.get(id=booking.time_slot.id)
+            if Booking.objects.filter(time_slot=selected_slot, start_date=booking.start_date).count() >= selected_slot.limit:
+                # Handle the full slot case
+                return render(request, 'booking_form.html', {
+                    'form': form,
+                    'service': service,
+                    'error_message': 'Selected time slot is full. Please choose another slot.'
+                })
+
             booking.user = request.user
             booking.service = service
             booking.save()
+            # Redirect to booking list
             return redirect('view_bookings')
     else:
-        form = BookingForm()
-    return render(request, 'book_service.html', {'form': form, 'service': service})
+        form = BookingForm(available_slots=get_available_slots())
+
+    return render(request, 'booking_form.html', {'form': form, 'service': service})
+
+
+def get_available_slots():
+    today = timezone.now().date()
+    slots = TimeSlot.objects.all()
+    available_slots = []
+    for slot in slots:
+        booked_count = Booking.objects.filter(
+            time_slot=slot, date=today).count()
+        if booked_count < slot.limit:
+            available_slots.append(
+                (slot.id, f"{slot.time_of_day} (Available)"))
+        else:
+            available_slots.append((slot.id, f"{slot.time_of_day} (Full)"))
+    return available_slots
 
 
 @login_required
