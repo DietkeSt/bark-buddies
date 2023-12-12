@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import Service, Comment, Booking, TimeSlot
 from django_summernote.admin import SummernoteModelAdmin
 from datetime import datetime, timedelta
@@ -58,8 +59,7 @@ class TimeSlotAdmin(admin.ModelAdmin):
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
 
-    list_display = ('user', 'service', 'start_date',
-                    'end_date', 'time_slot', 'comments')
+    list_display = ('user', 'service_status', 'start_date_status', 'end_date_status', 'time_slot_status', 'display_cancellation_status')
     list_filter = ['service', 'start_date', 'end_date']
     search_fields = ['user__username', 'service__title']
     actions = ['cancel_bookings']
@@ -74,3 +74,39 @@ class BookingAdmin(admin.ModelAdmin):
             booking.cancel()
 
     cancel_bookings.short_description = "Cancel selected bookings"
+
+    def service_status(self, obj):
+        if obj.is_cancelled:
+            return format_html('<span style="text-decoration: line-through;">{}</span>', obj.service)
+        else:
+            return obj.service
+
+    def start_date_status(self, obj):
+        if obj.is_cancelled:
+            return format_html('<span style="text-decoration: line-through;">{}</span>', obj.start_date)
+        else:
+            return obj.start_date
+
+    def end_date_status(self, obj):
+        if obj.is_cancelled:
+            return format_html('<span style="text-decoration: line-through;">{}</span>', obj.end_date)
+        else:
+            return obj.end_date
+
+    def time_slot_status(self, obj):
+        if obj.is_cancelled:
+            return format_html('<span style="text-decoration: line-through;">{}</span>', obj.time_slot)
+        else:
+            return obj.time_slot
+
+    def display_cancellation_status(self, obj):
+        if obj.is_cancelled:
+            return format_html('<span style="text-decoration: line-through;">{}</span>', "Cancelled")
+        else:
+            return "Active"
+
+    service_status.short_description = 'Service'
+    start_date_status.short_description = 'Start Date'
+    end_date_status.short_description = 'End Date'
+    time_slot_status.short_description = 'Time Slot'
+    display_cancellation_status.short_description = 'Status'
