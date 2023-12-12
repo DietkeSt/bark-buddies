@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Service, Comment, Booking
+from .models import Service, Comment, Booking, TimeSlot
 from django_summernote.admin import SummernoteModelAdmin
 from datetime import datetime, timedelta
 
@@ -50,9 +50,14 @@ class CommentAdmin(admin.ModelAdmin):
     approve_comments.short_description = "Approve selected comments"
 
 
+@admin.register(TimeSlot)
+class TimeSlotAdmin(admin.ModelAdmin):
+    list_display = ['time_of_day', 'limit']
+    
+
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    
+
     list_display = ('user', 'service', 'start_date',
                     'end_date', 'time_slot', 'comments')
     list_filter = ['user', 'service', 'start_date', 'end_date']
