@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Service, Comment, AvailableTime
+from .models import Service, Comment, Booking
 from django_summernote.admin import SummernoteModelAdmin
+from datetime import datetime, timedelta
 
 
 @admin.register(Service)
@@ -11,6 +12,21 @@ class ServiceAdmin(SummernoteModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     list_filter = ('status', 'title')
     summernote_fields = ('content')
+    actions = ['publish_service', 'unpublish_service']
+
+    def publish_service(self, request, queryset):
+        for obj in queryset:
+            obj.status = 1
+            obj.save()
+
+    publish_service.short_description = "Publish selected services"
+
+    def unpublish_service(self, request, queryset):
+        for obj in queryset:
+            obj.status = 0
+            obj.save()
+
+    publish_service.short_description = "Unpublish selected services"
 
 
 @admin.register(Comment)
@@ -34,6 +50,15 @@ class CommentAdmin(admin.ModelAdmin):
     approve_comments.short_description = "Approve selected comments"
 
 
-class AvailableTimeInline(admin.StackedInline):
-    model = AvailableTime
-    extra = 1
+@admin.register(Booking)
+class BookingAdmin(admin.ModelAdmin):
+    
+    list_display = ('user', 'service', 'start_date',
+                    'end_date', 'time_slot', 'comments')
+    list_filter = ['user', 'service', 'start_date', 'end_date']
+    search_fields = ['user__username', 'service__title']
+
+    def display_time_slots(self, obj):
+        return ", ".join(map(str, obj.time_slots.all()))
+
+    display_time_slots.short_description = 'Time Slots'
