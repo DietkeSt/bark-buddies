@@ -189,7 +189,7 @@ form.signup input {
     color: #6c757d;
 }
 
-#comment-count a:hover {
+#comment-count:hover {
     color: #198754;
 }
 
