@@ -20,17 +20,12 @@ class Service(models.Model):
     duration = models.DurationField(default=datetime.timedelta(hours=1))
     featured_image = CloudinaryField('image', default='placeholder')
     status = models.IntegerField(choices=STATUS, default=0)
-    likes = models.ManyToManyField(
-        User, related_name='service_likes', blank=True)
 
     class Meta:
         ordering = ['title']
 
     def __str__(self):
         return self.title
-
-    def number_of_likes(self):
-        return self.likes.count()
 
 
 class Comment(models.Model):
@@ -49,13 +44,21 @@ class Comment(models.Model):
         return f"Comment {self.body} by {self.name}"
 
 
+class TimeSlot(models.Model):
+    time_of_day = models.CharField(max_length=10, choices=[(
+        'Morning', 'Morning'), ('Noon', 'Noon'), ('Evening', 'Evening')])
+    limit = models.IntegerField(default=3)
+
+    def __str__(self):
+        return f"{self.time_of_day} (Limit: {self.limit})"
+        
+
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
-    time_slot = models.CharField(max_length=10, choices=[(
-        'Morning', 'Morning'), ('Noon', 'Noon'), ('Evening', 'Evening')], default='Morning')
+    time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
     comments = models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -64,3 +67,4 @@ class Booking(models.Model):
     # Add a method to check if the booking can be cancelled
     def can_cancel(self):
         return timezone.now() < (self.start_date - timezone.timedelta(days=1))
+
