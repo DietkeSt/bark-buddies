@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.views import generic, View
-from .models import Service, AvailableTime
-from .forms import CommentForm
+from .models import Service, Booking
+from .forms import CommentForm, BookingForm
 
 
 class ServiceList(generic.ListView):
@@ -65,3 +66,37 @@ class ServiceDetail(View):
                 "comment_form": CommentForm()
             },
         )
+
+
+@login_required
+def book_service(request, service_id):
+    service = Service.objects.get(id=service_id)
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.user = request.user
+            booking.service = service
+            booking.save()
+            return redirect('view_bookings')
+    else:
+        form = BookingForm()
+    return render(request, 'book_service.html', {'form': form, 'service': service})
+
+
+@login_required
+def view_bookings(request):
+    bookings = Booking.objects.filter(user=request.user)
+    return render(request, 'view_bookings.html', {'bookings': bookings})
+
+
+@login_required
+def cancel_booking(request, booking_id):
+    booking = Booking.objects.get(id=booking_id, user=request.user)
+    if booking.can_cancel():
+        booking.delete()
+        # Inform user of successful cancellation
+    else:
+        # Inform user that cancellation is not possible
+        return redirect('view_bookings')
+
