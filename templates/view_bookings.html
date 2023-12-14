@@ -1,0 +1,78 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <!-- Bookings Section -->
+        <div class="col-md-6 offset-md-3" id="bookings">
+            <div class="row g-0">
+                    <h2 class="title">Your Bookings</h2>
+                    <div class="bookings card mt-4">
+                        {% for booking in bookings %}
+                        <div class="booking-card"></div>
+                            <div class="booking  {% if booking.is_cancelled %} cancelled {% endif %} mb-4 card-body">
+                                <h3>Service: {{ booking.service.title }}</h3>
+                                <p><strong>When: </strong>
+                                    <br>
+                                    {{ booking.time_slot.time_of_day }}, 
+                                    {{ booking.start_date }} to {{ booking.end_date }}
+                                </p>
+                                {% if not booking.is_cancelled %}
+                                <form action="{% url 'cancel_booking' booking.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Cancel</button>
+                                </form>
+                                {% else %}
+                                <div class="cancelled-overlay">
+                                    <p>Cancelled</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        {% empty %}
+                        <div class="booking card mt-2">
+                            <div class="card-body"></div>
+                            <div class="alert alert-danger card-body-comments" role="alert">
+                                Your have no bookings.
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 offset-md-3 mt-4">
+            <div class="row g-0">
+                <h2 class="title">Your Reviews</h2>
+                <div class="card-body">
+                    {% for comment in comments %}
+                    <div>
+                        <div class="comment mx-auto">
+                            <blockquote class="blockquote text-center">
+                                <p>{{ comment.body }}</p>
+                                <footer class="blockquote-footer">{{ comment.service }}, <cite title="Date">{{ comment.created_on }}</cite></footer>
+                            </blockquote>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="alert alert-danger card-body-comments" role="alert">
+                        Your haven't left a review yet.
+                    </div>
+                    <!-- Review Form -->
+                    {% if commented %}
+                    <div class="alert alert-success card-body-comments" role="alert">
+                        Your review is awaiting approval.
+                    </div>
+                    {% else %}
+                    <form method="post" action="{% url 'add_comment' %}">
+                        {% csrf_token %}
+                        {{ comment_form.as_p }}
+                        <button type="submit" class="btn btn-success">Submit Review</button>
+                    </form>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
