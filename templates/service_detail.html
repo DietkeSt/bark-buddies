@@ -27,10 +27,14 @@
           </div>
         </div>
         <div class="col-md-6 service-text">
-          <h1 class="service-title">{{ service.title }}</h1>
-          <p class="card-text">{{ service.content | safe }}</p>
+            <h1 class="service-title">{{ service.title }}</h1>
+            <p class="card-text">{{ service.content | safe }}</p>
+            <!-- Trigger Modal Button -->
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                Book Now
+            </button>
           <div class="row">
-            <div class="col-md-6 d-flex align-items-center">
+            <div class="col-md-6 mt-4 d-flex align-items-center">
               {% with comments.count as total_comments %}
               <strong class="text-secondary" id="comment-count">
                 <a href="#customer-reviews">
@@ -42,10 +46,6 @@
               {% endwith %}
             </div>
           </div>
-        <!-- Trigger Modal Button -->
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#bookingModal">
-            Book Now
-        </button>
         </div>
       </div>
     </div>
@@ -63,6 +63,11 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+                                {% for message in messages %}
+                                <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                </div>
+                                {% endfor %}
                                 <form method="post" action="{% url 'book_service' service.id %}" id="bookingForm">
                                     {% csrf_token %}
                                     {{ booking_form.as_p }}
