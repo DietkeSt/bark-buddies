@@ -83,20 +83,39 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'home' %}">Home</a>
             </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Services
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for service in services %}
+                    <li><a class="dropdown-item" href="{% url 'service_detail' service.slug %}">{{ service.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
           </ul>
           <!-- Right links -->
           <div class="collapse navbar-collapse" id="navbarButtonsExample">
             <ul class="navbar-nav ms-auto">
               {% if user.is_authenticated %}
-              <li class="nav-item">
-                <a
-                  type="button"
-                  href="{% url 'account_logout' %}"
-                  class="nav-link btn btn-outline-success px-3 mx-2 my-2"
-                >
-                  Logout
-                </a>
-              </li>
+                <li class="nav-item">
+                    <a 
+                    type="button" 
+                    href="{% url 'view_bookings' %}" 
+                    class="btn-green-primary nav-link btn btn-success px-3 mx-2 my-2">
+                        My Bookings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a
+                    type="button"
+                    href="{% url 'account_logout' %}"
+                    class="nav-link btn btn-outline-success px-3 mx-2 my-2"
+                    >
+                    Logout
+                    </a>
+                </li>
               {% else %}
               <li class="nav-item">
                 <a
