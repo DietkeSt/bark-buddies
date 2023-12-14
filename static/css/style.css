@@ -53,6 +53,10 @@ main {
     color: #fff !important;
 }
 
+.btn-success {
+    color: #fff !important;
+}
+
 .navbar-nav {
     text-align: center;
 }
@@ -193,6 +197,31 @@ form.signup input {
     color: #198754;
 }
 
+/* bookings */
+
+div.booking.cancelled {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: rgba(68, 82, 97, 0.5);
+    text-decoration: line-through;
+}
+
+.cancelled-overlay {
+    position: absolute;
+    min-width: 102%;
+    left: -1%;
+    background-color: #dc3545;
+    border-radius: 0.25rem;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 1.2em;
+    right: -1%;
+}
+
+.cancelled-overlay p {
+    color: #fff;
+    margin: 0;
+}
+
 /* other */
 .masthead {
     margin-top: 10px;
@@ -253,15 +282,15 @@ form.signup input {
     align-items: center;
 }
 
-.btn-signup {
+.btn-green-primary {
     background-color: #198754;
     color: #fff;
 }
 
-.btn-signup:hover,
-.btn-signup:active {
+.btn-green-primary:hover,
+.btn-green-primary:active {
     background-color: #fff;
-    color: #198754;
+    color: #198754 !important;
 }
 
 .link {
