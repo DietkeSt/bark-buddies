@@ -67,9 +67,8 @@ class Booking(models.Model):
 
     # Add a method to check if the booking can be cancelled
     def can_cancel(self):
-        return timezone.now() < (self.start_date - timezone.timedelta(days=1))
+        return timezone.now() <= timezone.make_aware(datetime.datetime.combine(self.start_date, datetime.time.min)) - datetime.timedelta(days=1)
 
     def cancel(self):
         self.is_cancelled = True
         self.save()
-
