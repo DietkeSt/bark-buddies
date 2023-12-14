@@ -4,7 +4,8 @@ from django import forms
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views import generic, View
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
+from django.urls import reverse
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from .models import Service, Booking, TimeSlot, Comment
@@ -18,6 +19,53 @@ class ServiceList(generic.ListView):
     template_name = 'index.html'
 
 
+def get_available_slots():
+    today = timezone.now().date()
+    slots = TimeSlot.objects.all()
+    available_slots = []
+
+    for slot in slots:
+        # Check for bookings that overlap with 'today'
+        overlapping_bookings = Booking.objects.filter(
+            time_slot=slot,
+            start_date__lte=today,
+            end_date__gte=today   
+        ).count()
+
+        if overlapping_bookings < slot.limit:
+            available_slots.append(
+                (slot.id, f"{slot.time_of_day} (Available)"))
+        else:
+            available_slots.append((slot.id, f"{slot.time_of_day} (Full)"))
+
+    return available_slots
+
+
+def get_time_slots(request):
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    today = timezone.now().date()
+
+    slots = TimeSlot.objects.all()
+    slots_data = []
+
+    for slot in slots:
+        overlapping_bookings = Booking.objects.filter(
+            time_slot=slot,
+            start_date__lte=start_date,
+            end_date__gte=end_date
+        ).count()
+
+        slot_data = {
+            'id': slot.id,
+            'display': f"{slot.time_of_day}",
+            'full': overlapping_bookings >= slot.limit
+        }
+        slots_data.append(slot_data)
+
+    return JsonResponse({'slots': slots_data})
+
+
 class ServiceDetail(View):
 
     def get(self, request, slug, *args, **kwargs):
@@ -26,7 +74,7 @@ class ServiceDetail(View):
         comments = service.comments.filter(
             approved=True).order_by('created_on')
 
-        booking_form = BookingForm(available_slots=get_available_slots())
+        booking_form = BookingForm()
 
         return render(
             request,
@@ -69,28 +117,6 @@ class ServiceDetail(View):
         )
 
 
-def get_available_slots():
-    today = timezone.now().date()
-    slots = TimeSlot.objects.all()
-    available_slots = []
-    
-    for slot in slots:
-        # Check for bookings that overlap with 'today'
-        overlapping_bookings = Booking.objects.filter(
-            time_slot=slot,
-            start_date__lte=today,  # Bookings that start on or before today
-            end_date__gte=today     # and end on or after today
-        ).count()
-
-        if overlapping_bookings < slot.limit:
-            available_slots.append(
-                (slot.id, f"{slot.time_of_day} (Available)"))
-        else:
-            available_slots.append((slot.id, f"{slot.time_of_day} (Full)"))
-
-    return available_slots
-
-
 class BookingView(View):
     template_name = 'booking_page.html'
 
@@ -120,29 +146,26 @@ class BookingView(View):
 @login_required
 def book_service(request, service_id):
     service = Service.objects.get(id=service_id)
+    form = BookingForm(available_slots=get_available_slots())
 
     if request.method == 'POST':
         form = BookingForm(request.POST, available_slots=get_available_slots())
         if form.is_valid():
             booking = form.save(commit=False)
-
-            # Check if the selected slot is marked as full
             selected_slot = TimeSlot.objects.get(id=booking.time_slot.id)
+
             if Booking.objects.filter(time_slot=selected_slot, start_date=booking.start_date).count() >= selected_slot.limit:
-                return render(request, 'booking_form.html', {
-                    'form': form,
-                    'service': service,
-                    'error_message': 'Selected time slot is full. Please choose another slot.'
-                })
+                messages.error(
+                    request, 'Selected time slot is full. Please choose another time.')
+                return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
+            else:
+                booking.user = request.user
+                booking.service = service
+                booking.save()
+                messages.success(request, 'Booking successful.')
+                return HttpResponseRedirect(reverse('view_bookings'))
 
-            booking.user = request.user
-            booking.service = service
-            booking.save()
-            return redirect('view_bookings')
-    else:
-        form = BookingForm(available_slots=get_available_slots())
-
-    return render(request, 'booking_form.html', {'form': form, 'service': service})
+    return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
 
 
 @login_required
