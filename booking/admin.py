@@ -1,4 +1,6 @@
+from django import forms
 from django.contrib import admin
+from django.shortcuts import render
 from django.utils.html import format_html
 from .models import Service, Comment, Booking, TimeSlot
 from django_summernote.admin import SummernoteModelAdmin
