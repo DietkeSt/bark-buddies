@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.shortcuts import render
 from django.utils.html import format_html
-from .models import Service, Comment, Booking, TimeSlot
+from .models import Service, Comment, Booking, Availability
 from django_summernote.admin import SummernoteModelAdmin
 from datetime import datetime, timedelta
 
@@ -32,6 +32,12 @@ class ServiceAdmin(SummernoteModelAdmin):
     publish_service.short_description = "Unpublish selected services"
 
 
+@admin.register(Availability)
+class AvailabilityAdmin(admin.ModelAdmin):
+    list_display = ('unavailable_from', 'unavailable_to')
+    list_filter = ['unavailable_from', 'unavailable_to']
+
+
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
 
@@ -51,25 +57,16 @@ class CommentAdmin(admin.ModelAdmin):
             obj.save()
 
     approve_comments.short_description = "Approve selected comments"
-
-
-@admin.register(TimeSlot)
-class TimeSlotAdmin(admin.ModelAdmin):
-    list_display = ['time_of_day', 'limit']
     
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
 
-    list_display = ('user', 'service_status', 'start_date_status', 'end_date_status', 'time_slot_status', 'display_cancellation_status')
-    list_filter = ['service', 'start_date', 'end_date']
+    list_display = ('user', 'service_status', 'start_date_status',
+                    'end_date_status', 'display_cancellation_status')
+    list_filter = ['service', 'start_date', 'end_date', 'is_cancelled']
     search_fields = ['user__username', 'service__title']
     actions = ['cancel_bookings']
-
-    def display_time_slots(self, obj):
-        return ", ".join(map(str, obj.time_slots.all()))
-
-    display_time_slots.short_description = 'Time Slots'
 
     def cancel_bookings(self, request, queryset):
         for booking in queryset:
