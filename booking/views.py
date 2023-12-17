@@ -71,32 +71,6 @@ class ServiceDetail(View):
         )
 
 
-class BookingView(View):
-    template_name = 'booking_page.html'
-
-    def get(self, request, *args, **kwargs):
-        service_id = self.kwargs.get('service_id')
-        service = get_object_or_404(Service, id=service_id)
-        form = BookingForm(available_slots=get_available_slots())
-        return render(request, self.template_name, {'form': form, 'service': service})
-
-    def post(self, request, *args, **kwargs):
-        service_id = self.kwargs.get('service_id')
-        service = get_object_or_404(Service, id=service_id)
-        form = BookingForm(request.POST, available_slots=get_available_slots())
-
-        if form.is_valid():
-            booking = form.save(commit=False)
-            booking.user = request.user
-            booking.service = service
-            booking.save()
-            messages.success(request, 'Booking successful.')
-            return redirect('view_bookings')  # Redirect to the view bookings page
-
-        messages.error(request, 'There was an error with your booking.')
-        return render(request, self.template_name, {'form': form, 'service': service})
-
-
 # Check for overlapping bookings
 def has_overlapping_bookings(start_date, end_date, time):
     overlapping_bookings = Booking.objects.filter(
