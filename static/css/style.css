@@ -72,6 +72,13 @@ main {
     border-radius: 0.25rem;
 }
 
+.dropdown-item.active,
+.dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #198754 !important;
+}
+
 /* alert container */
 
 .alert {
