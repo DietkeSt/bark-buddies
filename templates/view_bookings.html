@@ -13,7 +13,7 @@
                                 <h3>Service: {{ booking.service.title }}</h3>
                                 <p><strong>When: </strong>
                                     <br>
-                                    {{ booking.time_slot.time_of_day }}, 
+                                    {{ booking.time }}, 
                                     {{ booking.start_date }} to {{ booking.end_date }}
                                 </p>
                                 {% if not booking.is_cancelled %}
