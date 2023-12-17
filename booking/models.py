@@ -28,6 +28,14 @@ class Service(models.Model):
         return self.title
 
 
+class Availability(models.Model):
+    unavailable_from = models.DateField()
+    unavailable_to = models.DateField()
+
+    def __str__(self):
+        return f"Unavailable from {self.unavailable_from} to {self.unavailable_to}"
+
+
 class Comment(models.Model):
     service = models.ForeignKey(
         Service, on_delete=models.CASCADE, related_name='comments')
@@ -42,30 +50,21 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment {self.body} by {self.name}"
-
-
-class TimeSlot(models.Model):
-    time_of_day = models.CharField(max_length=10, choices=[(
-        'Morning', 'Morning'), ('Noon', 'Noon'), ('Evening', 'Evening')])
-    limit = models.IntegerField(default=3)
-
-    def __str__(self):
-        return f"{self.time_of_day} (Limit: {self.limit})"
-        
+   
 
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
-    time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
+    time = models.TimeField(default=datetime.time(8, 0))
     comments = models.TextField(blank=True, null=True)
     is_cancelled = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.user} booked {self.service} from {self.start_date} to {self.end_date} at {self.time_slot}'
+        return f'{self.user} booked {self.service} from {self.start_date} to {self.end_date} at {self.time.strftime("%I:%M %p")}'
 
-    # Add a method to check if the booking can be cancelled
+    # Check if the booking can be cancelled
     def can_cancel(self):
         return timezone.now() <= timezone.make_aware(datetime.datetime.combine(self.start_date, datetime.time.min)) - datetime.timedelta(days=1)
 
