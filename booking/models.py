@@ -5,6 +5,7 @@ from cloudinary.models import CloudinaryField
 from django.conf import settings
 from django import forms
 from django.utils import timezone
+from django.utils.text import slugify
 
 STATUS = (
     (0, "Draft"),
@@ -24,8 +25,10 @@ class Service(models.Model):
     class Meta:
         ordering = ['title']
 
-    def __str__(self):
-        return self.title
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Service, self).save(*args, **kwargs)
 
 
 class Availability(models.Model):
