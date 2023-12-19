@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Service, Booking, Comment, Availability
 from .forms import CommentForm, BookingForm
 from django.utils import timezone
@@ -71,24 +72,19 @@ class ServiceDetail(View):
         )
 
 
-# Check for overlapping bookings
-def has_overlapping_bookings(start_date, end_date, time):
-    overlapping_bookings = Booking.objects.filter(
-        start_date=start_date,
-        end_date=end_date,
-        time=time,
-        is_cancelled=False
-    )
+class BookServiceView(LoginRequiredMixin, View):
+    @staticmethod
+    def has_overlapping_bookings(start_date, end_date, time):
+        overlapping_bookings = Booking.objects.filter(
+            start_date=start_date,
+            end_date=end_date,
+            time=time,
+            is_cancelled=False
+        )
+        return overlapping_bookings.exists()
 
-    return overlapping_bookings.exists()
-
-
-@login_required
-def book_service(request, service_id):
-    service = Service.objects.get(id=service_id)
-    form = BookingForm()
-
-    if request.method == 'POST':
+    def post(self, request, service_id):
+        service = get_object_or_404(Service, id=service_id)
         form = BookingForm(request.POST)
         if form.is_valid():
             booking = form.save(commit=False)
@@ -100,23 +96,22 @@ def book_service(request, service_id):
                 unavailable_from__lt=booking_end,
                 unavailable_to__gt=booking_start
             )
-
             if unavailable_periods.exists():
                 unavailable_str = ", ".join([
-                    f"{period.unavailable_from} to {period.unavailable_to}"
+                    f"{period.unavailable_from.strftime('%d/%m/%Y')} to {period.unavailable_to.strftime('%d/%m/%Y')}"
                     for period in unavailable_periods
                 ])
                 messages.error(
                     request,
-                    f'Selected dates are within an unavailable period: {unavailable_str}.'
+                    f'Dates {unavailable_str} are unavailable for booking.'
                 )
                 return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
 
             # Check for overlapping bookings
-            if has_overlapping_bookings(booking.start_date, booking.end_date, booking.time):
+            if BookServiceView.has_overlapping_bookings(booking.start_date, booking.end_date, booking.time):
                 messages.error(
                     request,
-                    f'The selected time slot is already booked for that day.'
+                    'The selected time is already booked for those dates.'
                 )
                 return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
 
@@ -126,16 +121,19 @@ def book_service(request, service_id):
             messages.success(request, 'Booking successful.')
             return HttpResponseRedirect(reverse('view_bookings'))
 
-    return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
+        return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
 
 
-@login_required
-def view_bookings(request):
-    bookings = Booking.objects.filter(user=request.user).order_by('start_date')
-    user_comments = Comment.objects.filter(
-        name=request.user.username)
+class BookingsView(LoginRequiredMixin, View):
+    def get(self, request):
+        bookings = Booking.objects.filter(user=request.user).order_by('start_date')
+        comment_form = CommentForm()
+        return render(request, 'view_bookings.html', {
+            'bookings': bookings,
+            'comment_form': comment_form
+        })
 
-    if request.method == 'POST':
+    def post(self, request):
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
@@ -143,33 +141,22 @@ def view_bookings(request):
             comment.email = request.user.email
             comment.save()
             messages.success(request, 'Review added successfully.')
-            return redirect('view_bookings')
-    else:
-        comment_form = CommentForm()
-
-    return render(request, 'view_bookings.html', {
-        'bookings': bookings,
-        'comments': user_comments,
-        'comment_form': comment_form
-    })
+        return redirect('view_bookings')
 
 
-@login_required
-def cancel_booking(request, booking_id):
-    booking = Booking.objects.get(id=booking_id, user=request.user)
-    if booking.can_cancel():
-        booking.cancel()
-        messages.success(request, "Booking cancelled successfully.")
-    else:
-        messages.error(
-            request, "Cancellation is not allowed less than 24 hours in advance.")
-    
-    return redirect('view_bookings')
+class CancelBookingView(LoginRequiredMixin, View):
+    def post(self, request, booking_id):
+        booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+        if booking.can_cancel():
+            booking.cancel()
+            messages.success(request, "Booking cancelled successfully.")
+        else:
+            messages.error(request, "Cancellation not allowed less than 24 hours in advance.")
+        return redirect('view_bookings')
 
 
-@login_required
-def add_comment(request):
-    if request.method == 'POST':
+class AddCommentView(LoginRequiredMixin, View):
+    def post(self, request):
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
@@ -177,5 +164,4 @@ def add_comment(request):
             comment.email = request.user.email
             comment.save()
             return redirect('view_bookings')
-    else:
         return redirect('view_bookings')
