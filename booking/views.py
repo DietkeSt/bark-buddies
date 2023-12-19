@@ -126,11 +126,24 @@ class BookServiceView(LoginRequiredMixin, View):
 
 class BookingsView(LoginRequiredMixin, View):
     def get(self, request):
-        bookings = Booking.objects.filter(user=request.user).order_by('start_date')
+        # Get current date
+        current_date = timezone.now().date()
+
+        # Booking filter to only show future bookings
+        bookings = Booking.objects.filter(
+            user=request.user, 
+            start_date__gte=current_date, 
+        ).order_by('start_date')
+
+        comments = Comment.objects.filter(name=request.user.username, approved=True)
         comment_form = CommentForm()
+        commented = Comment.objects.filter(name=request.user.username, approved=False).exists()
+
         return render(request, 'view_bookings.html', {
             'bookings': bookings,
-            'comment_form': comment_form
+            'comments': comments,
+            'comment_form': comment_form,
+            'commented': commented
         })
 
     def post(self, request):
@@ -138,10 +151,21 @@ class BookingsView(LoginRequiredMixin, View):
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.name = request.user.username
-            comment.email = request.user.email
             comment.save()
             messages.success(request, 'Review added successfully.')
-        return redirect('view_bookings')
+            return redirect('view_bookings')
+        else:
+            # Handle not valid form
+            bookings = Booking.objects.filter(user=request.user).order_by('start_date')
+            comments = Comment.objects.filter(name=request.user.username, approved=True)
+            commented = Comment.objects.filter(name=request.user.username, approved=False).exists()
+            return render(request, 'view_bookings.html', {
+                'bookings': bookings,
+                'comments': comments,
+                'comment_form': comment_form,
+                'commented': commented
+            })
+
 
 
 class CancelBookingView(LoginRequiredMixin, View):
