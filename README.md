@@ -1,8 +1,72 @@
 
 FlowChart
 
-Add Admin Flowchart
-Add User FlowChart
+Admin Flow:
+
+```mermaid
+graph TD;
+    Admin-->Login?;
+    Login?--Yes-->AccessOptions;
+    Login?--No-->CanAccessHome;
+    AccessOptions-->ControlUnavailability;
+    AccessOptions-->ControlServices;
+    AccessOptions-->ControlBookings;
+    AccessOptions-->ControlComments;
+    AccessOptions-->ControlUsers;
+    AccessOptions-->Home;
+    CanAccessHome-->Home;
+    CanAccessHome-->Register;
+    Home-->AboutSection,ServiceOverview,Reviews;
+    Register-->SignUp;
+    ControlUsers--->Add/Delete;
+    ControlUsers-->SortByName;
+    ControlComments--->Add/Delete;
+    ControlComments-->Review/Approve;
+    ControlBookings--->Add/Delete;
+    ControlBookings-->SortByDate/Title;
+    ControlBookings-->Cancel;
+    ControlServices--->Add/Delete;
+    ControlServices-->SortByTitle;
+    ControlUnavailability--->Add/Delete;
+    ControlUnavailability-->SortByDate;
+```
+
+User Flow:
+
+```mermaid
+graph TD;
+    User-->Login?;
+    Login?--Yes-->AccessOptions;
+    Login?--No-->CanAccessHome;
+    AccessOptions-->Reviews;
+    AccessOptions-->Booking;
+    AccessOptions-->ServiceDetail;
+    AccessOptions-->Home;
+    CanAccessHome-->Home;
+    CanAccessHome-->Register;
+    Home-->AboutSection,ServiceOverview,Reviews;
+    AboutSection,ServiceOverview,Reviews-->ClickService;
+    AboutSection,ServiceOverview,Reviews-->CommentsDisabled;
+    ClickService-->ServiceDetail;
+    Register-->SignUp;
+    Reviews--->AddComment;
+    AddComment-->Approved?;
+    Approved?--Yes-->PostComment;
+    Approved?--No-->DeleteComment;
+    Booking-->DeleteService;
+    Booking-->CancelService;
+    Booking-->RebookService;
+    RebookService-->BookService
+    DeleteService-->RemoveBooking;
+    CancelService-->MarkAsCanceled;
+    ServiceDetail-->BookService;
+    BookService-->LoggedIn?;
+    LoggedIn?--Yes-->AvailabilityCheck;
+    LoggedIn?--No-->SignUp/LogIn;
+    AvailabilityCheck--Failure-->Error;
+    AvailabilityCheck--Success-->ForwardToBooking;
+    ForwardToBooking-->Booking;
+```
 
 ---
 Credits
