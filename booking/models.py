@@ -43,6 +43,13 @@ class Service(models.Model):
 
     def __str__(self):
         return self.title
+        
+
+class BookingTime(models.Model):
+    time = models.TimeField(default=datetime.time(8, 0))
+
+    def __str__(self):
+        return f"{self.time.strftime('%H:%M')}"
 
 
 class Availability(models.Model):
@@ -80,13 +87,15 @@ class Booking(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
-    time = models.TimeField(default=datetime.time(8, 0))
+    time = models.ForeignKey(BookingTime, on_delete=models.SET_NULL, null=True)
     comments = models.TextField(blank=True, null=True)
     is_cancelled = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.user} booked {self.service} from {self.start_date} to {self.end_date} at {self.time.strftime("%I:%M %p")}'
-
+        time_str = self.time.time.strftime(
+            "%I:%M %p") if self.time else "No time set"
+        return f'{self.user} booked {self.service} from {self.start_date} to {self.end_date} at {time_str}'
+        
     @staticmethod
     def has_overlapping_bookings(start_date, end_date, time):
         return Booking.objects.filter(start_date=start_date, end_date=end_date, time=time, is_cancelled=False).exists()
