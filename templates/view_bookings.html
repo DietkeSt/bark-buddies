@@ -27,6 +27,7 @@
                                 <div class="cancelled-overlay">
                                     <p>Cancelled</p>
                                 </div>
+                                <a href="{% url 'service_detail' booking.service.slug %}" class="btn btn-outline-success">Re-book</a>
                                 <form action="{% url 'delete_booking' booking.id %}" method="post">
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-warning">Delete</button>
