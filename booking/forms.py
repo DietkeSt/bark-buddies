@@ -9,11 +9,11 @@ class CommentForm(forms.ModelForm):
 
 
 class BookingForm(forms.ModelForm):
-    just_one_day = forms.BooleanField(required=False, label='Just one day')
+    just_one_day = forms.BooleanField(required=False, label='One Day')
 
     class Meta:
         model = Booking
-        fields = ['start_date', 'end_date', 'time', 'comments']
+        fields = ['start_date', 'just_one_day', 'end_date', 'time', 'comments']
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),
