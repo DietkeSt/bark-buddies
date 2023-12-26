@@ -11,27 +11,30 @@
                         <div class="booking-card"></div>
                             <div class="booking  {% if booking.is_cancelled %} cancelled {% endif %} mb-4 card-body">
                                 <h3>Service: {{ booking.service.title }}</h3>
-                                <p><strong>When: </strong>
+                                <p class="booking-time-text"><strong>When: </strong>
                                     <br>
                                     {{ booking.time }}, 
                                     {{ booking.start_date }} to {{ booking.end_date }}
                                 </p>
                                 {% if not booking.is_cancelled %}
-                                <a href="{% url 'service_detail' booking.service.slug %}" class="btn btn-outline-success">Re-book</a>
-
-                                <form action="{% url 'cancel_booking' booking.id %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger">Cancel</button>
-                                </form>
+                                <div class="booking-buttons">
+                                    <a href="{% url 'service_detail' booking.service.slug %}" class="btn btn-outline-success">Re-book</a>
+                                    <form action="{% url 'cancel_booking' booking.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Cancel</button>
+                                    </form>
+                                </div>
                                 {% else %}
                                 <div class="cancelled-overlay">
                                     <p>Cancelled</p>
                                 </div>
-                                <a href="{% url 'service_detail' booking.service.slug %}" class="btn btn-outline-success">Re-book</a>
-                                <form action="{% url 'delete_booking' booking.id %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-warning">Delete</button>
-                                </form>
+                                <div class="booking-buttons">
+                                    <a href="{% url 'service_detail' booking.service.slug %}" class="btn btn-outline-success">Re-book</a>
+                                    <form action="{% url 'delete_booking' booking.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-warning">Delete</button>
+                                    </form>
+                                </div>
                                 {% endif %}
                             </div>
                         {% empty %}
