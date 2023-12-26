@@ -1,4 +1,4 @@
-from .models import Comment, Booking
+from .models import Comment, Booking, BookingTime
 from django import forms
 
 
@@ -10,6 +10,13 @@ class CommentForm(forms.ModelForm):
 
 class BookingForm(forms.ModelForm):
     just_one_day = forms.BooleanField(required=False, label='One Day')
+    time = forms.ModelChoiceField(
+        queryset=BookingTime.objects.all(),
+        to_field_name="time",
+        required=True,
+        widget=forms.Select(),
+        empty_label=None
+    )
 
     class Meta:
         model = Booking
