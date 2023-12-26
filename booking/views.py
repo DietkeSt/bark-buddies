@@ -25,6 +25,8 @@ class ServiceDetail(View):
 
     def get(self, request, slug, *args, **kwargs):
         service, comments = Service.get_service_with_comments(slug)
+        unavailable_dates = Availability.objects.all()
+
         if not service:
             return redirect('error_404')
 
@@ -34,6 +36,7 @@ class ServiceDetail(View):
             "commented": False,
             "comment_form": CommentForm(),
             "booking_form": BookingForm(),
+            "unavailable_dates": unavailable_dates,
         })
 
     def post(self, request, slug, *args, **kwargs):
@@ -124,7 +127,6 @@ class BookingsView(LoginRequiredMixin, View):
             return redirect('view_bookings')
         else:
             return self.get(request)
-
 
 
 class CancelBookingView(LoginRequiredMixin, View):
