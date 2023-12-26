@@ -13,11 +13,11 @@ class BookingForm(forms.ModelForm):
 
     class Meta:
         model = Booking
-        fields = ['start_date', 'just_one_day', 'end_date', 'time', 'comments']
+        fields = ['start_date', 'just_one_day', 'end_date',
+                  'time', 'comments']
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),
-            'time': forms.TimeInput(attrs={'type': 'time'}),
         }
 
     def clean(self):
