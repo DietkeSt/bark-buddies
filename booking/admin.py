@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.shortcuts import render
 from django.utils.html import format_html
-from .models import Service, Comment, Booking, Availability
+from .models import Service, Comment, Booking, Availability, BookingTime
 from django_summernote.admin import SummernoteModelAdmin
 from datetime import datetime, timedelta
 
@@ -38,6 +38,11 @@ class AvailabilityAdmin(admin.ModelAdmin):
     list_filter = ['unavailable_from', 'unavailable_to']
 
 
+@admin.register(BookingTime)
+class BookingTimeAdmin(admin.ModelAdmin):
+    list_display = ('time',)
+
+
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
 
@@ -62,8 +67,8 @@ class CommentAdmin(admin.ModelAdmin):
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
 
-    list_display = ('user', 'service_status', 'start_date_status',
-                    'end_date_status', 'display_cancellation_status')
+    list_display = ('user', 'time_status', 'service_status', 'start_date_status',
+                    'end_date_status', 'cancellation_status')
     list_filter = ['service', 'start_date', 'end_date', 'is_cancelled']
     search_fields = ['user__username', 'service__title']
     actions = ['cancel_bookings']
@@ -73,6 +78,12 @@ class BookingAdmin(admin.ModelAdmin):
             booking.cancel()
 
     cancel_bookings.short_description = "Cancel selected bookings"
+
+    def time_status(self, obj):
+        if obj.is_cancelled:
+            return format_html('<span style="text-decoration: line-through;">{}</span>', obj.time)
+        else:
+            return obj.time
 
     def service_status(self, obj):
         if obj.is_cancelled:
@@ -98,9 +109,9 @@ class BookingAdmin(admin.ModelAdmin):
         else:
             return obj.time_slot
 
-    def display_cancellation_status(self, obj):
+    def cancellation_status(self, obj):
         if obj.is_cancelled:
-            return format_html('<span style="text-decoration: line-through;">{}</span>', "Cancelled")
+            return format_html("Cancelled")
         else:
             return "Active"
 
@@ -108,4 +119,4 @@ class BookingAdmin(admin.ModelAdmin):
     start_date_status.short_description = 'Start Date'
     end_date_status.short_description = 'End Date'
     time_slot_status.short_description = 'Time Slot'
-    display_cancellation_status.short_description = 'Status'
+    cancellation_status.short_description = 'Status'
