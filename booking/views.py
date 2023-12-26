@@ -74,6 +74,11 @@ class BookServiceView(LoginRequiredMixin, View):
             booking_start = booking.start_date
             booking_end = booking.end_date
 
+            # Handle 'just_one_day' field
+            if form.cleaned_data.get('just_one_day'):
+                booking.end_date = booking.start_date
+
+            # Check for availability and overlapping bookings
             if not Booking.is_period_available(booking_start, booking_end):
                 messages.error(request, 'Selected dates are unavailable.')
                 return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
@@ -88,7 +93,11 @@ class BookServiceView(LoginRequiredMixin, View):
             messages.success(request, 'Booking successful.')
             return HttpResponseRedirect(reverse('view_bookings'))
 
-        return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+            return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
 
 
 class BookingsView(LoginRequiredMixin, View):
