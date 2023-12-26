@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Service, Booking, Comment, Availability
+from .models import Service, Booking, Comment, Availability, BookingTime
 from .forms import CommentForm, BookingForm
 from django.utils import timezone
 
@@ -19,6 +19,30 @@ class ServiceList(generic.ListView):
     model = Service
     queryset = Service.get_active_services()
     template_name = 'index.html'
+
+
+class GetUnavailableTimes(View):
+    def get(self, request):
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
+        unavailable_times = []
+
+        if start_date and end_date:
+            start_date_obj = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
+            end_date_obj = datetime.datetime.strptime(end_date, '%Y-%m-%d').date()
+
+            bookings = Booking.objects.filter(
+                start_date__lte=end_date_obj,
+                end_date__gte=start_date_obj,
+                is_cancelled=False
+            )
+
+            for booking in bookings:
+                if booking.time:
+                    unavailable_times.append(
+                        booking.time.time.strftime('%H:%M'))
+
+        return JsonResponse({'unavailable_times': list(set(unavailable_times))})
 
 
 class ServiceDetail(View):
