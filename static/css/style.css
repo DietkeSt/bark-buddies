@@ -90,7 +90,8 @@ main {
 /* forms */
 
 textarea,
-input {
+input,
+select {
     max-height: 7.5em;
     border-radius: 0.25rem;
     border: 1px solid #ced4da;
@@ -248,7 +249,7 @@ form.signup input {
 
 #bookingModal #bookingForm input[type="text"],
 #bookingModal #bookingForm input[type="date"],
-#bookingModal #bookingForm input[type="time"],
+#bookingModal #bookingForm select,
 #bookingModal #bookingForm textarea {
     width: 100%;
 }
