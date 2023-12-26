@@ -88,6 +88,16 @@ main {
 
 /* forms */
 
+textarea,
+input {
+    max-height: 7.5em;
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+    padding: 0.375rem 0.75rem;
+}
+
+/* sign up styling */
+
 .sign-up-link {
     color: #198754 !important;
 }
@@ -182,6 +192,31 @@ form.signup input {
     text-transform: uppercase;
 }
 
+.service-title,
+.service-link {
+    text-decoration: none;
+    color: #445261;
+    text-align: center;
+}
+
+.service-title:hover,
+.page-link {
+    color: #198754;
+}
+
+.card-text {
+    text-align: center;
+}
+
+.service-text {
+    padding: 1em;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 /* comments */
 
 .comment-body {
@@ -202,6 +237,33 @@ form.signup input {
 
 #comment-count:hover {
     color: #198754;
+}
+
+/* booking modal */
+
+#bookingModal #bookingForm p label {
+    margin-bottom: 5px;
+}
+
+#bookingModal #bookingForm input[type="text"],
+#bookingModal #bookingForm input[type="date"],
+#bookingModal #bookingForm input[type="time"],
+#bookingModal #bookingForm textarea {
+    width: 100%;
+}
+
+#bookingModal #bookingForm input[type="checkbox"] {
+    margin-left: 5px;
+}
+
+.modal-body {
+    padding-bottom: 0;
+}
+
+.modal-footer {
+    justify-content: center;
+    border-top: none;
+    padding-top: 0;
 }
 
 /* bookings */
@@ -228,65 +290,7 @@ div.booking.cancelled {
     margin: 0 1em;
 }
 
-/* other */
-.masthead {
-    margin-top: 10px;
-    overflow: hidden;
-    position: relative;
-    display: inline-block;
-    height: 33vh;
-    width: 100%;
-}
-
-.masthead-text {
-    background-color: #445261;
-    color: white;
-    position: relative;
-}
-
-.masthead-image {
-    position: relative;
-    overflow: hidden;
-}
-
-.masthead-image:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 90%;
-    height: 100%;
-    width: 150%;
-    background: #445261;
-    -webkit-transform: skew(15deg);
-    -moz-transform: skew(15deg);
-    transform: skew(15deg);
-    z-index: 100;
-}
-
-.service-title,
-.service-link {
-    text-decoration: none;
-    color: #445261;
-    text-align: center;
-}
-
-.service-title:hover,
-.page-link {
-    color: #198754;
-}
-
-.card-text {
-    text-align: center;
-}
-
-.service-text {
-    padding: 1em;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+/* button and links */
 
 .btn-green-primary {
     background-color: #198754;
@@ -310,18 +314,6 @@ div.booking.cancelled {
     text-decoration: underline;
 }
 
-.btn-like {
-    color: #eac351;
-    border: none;
-    background: transparent;
-}
-
-.btn-like:hover,
-.btn-like:active {
-    color: #eac351;
-    background: transparent;
-    border: none;
-}
 
 /* footer */
 
