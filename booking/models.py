@@ -1,4 +1,5 @@
 import datetime
+from datetime import timedelta
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
@@ -95,7 +96,8 @@ class Booking(models.Model):
         return not Availability.objects.filter(unavailable_from__lt=end_date, unavailable_to__gt=start_date).exists()
 
     def can_cancel(self):
-        return timezone.now() < self.start_date - timedelta(hours=24)
+        current_date = timezone.now().date()  # Convert to date
+        return current_date < self.start_date - timedelta(hours=24)
 
     def cancel_booking(self):
         if self.can_cancel():
