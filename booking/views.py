@@ -187,7 +187,8 @@ class CancelBookingView(LoginRequiredMixin, View):
 class DeleteBookingView(LoginRequiredMixin, View):
     def post(self, request, booking_id):
         booking = get_object_or_404(
-            Booking, id=booking_id, user=request.user, is_cancelled=True)
+            Booking, id=booking_id, user=request.user, is_cancelled=True
+        )
         booking.delete()
         messages.success(request, "Booking deleted successfully.")
         return redirect('view_bookings')
