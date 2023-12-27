@@ -6,6 +6,21 @@ from .models import Service, Booking, Availability, BookingTime
 from reviews.models import Comment
 from django_summernote.admin import SummernoteModelAdmin
 from datetime import datetime, timedelta
+from allauth.socialaccount.models import SocialAccount
+from allauth.account.models import EmailAddress
+from django_summernote.models import Attachment
+from django.contrib.sites.models import Site
+from allauth.socialaccount.models import SocialToken
+from allauth.socialaccount.models import SocialApp
+
+
+# Unregister models
+admin.site.unregister(SocialAccount)
+admin.site.unregister(EmailAddress)
+admin.site.unregister(Attachment)
+admin.site.unregister(Site)
+admin.site.unregister(SocialToken)
+admin.site.unregister(SocialApp)
 
 
 @admin.register(Service)
