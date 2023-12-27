@@ -19,15 +19,13 @@ class ServiceAdmin(SummernoteModelAdmin):
 
     def publish_service(self, request, queryset):
         for obj in queryset:
-            obj.status = 1
-            obj.save()
+            obj.publish()
 
     publish_service.short_description = "Publish selected services"
 
     def unpublish_service(self, request, queryset):
         for obj in queryset:
-            obj.status = 0
-            obj.save()
+            obj.unpublish()
 
     publish_service.short_description = "Unpublish selected services"
 
@@ -58,8 +56,7 @@ class CommentAdmin(admin.ModelAdmin):
 
     def approve_comments(self, request, queryset):
         for obj in queryset:
-            obj.approved = True
-            obj.save()
+            obj.approve()
 
     approve_comments.short_description = "Approve selected comments"
 
@@ -81,9 +78,15 @@ class BookingAdmin(admin.ModelAdmin):
 
     def cancel_bookings(self, request, queryset):
         for booking in queryset:
-            booking.cancel()
+            booking.cancel_booking()
 
     cancel_bookings.short_description = "Cancel selected bookings"
+
+    def delete_bookings(self, request, queryset):
+        for booking in queryset:
+            booking.delete_booking()
+
+    delete_bookings.short_description = "Delete selected bookings"
 
     def time_status(self, obj):
         if obj.is_cancelled:
