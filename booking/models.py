@@ -7,6 +7,7 @@ from cloudinary.models import CloudinaryField
 from django.utils import timezone
 from django.utils.text import slugify
 
+
 STATUS = (
     (0, "Draft"),
     (1, "Published"),
@@ -43,6 +44,14 @@ class Service(models.Model):
                 approved=True).order_by('created_on')
             return service, comments
         return None, None
+
+    def publish(self):
+        self.status = 1
+        self.save()
+
+    def unpublish(self):
+        self.status = 0
+        self.save()
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -81,6 +90,10 @@ class Comment(models.Model):
     class Meta:
         ordering = ['created_on']
 
+    def approve(self):
+        self.approved = True
+        self.save()
+
     def __str__(self):
         return f"Comment {self.body} by {self.name}"
 
@@ -110,6 +123,19 @@ class Booking(models.Model):
                 name='end_date_gte_start_date'
             )
         ]
+
+    def cancel_booking(self):
+        if self.can_cancel():
+            self.is_cancelled = True
+            self.save()
+            return True
+        return False
+
+    def delete_booking(self):
+        if not self.is_cancelled:
+            return False
+        self.delete()
+        return True
 
     def __str__(self):
         time_str = self.time.time.strftime(
