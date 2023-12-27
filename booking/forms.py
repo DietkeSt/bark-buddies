@@ -1,4 +1,5 @@
-from .models import Comment, Booking, BookingTime
+from .models import Booking, BookingTime
+from reviews.models import Comment
 from django import forms
 
 
