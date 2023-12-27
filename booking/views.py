@@ -7,9 +7,10 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Service, Booking, Comment, Availability
+from .models import Service, Booking, Availability
 from .forms import CommentForm, BookingForm
 from django.utils import timezone
+from reviews.models import Comment
 
 
 class GetUnavailableTimes(View):
@@ -65,7 +66,7 @@ class ServiceDetail(View):
     def post(self, request, slug, *args, **kwargs):
         queryset = Service.objects.filter(status=1)
         service = get_object_or_404(queryset, slug=slug)
-        comments = service.comments.filter(
+        comments = reviews.comments.filter(
             approved=True).order_by('created_on')
 
         comment_form = CommentForm(data=request.POST)
