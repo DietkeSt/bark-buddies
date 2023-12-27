@@ -1,23 +1,20 @@
 import datetime
-import logging
 import json
 from django import forms
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
 from django.views import generic, View
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
-from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Service, Booking, Comment, Availability, BookingTime
+from .models import Service, Booking, Comment, Availability
 from .forms import CommentForm, BookingForm
 from django.utils import timezone
 
 
 class ServiceList(generic.ListView):
     model = Service
-    queryset = Service.get_active_services()
+    queryset = Service.active.active_services()
     template_name = 'index.html'
 
 
@@ -28,8 +25,14 @@ class GetUnavailableTimes(View):
         unavailable_times = []
 
         if start_date and end_date:
-            start_date_obj = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
-            end_date_obj = datetime.datetime.strptime(end_date, '%Y-%m-%d').date()
+            start_date_obj = datetime.datetime.strptime(
+                start_date,
+                '%Y-%m-%d'
+            ).date()
+            end_date_obj = datetime.datetime.strptime(
+                end_date,
+                '%Y-%m-%d'
+            ).date()
 
             bookings = Booking.objects.filter(
                 start_date__lte=end_date_obj,
@@ -42,7 +45,9 @@ class GetUnavailableTimes(View):
                     unavailable_times.append(
                         booking.time.time.strftime('%H:%M'))
 
-        return JsonResponse({'unavailable_times': list(set(unavailable_times))})
+        return JsonResponse(
+            {'unavailable_times': list(set(unavailable_times))}
+        )
 
 
 class ServiceDetail(View):
@@ -106,13 +111,24 @@ class BookServiceView(LoginRequiredMixin, View):
                 booking.end_date = booking.start_date
 
             # Check for availability and overlapping bookings
-            if not Booking.is_period_available(booking_start, booking_end):
+            if not Booking.is_period_available(
+                booking_start,
+                booking_end
+            ):
                 messages.error(request, 'Selected dates are unavailable.')
-                return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
+                return HttpResponseRedirect(
+                    reverse('service_detail', args=[service.slug])
+                )
 
-            if Booking.has_overlapping_bookings(booking_start, booking_end, booking.time):
+            if Booking.has_overlapping_bookings(
+                booking_start,
+                booking_end,
+                booking.time
+            ):
                 messages.error(request, 'Selected time is already booked.')
-                return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
+                return HttpResponseRedirect(
+                    reverse('service_detail', args=[service.slug])
+                )
 
             booking.user = request.user
             booking.service = service
@@ -124,7 +140,9 @@ class BookServiceView(LoginRequiredMixin, View):
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{field}: {error}")
-            return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
+            return HttpResponseRedirect(
+                reverse('service_detail', args=[service.slug])
+            )
 
 
 class BookingsView(LoginRequiredMixin, View):
@@ -160,7 +178,9 @@ class CancelBookingView(LoginRequiredMixin, View):
             messages.success(request, "Booking cancelled successfully.")
         else:
             messages.error(
-                request, "Cancellation not allowed less than 24 hours in advance.")
+                request,
+                "Cancellation not allowed less than 24 hours in advance."
+            )
         return redirect('view_bookings')
 
 
@@ -171,7 +191,7 @@ class DeleteBookingView(LoginRequiredMixin, View):
         booking.delete()
         messages.success(request, "Booking deleted successfully.")
         return redirect('view_bookings')
-        
+
 
 class AddCommentView(LoginRequiredMixin, View):
     def post(self, request):
