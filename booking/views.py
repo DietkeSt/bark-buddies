@@ -8,7 +8,8 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Service, Booking, Availability
-from .forms import CommentForm, BookingForm
+from .forms import BookingForm
+from reviews.forms import CommentForm
 from django.utils import timezone
 from reviews.models import Comment
 
@@ -66,7 +67,7 @@ class ServiceDetail(View):
     def post(self, request, slug, *args, **kwargs):
         queryset = Service.objects.filter(status=1)
         service = get_object_or_404(queryset, slug=slug)
-        comments = reviews.comments.filter(
+        comments = Comment.objects.filter(
             approved=True).order_by('created_on')
 
         comment_form = CommentForm(data=request.POST)
