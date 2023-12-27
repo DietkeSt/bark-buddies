@@ -3,12 +3,6 @@ from reviews.models import Comment
 from django import forms
 
 
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ('service', 'body',)
-
-
 class BookingForm(forms.ModelForm):
     just_one_day = forms.BooleanField(required=False, label='One Day')
     time = forms.ModelChoiceField(
