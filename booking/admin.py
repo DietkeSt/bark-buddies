@@ -2,7 +2,8 @@ from django import forms
 from django.contrib import admin
 from django.shortcuts import render
 from django.utils.html import format_html
-from .models import Service, Comment, Booking, Availability, BookingTime
+from .models import Service, Booking, Availability, BookingTime
+from reviews.models import Comment
 from django_summernote.admin import SummernoteModelAdmin
 from datetime import datetime, timedelta
 
@@ -39,26 +40,6 @@ class AvailabilityAdmin(admin.ModelAdmin):
 @admin.register(BookingTime)
 class BookingTimeAdmin(admin.ModelAdmin):
     list_display = ('time',)
-
-
-@admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
-
-    list_display = ('name', 'body', 'service', 'created_on', 'approved')
-    list_filter = ('approved', 'created_on')
-    search_fields = ('name', 'email', 'body')
-    actions = ['approve_comments']
-
-    def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        form.base_fields['email'].required = False
-        return form
-
-    def approve_comments(self, request, queryset):
-        for obj in queryset:
-            obj.approve()
-
-    approve_comments.short_description = "Approve selected comments"
 
 
 @admin.register(Booking)
