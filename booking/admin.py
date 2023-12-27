@@ -62,13 +62,19 @@ class CommentAdmin(admin.ModelAdmin):
             obj.save()
 
     approve_comments.short_description = "Approve selected comments"
-    
+
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
 
-    list_display = ('user', 'time_status', 'service_status', 'start_date_status',
-                    'end_date_status', 'cancellation_status')
+    list_display = (
+        'user',
+        'time_status',
+        'service_status',
+        'start_date_status',
+        'end_date_status',
+        'cancellation_status'
+    )
     list_filter = ['service', 'start_date', 'end_date', 'is_cancelled']
     search_fields = ['user__username', 'service__title']
     actions = ['cancel_bookings']
@@ -81,31 +87,46 @@ class BookingAdmin(admin.ModelAdmin):
 
     def time_status(self, obj):
         if obj.is_cancelled:
-            return format_html('<span style="text-decoration: line-through;">{}</span>', obj.time)
+            return format_html(
+                '<span style="text-decoration: line-through;">{}</span>',
+                obj.time
+            )
         else:
             return obj.time
 
     def service_status(self, obj):
         if obj.is_cancelled:
-            return format_html('<span style="text-decoration: line-through;">{}</span>', obj.service)
+            return format_html(
+                '<span style="text-decoration: line-through;">{}</span>',
+                obj.service
+            )
         else:
             return obj.service
 
     def start_date_status(self, obj):
         if obj.is_cancelled:
-            return format_html('<span style="text-decoration: line-through;">{}</span>', obj.start_date)
+            return format_html(
+                '<span style="text-decoration: line-through;">{}</span>',
+                obj.start_date
+            )
         else:
             return obj.start_date
 
     def end_date_status(self, obj):
         if obj.is_cancelled:
-            return format_html('<span style="text-decoration: line-through;">{}</span>', obj.end_date)
+            return format_html(
+                '<span style="text-decoration: line-through;">{}</span>',
+                obj.end_date
+            )
         else:
             return obj.end_date
 
     def time_slot_status(self, obj):
         if obj.is_cancelled:
-            return format_html('<span style="text-decoration: line-through;">{}</span>', obj.time_slot)
+            return format_html(
+                '<span style="text-decoration: line-through;">{}</span>',
+                obj.time_slot
+            )
         else:
             return obj.time_slot
 
