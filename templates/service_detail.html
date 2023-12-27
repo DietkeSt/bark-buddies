@@ -2,11 +2,11 @@
 
 {% load crispy_forms_tags %}
 
-<div class="container-fluid mb-5 mt-5">
-  <div class="card mt-4 mb-4">
+<div class="container mb-5 mt-5">
+    <div class="col-md-6 offset-md-3">
+  <div class="card">
     <div class="card-body card-body-service-detail">
       <div class="row g-0">
-        <div class="col-md-6">
           <div class="image-container">
             {% if "placeholder" in service.featured_image.url %}
             <img
@@ -26,7 +26,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 service-text">
+        <div class="service-text">
             <h1 class="service-title">{{ service.title }}</h1>
             <p class="card-text">{{ service.content | safe }}</p>
             <!-- Trigger Modal Button -->
@@ -92,7 +92,7 @@
         </div>
     </div>
 </div>
-
+<!-- Customer Reviews-->
 <div class="row">
     {% if not user.is_authenticated %}
     <div class= "col-12 card mb-4" id="customer-reviews">
