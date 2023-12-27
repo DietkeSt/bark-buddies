@@ -12,12 +12,6 @@ from .forms import CommentForm, BookingForm
 from django.utils import timezone
 
 
-class ServiceList(generic.ListView):
-    model = Service
-    queryset = Service.active.active_services()
-    template_name = 'index.html'
-
-
 class GetUnavailableTimes(View):
     def get(self, request):
         start_date = request.GET.get('start_date')
