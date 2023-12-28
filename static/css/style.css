@@ -132,10 +132,6 @@ form.signup input {
 
 /* services */
 
-.slick-list {
-    padding-top: 1em;
-}
-
 .card {
     border: none;
     background-color: transparent;
@@ -166,7 +162,8 @@ form.signup input {
     background-color: #fff;
 }
 
-.card-body-service-detail {
+.card-body-service-detail,
+.comment-card {
     padding: 0;
     margin: 1em;
 }
@@ -219,6 +216,23 @@ form.signup input {
     align-items: center;
 }
 
+.slick-next:before,
+.slick-prev:before {
+    color: #198754;
+}
+
+.slick-list {
+    padding-top: 0;
+}
+
+.slick-prev {
+    left: 1rem;
+}
+
+.slick-next {
+    right: 1rem;
+}
+
 /* comments */
 
 .comment-body {
@@ -239,6 +253,29 @@ form.signup input {
 
 #comment-count:hover {
     color: #198754;
+}
+
+/* review comment modal */
+
+#reviewModal p label {
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+#reviewModal input[type="text"],
+#reviewModal input[type="date"],
+#reviewModal select,
+#reviewModal textarea {
+    width: 100%;
+}
+
+#comment-form {
+    text-align: left;
+}
+
+#comment-form div,
+#comment-form div label {
+    margin-bottom: 0.5rem;
 }
 
 /* booking modal */
@@ -320,6 +357,14 @@ form.signup input {
 .btn-green-primary:active {
     background-color: #fff;
     color: #198754 !important;
+}
+
+.btn-link {
+    color: #198754;
+}
+
+.btn-link:hover {
+    color: #445261;
 }
 
 .link {
