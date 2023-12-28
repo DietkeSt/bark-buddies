@@ -1,10 +1,28 @@
+document.addEventListener("DOMContentLoaded", function () {
+    var toggleCommentButton = document.getElementById('toggleCommentCard');
+
+    if (toggleCommentButton) {
+        toggleCommentButton.addEventListener('click', function () {
+            var commentCard = document.querySelector('.comment-card');
+            if (commentCard.style.display === "none") {
+                commentCard.style.display = "block";
+            } else {
+                commentCard.style.display = "none";
+            }
+        });
+    }
+});
+
 $(window).on("load", function () {
     // Slick slider for service page
     $(".slider").slick({
         slidesToShow: 3,
         slidesToScroll: 1,
         autoplay: false,
-        dots: true,
+        dots: false,
+        arrows: true,
+        prevArrow: '<button type="button" class="slick-prev">Previous</button>',
+        nextArrow: '<button type="button" class="slick-next">Next</button>',
         responsive: [{
             breakpoint: 768,
             settings: { slidesToShow: 1 }
@@ -16,8 +34,8 @@ $(window).on("load", function () {
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
-        dots: true,
-        arrows: false
+        dots: false,
+        arrows: true,
     });
 
     // Timeout function so alert messages are removed automatically
