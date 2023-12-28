@@ -49,11 +49,9 @@ class GetUnavailableTimes(View):
 class ServiceDetail(View):
 
     def get(self, request, slug, *args, **kwargs):
-        service, comments = Service.get_service_with_comments(slug)
+        service = get_object_or_404(Service, slug=slug)
+        comments = service.comments.filter(approved=True)
         unavailable_dates = Availability.objects.all()
-
-        if not service:
-            return redirect('error_404')
 
         return render(request, "service_detail.html", {
             "service": service,
@@ -65,21 +63,18 @@ class ServiceDetail(View):
         })
 
     def post(self, request, slug, *args, **kwargs):
-        queryset = Service.objects.filter(status=1)
-        service = get_object_or_404(queryset, slug=slug)
-        comments = Comment.objects.filter(
-            approved=True).order_by('created_on')
-
-        comment_form = CommentForm(data=request.POST)
+        service = get_object_or_404(Service, slug=slug)
+        comments = service.comments.filter(approved=True)
+        comment_form = CommentForm(request.POST)
 
         if comment_form.is_valid():
-            comment_form.instance.email = request.user.email
-            comment_form.instance.name = request.user.username
-            comment = comment_form.save(commit=False)
-            comment.service = service
-            comment.save()
+            new_comment = comment_form.save(commit=False)
+            new_comment.service = service
+            new_comment.approved = False  # Set approved to False by default
+            new_comment.save()
+            commented = True  # Flag to indicate a new comment has been posted
         else:
-            comment_form = CommentForm()
+            commented = False
 
         return render(
             request,
@@ -87,8 +82,8 @@ class ServiceDetail(View):
             {
                 "service": service,
                 "comments": comments,
-                "commented": True,
-                "comment_form": CommentForm()
+                "commented": commented,
+                "comment_form": CommentForm() if not commented else comment_form
             },
         )
 
