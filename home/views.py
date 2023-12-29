@@ -1,7 +1,8 @@
 # home/views.py
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic, View
 from django.views.generic import ListView
+from django.contrib import messages
 from booking.models import Service
 from reviews.models import Comment
 from reviews.forms import CommentForm
@@ -19,3 +20,21 @@ class HomeView(ListView):
         context['comment_form'] = CommentForm(
         ) if self.request.user.is_authenticated else None
         return context
+
+
+class SubmitHomeReview(View):
+    def post(self, request, *args, **kwargs):
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            service_id = request.POST.get('service')
+            service = Service.objects.get(id=service_id)
+            new_comment = comment_form.save(commit=False)
+            new_comment.service = service
+            new_comment.name = request.user.username
+            new_comment.approved = False
+            new_comment.save()
+            messages.success(request, "Thanks! Your comment is now being reviewed.")
+        else:
+            messages.error(request, "There was an error with your submission.")
+        return redirect('home')
+
