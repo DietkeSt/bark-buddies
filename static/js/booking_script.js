@@ -1,3 +1,4 @@
+// Toggle option for comments underneath service details
 document.addEventListener("DOMContentLoaded", function () {
     var toggleCommentButton = document.getElementById('toggleCommentCard');
 
