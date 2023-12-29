@@ -74,14 +74,9 @@
             </div>
             <!-- Modal Body -->
             <div class="modal-body">
-                {% if commented %}
-                <div class="alert alert-success card-body-comments" role="alert">
-                    Your comment is awaiting approval.
-                </div>
-                {% else %}
                 <div class="card-body-comments">
                     <p>Writing as: {{ user.username }}</p>
-                    <form method="post" id="comment-form">
+                    <form method="post" action="{% url 'submit_home_review' %}" id="comment-form">
                         {{ comment_form | crispy }}
                         {% csrf_token %}
                         <button type="submit" class="btn btn-success mt-2">
@@ -89,7 +84,6 @@
                         </button>
                     </form>
                 </div>
-                {% endif %}
             </div>
         </div>
     </div>
