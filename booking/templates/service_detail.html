@@ -49,15 +49,8 @@
                 </div>
             </div>
             <!-- Comments slider -->
-            {% if commented %}
-            <div class="card-body comment-card mt-3 text-center" style="display: block;">
-                <div class="alert alert-success card-body-comments" role="alert">
-                    Your comment is awaiting approval.
-                </div>
-            </div>
-            {% else %}
             <div class="card-body comment-card mt-3 text-center" style="display: none;">
-                {% if not service.comments.all %}
+                {% if not has_comments %}
                 <div class="alert alert-warning card-body-comments" role="alert">
                     There are no comments yet.
                 </div>
@@ -83,7 +76,6 @@
                 </button>
             </div>
             {% endif %}
-            
             <!-- Review Modal -->
             <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -105,7 +97,6 @@
                                     </button>
                                 </form>
                             </div>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
