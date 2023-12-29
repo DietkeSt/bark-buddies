@@ -52,6 +52,7 @@ class ServiceDetail(View):
         service = get_object_or_404(Service, slug=slug)
         comments = service.comments.filter(approved=True)
         unavailable_dates = Availability.objects.all()
+        has_comments = comments.filter(approved=True).exists()
 
         return render(request, "service_detail.html", {
             "service": service,
@@ -60,6 +61,7 @@ class ServiceDetail(View):
             "comment_form": CommentForm(),
             "booking_form": BookingForm(),
             "unavailable_dates": unavailable_dates,
+            "has_comments": has_comments
         })
 
     def post(self, request, slug, *args, **kwargs):
@@ -70,9 +72,11 @@ class ServiceDetail(View):
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
             new_comment.service = service
+            new_comment.name = request.user.username
             new_comment.approved = False  # Set approved to False by default
             new_comment.save()
-            commented = True  # Flag to indicate a new comment has been posted
+            commented = True
+            messages.success(request, "Thanks! Your comment is now being reviewed.")
         else:
             commented = False
 
