@@ -93,7 +93,7 @@
                                 </div>
                                 {% else %}
                                 <div class="alert alert-success" role="alert">
-                                    All dates are currently available. No set unavailability in the near future.
+                                    All dates available. No set unavailability in the near future.
                                 </div>
                                 {% endif %}
                                 {% if 'comment' not in message.tags %}
@@ -107,11 +107,13 @@
                                     {% csrf_token %}
                                     {{ booking_form.as_p }}
                                 </form>
-                                <p>Price: EUR {{ service.price }}</p>
+                                <p>Original Price: EUR <span id="originalPrice" data-price="{{ service.price }}">{{ service.price }}</span></p></p>
+                                <p>Total Price: EUR <span id="priceText">{{ service.price }}</span></p>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" form="bookingForm" class="btn btn-success">Book Now</button>
                                 <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Close</button>
+                                <p class="text-muted small mt-3">*Adding a second dog increases the price by 50%.</p>
                             </div>
                         </div>
                     </div>
