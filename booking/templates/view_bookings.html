@@ -1,5 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 
+{% load crispy_forms_tags %}
+
 <div class="container mt-5 mb-5">
     <div class="row">
         <!-- Bookings Section -->
@@ -50,36 +52,38 @@
             </div>
         </div>
         <!-- Reviews Section -->
-        <div class="col-md-6 offset-md-3 mt-4" id="reviews">
-            <div class="row g-0">
-                <h2 class="title">Your Reviews</h2>
-                <div class="card-body">
-                    {% for comment in comments %}
-                    <div>
-                        <div class="comment mx-auto">
-                            <blockquote class="blockquote text-center">
-                                <p>{{ comment.body }}</p>
-                                <footer class="blockquote-footer">{{ comment.service }}, <cite title="Date">{{ comment.created_on }}</cite></footer>
-                            </blockquote>
+        <!-- Button to Open Modal -->
+        {% if user.is_authenticated %}
+        <div class="text-center m-3">
+            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                Want to leave a Review?
+            </button>
+        </div>
+        {% endif %}
+        <!-- Review Modal -->
+        <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content p-4">
+                    <!-- Modal Header -->
+                    <div class="modal-header mx-3">
+                        <h5 class="modal-title" id="reviewModalLabel">Leave a Review</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <div class="card-body-comments" id="comment-form">
+                            <p>Writing as: {{ user.username }}</p>
+                            <form method="post">
+                                {{ comment_form | crispy }}
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success mt-1">
+                                    Submit
+                                </button>
+                                <button type="button" class="btn btn-outline-success mt-1 mx-2"
+                                    data-bs-dismiss="modal">Close</button>
+                            </form>
                         </div>
                     </div>
-                    {% empty %}
-                    <div class="alert alert-danger card-body-comments" role="alert">
-                        You haven't left a review yet.
-                    </div>
-                    <!-- Review Form -->
-                    {% if commented %}
-                    <div class="alert alert-success card-body-comments" role="alert">
-                        Your review is awaiting approval.
-                    </div>
-                    {% else %}
-                    <form method="post" action="{% url 'add_comment' %}">
-                        {% csrf_token %}
-                        {{ comment_form.as_p }}
-                        <button type="submit" class="btn btn-success">Submit Review</button>
-                    </form>
-                    {% endif %}
-                    {% endfor %}
                 </div>
             </div>
         </div>
