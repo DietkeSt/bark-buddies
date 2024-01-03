@@ -79,7 +79,7 @@
             <!-- Review Modal -->
             <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content p-4 m-5">
+                    <div class="modal-content p-4">
                         <!-- Modal Header -->
                         <div class="modal-header mx-3">
                             <h5 class="modal-title" id="reviewModalLabel">Leave a Review</h5>
@@ -92,9 +92,10 @@
                                 <form method="post">
                                     {{ comment_form | crispy }}
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-success mt-2">
+                                    <button type="submit" class="btn btn-success mt-1">
                                         Submit
                                     </button>
+                                    <button type="button" class="btn btn-outline-success mt-1 mx-2" data-bs-dismiss="modal">Close</button>
                                 </form>
                             </div>
                         </div>
@@ -125,11 +126,13 @@
                                     {% endfor %}
                                 </div>
                                 {% endif %}
-                                {% for message in messages %}
-                                <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
-                                    {{ message }}
-                                </div>
-                                {% endfor %}
+                                {% if 'comment' not in message.tags %}
+                                    {% for message in messages %}
+                                    <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
                                 <form method="post" action="{% url 'book_service' service.id %}" id="bookingForm">
                                     {% csrf_token %}
                                     {{ booking_form.as_p }}
