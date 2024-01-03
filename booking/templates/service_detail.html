@@ -91,6 +91,10 @@
                                     <div>{{ date.unavailable_from|date:"d/m/Y" }} to {{ date.unavailable_to|date:"d/m/Y" }}</div>
                                     {% endfor %}
                                 </div>
+                                {% else %}
+                                <div class="alert alert-success" role="alert">
+                                    All dates are currently available. No set unavailability in the near future.
+                                </div>
                                 {% endif %}
                                 {% if 'comment' not in message.tags %}
                                     {% for message in messages %}
