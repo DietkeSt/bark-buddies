@@ -4,6 +4,7 @@ from django import forms
 
 
 class BookingForm(forms.ModelForm):
+    add_second_dog = forms.BooleanField(required=False, label='Add Second Dog*')
     just_one_day = forms.BooleanField(required=False, label='One Day')
     time = forms.ModelChoiceField(
         queryset=BookingTime.objects.all(),
@@ -16,7 +17,7 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['start_date', 'just_one_day', 'end_date',
-                  'time', 'comments']
+                  'time', 'comments', 'add_second_dog',]
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),
