@@ -4,10 +4,10 @@
 
 <div class="container mt-5 mb-5">
     <!-- Start of the row -->
-    <div class="row">
+    <div class="row justify-content-center">
         {% for service in service_list %}
         <!-- Each service in a 4-column wide div for 3 services per row -->
-        <div class="col-md-4 mb-4">
+        <div class="{% if service_list|length > 2 %}col-md-4{% else %}col-md{% endif %} mb-4">
             <div class="card">
                 <a href="{% url 'service_detail' service.slug %}" class="service-link">
                     <div class="service-card-body">
@@ -29,6 +29,10 @@
                     </div>
                 </a>
             </div>
+        </div>
+        {% empty %}
+        <div class="col-md-6 offset-md-3">
+            <p>No services available at the moment.</p>
         </div>
         {% endfor %}
     </div>
@@ -66,7 +70,7 @@
 <!-- Review Modal -->
 <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content p-4 m-5">
+        <div class="modal-content p-4">
             <!-- Modal Header -->
             <div class="modal-header mx-3">
                 <h5 class="modal-title" id="reviewModalLabel">Leave a Review</h5>
@@ -79,9 +83,10 @@
                     <form method="post" action="{% url 'submit_home_review' %}" id="comment-form">
                         {{ comment_form | crispy }}
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-success mt-2">
+                        <button type="submit" class="btn btn-success mt-1">
                             Submit
                         </button>
+                        <button type="button" class="btn btn-outline-success mt-1 mx-2" data-bs-dismiss="modal">Close</button>
                     </form>
                 </div>
             </div>
