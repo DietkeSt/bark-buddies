@@ -138,13 +138,6 @@ class Booking(models.Model):
         current_date = timezone.now().date()  # Convert to date
         return current_date < self.start_date - timedelta(hours=24)
 
-    def cancel_booking(self):
-        if self.can_cancel():
-            self.is_cancelled = True
-            self.save()
-            return True
-        return False
-
     @classmethod
     def get_future_bookings_for_user(cls, user):
         current_date = timezone.now().date()
