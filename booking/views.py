@@ -57,43 +57,10 @@ class ServiceDetail(View):
         return render(request, "service_detail.html", {
             "service": service,
             "comments": comments,
-            "commented": False,
-            "comment_form": CommentForm(),
             "booking_form": BookingForm(),
             "unavailable_dates": unavailable_dates,
             "has_comments": has_comments
         })
-
-    def post(self, request, slug, *args, **kwargs):
-        service = get_object_or_404(Service, slug=slug)
-        comments = service.comments.filter(approved=True)
-        comment_form = CommentForm(request.POST)
-        unavailable_dates = Availability.objects.all()
-
-        if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            new_comment.service = service
-            new_comment.name = request.user.username
-            new_comment.approved = False  # Set approved to False by default
-            new_comment.save()
-            commented = True
-            messages.success(request, "Thanks! Your comment is now being reviewed.", extra_tags='comment')
-        else:
-            commented = False
-            messages.error(request, "There was an error with your submission.", extra_tags='comment')
-
-        return render(
-            request,
-            "service_detail.html",
-            {
-                "service": service,
-                "comments": comments,
-                "commented": commented,
-                "comment_form": CommentForm() if not commented else comment_form,
-                "booking_form": BookingForm(),
-                "unavailable_dates": unavailable_dates,
-            },
-        )
 
 
 class BookServiceView(LoginRequiredMixin, View):
@@ -164,7 +131,7 @@ class BookingsView(LoginRequiredMixin, View):
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             Comment.create_comment(request.user, comment_form.cleaned_data)
-            messages.success(request, 'Review added successfully.')
+            messages.success(request, 'Thanks! Your comment is now being reviewed.')
             return redirect('view_bookings')
         else:
             return self.get(request)
