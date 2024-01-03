@@ -51,15 +51,18 @@ class ServiceDetail(View):
     def get(self, request, slug, *args, **kwargs):
         service = get_object_or_404(Service, slug=slug)
         comments = service.comments.filter(approved=True)
-        unavailable_dates = Availability.objects.all()
         has_comments = comments.filter(approved=True).exists()
+        today = timezone.now().date()
+        unavailable_dates = Availability.objects.filter(
+            unavailable_to__gte=today
+        )
 
         return render(request, "service_detail.html", {
             "service": service,
             "comments": comments,
+            "has_comments": has_comments,
             "booking_form": BookingForm(),
             "unavailable_dates": unavailable_dates,
-            "has_comments": has_comments
         })
 
 
