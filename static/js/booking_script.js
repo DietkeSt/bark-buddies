@@ -1,51 +1,106 @@
 $(document).ready(function () {
+    // Initialize the booking modal when it's shown
     $('#bookingModal').on('shown.bs.modal', function () {
         $('#bookingForm').trigger("reset");
+        initOneDayCheckboxHandler();
+        initDateChangeHandlers();
+        checkUnavailableTimes(); // Check for unavailable times immediately when modal opens
     });
+
+    // Initialize the comments toggle
+    initCommentsToggle();
 });
 
-// Toggle option for comments underneath service details
-document.addEventListener("DOMContentLoaded", function () {
+// Initialize the comments toggle functionality
+function initCommentsToggle() {
     var toggleCommentButton = document.getElementById('toggleCommentCard');
-
     if (toggleCommentButton) {
         toggleCommentButton.addEventListener('click', function () {
             var commentCard = document.querySelector('.comment-card');
-            if (commentCard.style.display === "none") {
-                commentCard.style.display = "block";
-            } else {
-                commentCard.style.display = "none";
-            }
+            commentCard.style.display = commentCard.style.display === "none" ? "block" : "none";
         });
     }
-});
+}
 
+// Initialize the date change handlers
+function initDateChangeHandlers() {
+    $('#id_start_date, #id_end_date').change(checkUnavailableTimes);
+}
+
+// Check and update unavailable times
+function checkUnavailableTimes() {
+    const startDate = $('#id_start_date').val();
+    const endDate = $('#id_end_date').val();
+
+    if (startDate && endDate) {
+        fetch(`/booking/get-unavailable-times/?start_date=${startDate}&end_date=${endDate}`)
+            .then(response => response.json())
+            .then(data => {
+                const unavailableTimes = data.unavailable_times;
+                updateAvailableTimes(document.getElementById('id_time'), unavailableTimes);
+            });
+    }
+}
+
+// Update the available times in the dropdown
+function updateAvailableTimes(select, unavailableTimes) {
+    const options = select.options;
+    let currentValue = select.value;
+
+    if (currentValue.length === 8) {
+        currentValue = currentValue.substr(0, 5);
+    }
+
+    let isCurrentValueAvailable = true;
+
+    for (let i = 0; i < options.length; i++) {
+        const optionValue = options[i].value.substr(0, 5);
+        const isUnavailable = unavailableTimes.includes(optionValue);
+        options[i].disabled = isUnavailable;
+
+        if (optionValue === currentValue && isUnavailable) {
+            isCurrentValueAvailable = false;
+        }
+    }
+
+    if (!isCurrentValueAvailable) {
+        select.value = '';
+    }
+}
+
+// Initialize the one-day checkbox handler
+function initOneDayCheckboxHandler() {
+    var checkbox = document.getElementById("id_just_one_day");
+    var startDateInput = document.getElementById("id_start_date");
+    var endDateInput = document.getElementById("id_end_date");
+
+    function updateEndDate() {
+        if (checkbox.checked && startDateInput.value) {
+            endDateInput.value = startDateInput.value;
+            endDateInput.readOnly = true;
+            checkUnavailableTimes(); // Check for unavailable times
+        } else {
+            endDateInput.readOnly = false;
+        }
+    }
+
+    if (checkbox && startDateInput && endDateInput) {
+        checkbox.onchange = updateEndDate;
+        startDateInput.onchange = updateEndDate;
+        updateEndDate();
+    }
+}
+
+// Slick slider initialization and alert message timeout
 $(window).on("load", function () {
-    // Slick slider for service page
     $(".slider").slick({
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        autoplay: false,
-        dots: false,
-        arrows: true,
-        prevArrow: '<button type="button" class="slick-prev">Previous</button>',
-        nextArrow: '<button type="button" class="slick-next">Next</button>',
-        responsive: [{
-            breakpoint: 768,
-            settings: { slidesToShow: 1 }
-        }]
+        // Slick slider settings for service page
     });
 
-    // Slick slider for reviews
     $(".slider2").slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        dots: false,
-        arrows: true,
+        // Slick slider settings for reviews
     });
 
-    // Timeout function so alert messages are removed automatically
     setTimeout(function () {
         let messages = document.getElementById('msg');
         if (messages) {
@@ -53,80 +108,4 @@ $(window).on("load", function () {
             alert.close();
         }
     }, 2500);
-
-    // Check for unavailable times and update them
-    $('#id_start_date, #id_end_date').change(function () {
-        const startDate = document.getElementById('id_start_date').value;
-        const endDate = document.getElementById('id_end_date').value;
-
-        if (startDate && endDate) {
-            fetch(`/booking/get-unavailable-times/?start_date=${startDate}&end_date=${endDate}`)
-                .then(response => response.json())
-                .then(data => {
-                    const unavailableTimes = data.unavailable_times;
-                    updateAvailableTimes(document.getElementById('id_time'), unavailableTimes);
-                });
-        }
-    });
-
-    function updateAvailableTimes(select, unavailableTimes) {
-        console.log("Unavailable Times:", unavailableTimes);
-        const options = select.options;
-        let currentValue = select.value;
-
-        // Convert the current value to 'HH:MM' format for comparison
-        if (currentValue.length === 8) {
-            currentValue = currentValue.substr(0, 5);
-        }
-
-        // Flag to check if the current value is available
-        let isCurrentValueAvailable = true;
-
-        for (let i = 0; i < options.length; i++) {
-            // Strip off seconds from the option value (HH:MM:SS to HH:MM)
-            const optionValue = options[i].value.substr(0, 5);
-            const isUnavailable = unavailableTimes.includes(optionValue);
-            options[i].disabled = isUnavailable;
-
-            // Check if the current value is among the unavailable times
-            if (optionValue === currentValue && isUnavailable) {
-                isCurrentValueAvailable = false;
-            }
-        }
-
-        // If the current value is unavailable, reset the select
-        if (!isCurrentValueAvailable) {
-            select.value = ''; // Reset to a neutral or NULL value
-        }
-    }
-
-    // Initialize the checkbox handler when the modal is shown
-    $('#bookingModal').on('shown.bs.modal', function () {
-        initOneDayCheckboxHandler();
-    });
-
-    function initOneDayCheckboxHandler() {
-        var checkbox = document.getElementById("id_just_one_day");
-        var startDateInput = document.getElementById("id_start_date");
-        var endDateInput = document.getElementById("id_end_date");
-
-        // Function to update the end date based on checkbox and start date
-        function updateEndDate() {
-            if (checkbox.checked && startDateInput.value) {
-                endDateInput.value = startDateInput.value;
-                endDateInput.readOnly = true;
-            } else {
-                endDateInput.readOnly = false;
-            }
-        }
-
-        if (checkbox && startDateInput && endDateInput) {
-            // Attach change event to checkbox and start date input
-            checkbox.onchange = updateEndDate;
-            startDateInput.onchange = updateEndDate;
-
-            // Initialize with current state
-            updateEndDate();
-        }
-    }
 });
