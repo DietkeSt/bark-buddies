@@ -68,40 +68,6 @@
                 </div>
                 {% endif %}
             </div>
-            <!-- Button to Open Modal -->
-            {% if user.is_authenticated %}
-            <div class="text-center m-3">
-                <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reviewModal">
-                    Want to leave a Review?
-                </button>
-            </div>
-            {% endif %}
-            <!-- Review Modal -->
-            <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content p-4">
-                        <!-- Modal Header -->
-                        <div class="modal-header mx-3">
-                            <h5 class="modal-title" id="reviewModalLabel">Leave a Review</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <!-- Modal Body -->
-                        <div class="modal-body">
-                            <div class="card-body-comments" id="comment-form">
-                                <p>Writing as: {{ user.username }}</p>
-                                <form method="post">
-                                    {{ comment_form | crispy }}
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-success mt-1">
-                                        Submit
-                                    </button>
-                                    <button type="button" class="btn btn-outline-success mt-1 mx-2" data-bs-dismiss="modal">Close</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
