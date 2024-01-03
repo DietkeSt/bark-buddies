@@ -329,7 +329,8 @@ form.signup input {
 }
 
 .booking.cancelled h3,
-.booking.cancelled p.booking-time-text {
+.booking.cancelled p.booking-time-text,
+.booking.cancelled p.booking-price {
     text-decoration: line-through;
 }
 
