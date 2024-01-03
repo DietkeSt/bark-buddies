@@ -1,10 +1,22 @@
 {% extends "base.html" %} {% block content %}
 
 {% load crispy_forms_tags %}
-
-<div class="container mt-5 mb-5">
-    <!-- Start of the row -->
+<!-- About Section -->
+<div class="container mt-5 mb-5" id="about">
     <div class="row justify-content-center">
+        <h3>A little bit about BarkBuddies:</h3>
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-body card-body-service-detail">
+                    <p>Test</p>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- Service Overview Section -->
+<div class="container mt-5 mb-5" id="services">
+    <div class="row justify-content-center">
+        <h3>Choose from one of the services below:</h3>
         {% for service in service_list %}
         <!-- Each service in a 4-column wide div for 3 services per row -->
         <div class="{% if service_list|length > 2 %}col-md-4{% else %}col-md{% endif %} mb-4">
@@ -36,12 +48,12 @@
         </div>
         {% endfor %}
     </div>
-    <!-- End of the row -->
 </div>
-<!-- Reviews Slider -->
-<div class="container mb-5 mt-5">
-    <div class="col-md-6 offset-md-3">
+<!-- Reviews Slider Section -->
+<div class="container mb-5 mt-5" id="reviews">
+    <div class="col">
         <div class="card">
+            <h3>High five to all the previous reviews:</h3>
             <div class="card-body card-body-service-detail">
                 <div class="row g-0">
                     <div class="slider2 p-4">
