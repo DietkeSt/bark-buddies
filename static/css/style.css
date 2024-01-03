@@ -273,9 +273,12 @@ form.signup input {
     text-align: left;
 }
 
-#comment-form div,
 #comment-form div label {
-    margin-bottom: 0.5rem;
+    margin-bottom: 5px;
+}
+
+#comment-form div {
+    margin-bottom: 1rem;
 }
 
 /* booking modal */
