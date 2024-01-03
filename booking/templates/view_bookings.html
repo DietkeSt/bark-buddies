@@ -12,11 +12,13 @@
                         {% for booking in bookings %}
                         <div class="booking-card"></div>
                             <div class="booking  {% if booking.is_cancelled %} cancelled {% endif %} mb-4 card-body">
-                                <h3>Service: {{ booking.service.title }}</h3>
+                                <h3 class="mb-3" >Service: {{ booking.service.title }}</h3>
                                 <p class="booking-time-text"><strong>When: </strong>
-                                    <br>
                                     {{ booking.time }}, 
-                                    {{ booking.start_date }} to {{ booking.end_date }}
+                                    {{ booking.start_date|date:"d/m/Y" }} to {{ booking.end_date|date:"d/m/Y" }}
+                                </p>
+                                <p class="booking-price"><strong>Price: </strong>
+                                    EUR {{ booking.service.price }}
                                 </p>
                                 {% if not booking.is_cancelled %}
                                 <div class="booking-buttons">
