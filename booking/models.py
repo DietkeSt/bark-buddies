@@ -151,4 +151,4 @@ class Booking(models.Model):
         return cls.objects.filter(
             user=user,
             start_date__gte=current_date
-        ).order_by('start_date')
+        ).order_by('start_date', 'time')
