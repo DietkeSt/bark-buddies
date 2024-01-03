@@ -1,3 +1,9 @@
+$(document).ready(function () {
+    $('#bookingModal').on('shown.bs.modal', function () {
+        $('#bookingForm').trigger("reset");
+    });
+});
+
 // Toggle option for comments underneath service details
 document.addEventListener("DOMContentLoaded", function () {
     var toggleCommentButton = document.getElementById('toggleCommentCard');
@@ -54,7 +60,7 @@ $(window).on("load", function () {
         const endDate = document.getElementById('id_end_date').value;
 
         if (startDate && endDate) {
-            fetch(`/get-unavailable-times/?start_date=${startDate}&end_date=${endDate}`)
+            fetch(`/booking/get-unavailable-times/?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => response.json())
                 .then(data => {
                     const unavailableTimes = data.unavailable_times;
@@ -64,6 +70,7 @@ $(window).on("load", function () {
     });
 
     function updateAvailableTimes(select, unavailableTimes) {
+        console.log("Unavailable Times:", unavailableTimes);
         const options = select.options;
         let currentValue = select.value;
 
