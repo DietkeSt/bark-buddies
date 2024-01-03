@@ -107,6 +107,7 @@
                                     {% csrf_token %}
                                     {{ booking_form.as_p }}
                                 </form>
+                                <p>Price: EUR {{ service.price }}</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" form="bookingForm" class="btn btn-success">Book Now</button>
