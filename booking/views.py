@@ -68,6 +68,7 @@ class ServiceDetail(View):
         service = get_object_or_404(Service, slug=slug)
         comments = service.comments.filter(approved=True)
         comment_form = CommentForm(request.POST)
+        unavailable_dates = Availability.objects.all()
 
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
@@ -76,9 +77,10 @@ class ServiceDetail(View):
             new_comment.approved = False  # Set approved to False by default
             new_comment.save()
             commented = True
-            messages.success(request, "Thanks! Your comment is now being reviewed.")
+            messages.success(request, "Thanks! Your comment is now being reviewed.", extra_tags='comment')
         else:
             commented = False
+            messages.error(request, "There was an error with your submission.", extra_tags='comment')
 
         return render(
             request,
@@ -87,7 +89,9 @@ class ServiceDetail(View):
                 "service": service,
                 "comments": comments,
                 "commented": commented,
-                "comment_form": CommentForm() if not commented else comment_form
+                "comment_form": CommentForm() if not commented else comment_form,
+                "booking_form": BookingForm(),
+                "unavailable_dates": unavailable_dates,
             },
         )
 
