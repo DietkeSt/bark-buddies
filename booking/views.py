@@ -117,17 +117,11 @@ class BookServiceView(LoginRequiredMixin, View):
 class BookingsView(LoginRequiredMixin, View):
     def get(self, request):
         bookings = Booking.get_future_bookings_for_user(request.user)
-        comments = Comment.objects.filter(
-            name=request.user.username, approved=True)
         comment_form = CommentForm()
-        commented = Comment.objects.filter(
-            name=request.user.username, approved=False).exists()
 
         return render(request, 'view_bookings.html', {
             'bookings': bookings,
-            'comments': comments,
             'comment_form': comment_form,
-            'commented': commented
         })
 
     def post(self, request):
