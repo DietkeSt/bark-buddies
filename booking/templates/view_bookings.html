@@ -18,12 +18,14 @@
                                     {{ booking.start_date|date:"d/m/Y" }} to {{ booking.end_date|date:"d/m/Y" }}
                                 </p>
                                 <div class="booking-price mb-3">
-                                    <strong>Price: </strong>
-                                    EUR {{ booking.service.price|floatformat:2 }}
-                                    {% if booking.add_second_dog %}
-                                    + EUR {{ booking.additional_price|floatformat:2 }} (for second dog)
-                                    = EUR {{ booking.service.price|add:booking.additional_price|floatformat:2 }}
-                                    {% endif %}
+                                    <p>
+                                        <strong>Price: </strong>
+                                        EUR {{ booking.service.price|floatformat:2 }}
+                                        {% if booking.add_second_dog %}
+                                        + EUR {{ booking.additional_price|floatformat:2 }} (for second dog)
+                                        = EUR {{ booking.service.price|add:booking.additional_price|floatformat:2 }}
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 {% if not booking.is_cancelled %}
                                 <div class="booking-buttons">
