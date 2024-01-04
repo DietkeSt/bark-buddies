@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 {% load static %}
 <!-- Hero Section -->
-<div class="hero-section container">
+<div class="hero-section container mt-5 mb-5">
     <div class="hero-content">
         <h1>Welcome to BarkBuddies</h1>
         <p>Your trusted partner in dog care services.</p>
@@ -14,19 +14,24 @@
     </div>
 </div>
 <!-- About Section -->
-<div class="container mt-5 mb-5" id="about">
-    <div class="row justify-content-center">
-        <h3>A little bit about BarkBuddies:</h3>
-        <div class="col mb-4">
-            <div class="card">
-                <div class="card-body card-body-service-detail">
-                    <p>Test</p>
-                </div>
+<div class="about-section container mb-5" id="about">
+    <div class="row align-items-center">
+        <div class="col-md-6 order-2 order-md-1">
+            <img src="{% static 'images/about.png' %}" alt="About BarkBuddies" class="img-fluid">
+        </div>
+        <div class="col-md-6 order-1 order-md-1">
+            <h2>About Us</h2>
+            <p>At BarkBuddies, it's more than just dog walking and sitting – it's about creating a family of furry friends and their
+            humans. Born out of a love for dogs and the lush Irish outdoors, we pride ourselves on giving your beloved pooch a wee
+            bit of adventure mixed with lots of cuddles and care. Our team, passionate about pups and their wellbeing, tailors each
+            experience to suit your dog's personality and needs. Whether it’s a merry jaunt through the emerald fields or a cozy
+            snuggle at home, your dog's happiness is our heart's work. Join the BarkBuddies clan, where every wagging tail and happy
+            bark makes our day!</p>
         </div>
     </div>
 </div>
 <!-- Service Overview Section -->
-<div class="container mt-5 mb-5" id="services">
+<div class="service-section container mb-5" id="services">
     <div class="row justify-content-center">
         <h3>Choose from one of the services below:</h3>
         {% for service in service_list %}
@@ -47,8 +52,7 @@
                             </div>
                         </div>
                         <div class="service-title px-3">
-                            <h2 class="card-title">{{ service.title }}</h2>
-                            <hr />
+                            <h3 class="card-title">{{ service.title }}</h3>
                         </div>
                     </div>
                 </a>
@@ -62,7 +66,7 @@
     </div>
 </div>
 <!-- Reviews Slider Section -->
-<div class="container mb-5 mt-5" id="reviews">
+<div class="review-section container mb-5" id="reviews">
     <div class="col">
         <div class="card">
             <h3>High five to all the previous reviews:</h3>
