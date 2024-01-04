@@ -1,6 +1,18 @@
 {% extends "base.html" %} {% block content %}
 
 {% load crispy_forms_tags %}
+{% load static %}
+<!-- Hero Section -->
+<div class="hero-section container">
+    <div class="hero-content">
+        <h1>Welcome to BarkBuddies</h1>
+        <p>Your trusted partner in dog care services.</p>
+        <a href="#services" class="btn btn-green-primary">Book a Service</a>
+    </div>
+    <div class="hero-image">
+        <img src="{% static 'images/home_hero.png' %}" alt="Hero Image">
+    </div>
+</div>
 <!-- About Section -->
 <div class="container mt-5 mb-5" id="about">
     <div class="row justify-content-center">
