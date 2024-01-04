@@ -4,13 +4,8 @@ html {
     scroll-behavior: smooth;
 }
 
-body {
-    background-color: #F9FAFC;
-}
-
 main {
     height: auto;
-    margin: 0 2em;
 }
 
 .thin {
@@ -26,7 +21,7 @@ main {
 }
 
 .main-bg {
-    background-color: #F9FAFC;
+    background: linear-gradient(180deg, rgba(244, 251, 236, 1) 5%, rgba(234, 195, 81, 1) 80%);
 }
 
 /* navigation bar */
@@ -96,6 +91,32 @@ main {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     margin-top: 2em;
     margin-bottom: 2em;
+}
+
+/* hero */
+
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hero-content {
+    flex: 1;
+    scale: 150%;
+    margin-left: 5em;
+}
+
+.hero-image {
+    flex: 0 0 70%;
+    height: auto;
+    overflow: hidden;
+}
+
+.hero-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 
 /* forms */
@@ -401,6 +422,21 @@ form.signup input {
 }
 
 /* Media queries */
+
+@media (max-width: 768px) {
+
+    .hero-section {
+        flex-direction: column;
+    }
+
+    .hero-content {
+        margin: 5em;
+    }
+
+    .container {
+        padding: 0
+    }
+}
 
 @media (max-width: 380px) {
     .title-overlay {
