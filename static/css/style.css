@@ -36,13 +36,46 @@ main {
     flex-wrap: none;
 }
 
+.navbar-nav {
+    text-align: center;
+}
+
 .navbar-container {
     margin: 0 2em;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    position: relative;
 }
 
 .navbar-brand img {
     max-height: 8vh;
     width: auto;
+}
+
+.navbar-collapse.show {
+    z-index: 1001;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 0.25rem;
+}
+
+.title-overlay {
+    margin-left: -1.25em;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    color: #198754;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #198754 !important;
 }
 
 .btn-outline-success {
@@ -55,28 +88,6 @@ main {
 
 .btn-success {
     color: #fff !important;
-}
-
-.navbar-nav {
-    text-align: center;
-}
-
-.navbar {
-    z-index: 1000;
-}
-
-.navbar-collapse.show {
-    z-index: 1001;
-    background-color: #fff;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-    border-radius: 0.25rem;
-}
-
-.dropdown-item.active,
-.dropdown-item:active {
-    color: #fff;
-    text-decoration: none;
-    background-color: #198754 !important;
 }
 
 /* alert container */
@@ -390,3 +401,18 @@ form.signup input {
 }
 
 /* Media queries */
+
+@media (max-width: 380px) {
+    .title-overlay {
+        margin-left: -5em;
+    }
+
+    #about.container,
+    #reviews.container,
+    .card,
+    .service-card-body,
+    .service-card,
+    .card-body {
+        margin: 0;
+    }
+}
