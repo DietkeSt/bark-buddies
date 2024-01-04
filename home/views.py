@@ -13,6 +13,10 @@ class HomeView(ListView):
     template_name = 'home.html'
     context_object_name = 'service_list'
 
+    def get_queryset(self):
+        # Return only services that are published
+        return Service.objects.filter(status=1)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['comments'] = Comment.objects.filter(
