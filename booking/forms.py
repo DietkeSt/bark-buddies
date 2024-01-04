@@ -4,7 +4,9 @@ from django import forms
 
 
 class BookingForm(forms.ModelForm):
-    add_second_dog = forms.BooleanField(required=False, label='Add Second Dog*')
+    add_second_dog = forms.BooleanField(
+        required=False, label='Add Second Dog*'
+        )
     just_one_day = forms.BooleanField(required=False, label='One Day')
     time = forms.ModelChoiceField(
         queryset=BookingTime.objects.all(),
