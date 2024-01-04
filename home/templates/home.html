@@ -5,7 +5,7 @@
 <!-- Hero Section -->
 <div class="hero-section container mt-5 mb-5">
     <div class="hero-content">
-        <h1>Welcome to BarkBuddies</h1>
+        <h1 class="mb-2">Welcome to BarkBuddies</h1>
         <p>Your trusted partner in dog care services.</p>
         <a href="#services" class="btn btn-green-primary">Book a Service</a>
     </div>
@@ -20,7 +20,7 @@
             <img src="{% static 'images/about.png' %}" alt="About BarkBuddies" class="img-fluid">
         </div>
         <div class="col-md-6 order-1 order-md-1">
-            <h2>About Us</h2>
+            <h2 class="mb-3">About Us</h2>
             <p>At BarkBuddies, it's more than just dog walking and sitting – it's about creating a family of furry friends and their
             humans. Born out of a love for dogs and the lush Irish outdoors, we pride ourselves on giving your beloved pooch a wee
             bit of adventure mixed with lots of cuddles and care. Our team, passionate about pups and their wellbeing, tailors each
@@ -33,13 +33,13 @@
 <!-- Service Overview Section -->
 <div class="service-section container mb-5" id="services">
     <div class="row justify-content-center">
-        <h3>Choose from one of the services below:</h3>
+        <h2 class="text-center mb-3">Select from our Collection of Services</h2>
         {% for service in service_list %}
         <!-- Each service in a 4-column wide div for 3 services per row -->
         <div class="{% if service_list|length > 2 %}col-md-4{% else %}col-md{% endif %} mb-4">
-            <div class="card">
+            <div class="carddeck">
                 <a href="{% url 'service_detail' service.slug %}" class="service-link">
-                    <div class="service-card-body">
+                    <div class="service-card-body card">
                         <div class="image-container">
                             {% if "placeholder" in service.featured_image.url %}
                             <img class="card-img-top"
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                         <div class="service-title px-3">
-                            <h3 class="card-title">{{ service.title }}</h3>
+                            <h3 class="card-title mb-3 mt-3">{{ service.title }}</h3>
                         </div>
                     </div>
                 </a>
@@ -69,7 +69,7 @@
 <div class="review-section container mb-5" id="reviews">
     <div class="col">
         <div class="card">
-            <h3>High five to all the previous reviews:</h3>
+            <h2 class="mb-3">High five to all the previous reviews:</h2>
             <div class="card-body card-body-service-detail">
                 <div class="row g-0">
                     <div class="slider2 p-4">
