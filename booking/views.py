@@ -128,7 +128,9 @@ class BookingsView(LoginRequiredMixin, View):
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             Comment.create_comment(request.user, comment_form.cleaned_data)
-            messages.success(request, 'Thanks! Your comment is now being reviewed.')
+            messages.success(
+                request, 'Thanks! Your comment is now being reviewed.'
+                )
             return redirect('view_bookings')
         else:
             return self.get(request)
