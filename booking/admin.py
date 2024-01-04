@@ -66,11 +66,17 @@ class BookingAdmin(admin.ModelAdmin):
         'service_status',
         'start_date_status',
         'end_date_status',
-        'cancellation_status'
+        'display_total_price',
+        'cancellation_status',
     )
     list_filter = ['service', 'start_date', 'end_date', 'is_cancelled']
     search_fields = ['user__username', 'service__title']
     actions = ['cancel_bookings']
+
+    def display_total_price(self, obj):
+        return obj.service.price + obj.additional_price
+        
+    display_total_price.short_description = 'Total Price'
 
     def cancel_bookings(self, request, queryset):
         for booking in queryset:
