@@ -21,7 +21,17 @@ main {
 }
 
 .main-bg {
-    background: linear-gradient(180deg, rgba(244, 251, 236, 1) 5%, rgba(234, 195, 81, 1) 80%);
+    background: linear-gradient(180deg, rgba(251, 251, 236, 1) 0%, rgba(244, 251, 236, 1) 80%);
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #666;
+}
+
+h1, h2, h3, h4, h5 {
+    color: #333;
 }
 
 /* navigation bar */
@@ -117,6 +127,19 @@ main {
     width: 100%;
     height: auto;
     object-fit: cover;
+}
+
+/* about */
+
+#about img {
+    max-width: 100%;
+    height: auto;
+}
+
+.about-section,
+.service-section,
+.review-section {
+    margin-top: 7.5em;
 }
 
 /* forms */
