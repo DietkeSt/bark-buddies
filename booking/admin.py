@@ -43,7 +43,7 @@ class ServiceAdmin(SummernoteModelAdmin):
         for obj in queryset:
             obj.unpublish()
 
-    publish_service.short_description = "Unpublish selected services"
+    unpublish_service.short_description = "Unpublish selected services"
 
 
 @admin.register(Availability)
