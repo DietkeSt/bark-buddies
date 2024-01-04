@@ -131,9 +131,9 @@ class BookingsView(LoginRequiredMixin, View):
             messages.success(
                 request, 'Thanks! Your comment is now being reviewed.'
                 )
-            return redirect('view_bookings')
         else:
-            return self.get(request)
+            messages.error(request, "There was an error with your submission.")
+        return redirect('view_bookings')
 
 
 class CancelBookingView(LoginRequiredMixin, View):
