@@ -1,5 +1,6 @@
 import datetime
 from datetime import timedelta
+from decimal import Decimal
 from django.db import models
 from django.db.models import Q, F, CheckConstraint
 from django.contrib.auth.models import User
@@ -90,12 +91,17 @@ class Booking(models.Model):
     comments = models.TextField(blank=True, null=True)
     is_cancelled = models.BooleanField(default=False)
     add_second_dog = models.BooleanField(default=False)
-    additional_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    additional_price = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+        )
 
     def save(self, *args, **kwargs):
         if self.add_second_dog:
-            self.additional_price = self.service.price * 0.5  # 50% of the original price
+            self.additional_price = self.service.price * Decimal('0.5')
         super().save(*args, **kwargs)
+
+    def total_price(self):
+        return self.service.price + self.additional_price
 
     # Check if end date is greater than or equal to start date
     class Meta:
