@@ -75,7 +75,7 @@ class BookingAdmin(admin.ModelAdmin):
 
     def display_total_price(self, obj):
         return obj.service.price + obj.additional_price
-        
+
     display_total_price.short_description = 'Total Price'
 
     def cancel_bookings(self, request, queryset):
