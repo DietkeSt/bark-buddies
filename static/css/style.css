@@ -32,7 +32,7 @@ main {
 /* navigation bar */
 
 .navbar {
-    height: 14vh;
+    height: 12vh;
     flex-wrap: none;
 }
 
@@ -41,7 +41,7 @@ main {
 }
 
 .navbar-brand img {
-    max-height: 12vh;
+    max-height: 8vh;
     width: auto;
 }
 
