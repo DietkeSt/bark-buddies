@@ -24,7 +24,7 @@ main {
     background: linear-gradient(180deg, rgba(251, 251, 236, 1) 0%, rgba(244, 251, 236, 1) 80%);
 }
 
-p {
+p, label {
     font-size: 1rem;
     line-height: 1.5;
     color: #666;
@@ -190,6 +190,8 @@ form.signup input {
 .card {
     border: none;
     background-color: transparent;
+    min-height: 20vh;
+    justify-content: center;
 }
 
 .card-img,
@@ -198,7 +200,6 @@ form.signup input {
 }
 
 .service-card-body {
-    border: 1px solid #445261;
     border-radius: 0.25rem;
     transition: all 0.5s ease;
     margin: 1em;
@@ -385,7 +386,7 @@ form.signup input {
 
 .booking.cancelled h3,
 .booking.cancelled p.booking-time-text,
-.booking.cancelled p.booking-price {
+.booking.cancelled .booking-price {
     text-decoration: line-through;
 }
 
