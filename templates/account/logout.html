@@ -8,36 +8,33 @@
 {% endblock head_title %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-8 mt-3 offset-md-2">
-                            <h2 class="card-title text-center">{% trans "Logout" %}</h2>
-
-                            <p class="text-center">
-                                {% trans 'Are you sure you want to log out?' %}
-                            </p>
-                        </div>
+            <div class="card-body card">
+                <div class="row">
+                    <div class="col-md-8 mt-3 offset-md-2">
+                        <h2 class="card-title text-center">{% trans "Logout" %}</h2>
+                        <p class="text-center">
+                            {% trans 'Are you sure you want to log out?' %}
+                        </p>
                     </div>
-                    <div class="row">
-                        <div class="col-md-8 mt-3 offset-md-2">
-                            {% url 'account_logout' as action_url %}
-                            <form method="post" action="{{ action_url }}">
-                                {% csrf_token %}
+                </div>
+                <div class="row">
+                    <div class="col-md-8 mt-3 offset-md-2">
+                        {% url 'account_logout' as action_url %}
+                        <form method="post" action="{{ action_url }}">
+                            {% csrf_token %}
 
-                                {% if redirect_field_value %}
+                            {% if redirect_field_value %}
                                 <input type="hidden" name="{{ redirect_field_name }}"
                                     value="{{ redirect_field_value }}">
-                                {% endif %}
+                            {% endif %}
 
-                                <div class="text-center mb-3">
-                                    <button type="submit" class="btn btn-danger">{% trans "Logout" %}</button>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="text-center mb-3">
+                                <button type="submit" class="btn btn-danger px-3">{% trans "Logout" %}</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
