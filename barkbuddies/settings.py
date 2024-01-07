@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+import django_heroku
 from django.contrib.messages import constants as messages
 if os.path.isfile('env.py'):
     import env
@@ -33,7 +34,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = development
+DEBUG = os.environ.get("DEBUG") == "True"
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
@@ -61,8 +62,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'cloudinary_storage',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
     'cloudinary',
     'django_summernote',
     'crispy_forms',
