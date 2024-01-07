@@ -56,6 +56,7 @@ class ServiceDetail(View):
         unavailable_dates = Availability.objects.filter(
             unavailable_to__gte=today
         )
+        other_services = Service.objects.filter(status=1).exclude(slug=slug)
 
         return render(request, "service_detail.html", {
             "service": service,
@@ -63,6 +64,7 @@ class ServiceDetail(View):
             "has_comments": has_comments,
             "booking_form": BookingForm(),
             "unavailable_dates": unavailable_dates,
+            "other_services": other_services,
         })
 
 
