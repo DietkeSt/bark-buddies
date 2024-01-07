@@ -8,42 +8,39 @@
 {% endblock head_title %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-8 mt-3 offset-md-2">
-                            <h2 class="card-title text-center">{% trans "Login" %}</h2>
-
-                            <p class="text-center">
-                                {% blocktrans %}
+            <div class="card-body card">
+                <div class="row">
+                    <div class="col-md-8 mt-3 offset-md-2">
+                        <h2 class="card-title text-center">{% trans "Login" %}</h2>
+                        <p class="text-center">
+                            {% blocktrans %}
                                 If you have not created an account yet, then please
                                 <a class="sign-up-link" href="{{ signup_url }}">register</a> first.
-                                {% endblocktrans %}
-                            </p>
-                        </div>
+                            {% endblocktrans %}
+                        </p>
                     </div>
-                    <div class="row">
-                        <div class="col-md-8 mt-3 offset-md-2">
-                            <form class="login" method="POST" action="{% url 'account_login' %}">
-                                {% csrf_token %}
+                </div>
+                <div class="row">
+                    <div class="col-md-8 mt-3 offset-md-2">
+                        <form class="login" method="POST" action="{% url 'account_login' %}">
+                            {% csrf_token %}
                             
-                                <div class="mb-3">
-                                    {{ form.as_p }}
-                                </div>
+                            <div class="mb-3">
+                                {{ form.as_p }}
+                            </div>
                             
-                                {% if redirect_field_value %}
+                            {% if redirect_field_value %}
                                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
-                                {% endif %}
+                            {% endif %}
                             
-                                <div class="text-center mb-3">
-                                    <button type="submit" class="btn btn-success">{% trans "Login" %}</button>
-                                </div>
-                            </form>
-                        </div>                    
-                    </div>
+                            <div class="text-center mb-3">
+                                <button type="submit" class="btn btn-success">{% trans "Login" %}</button>
+                            </div>
+                        </form>
+                    </div>                    
                 </div>
             </div>
         </div>
