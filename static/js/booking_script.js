@@ -1,3 +1,14 @@
+function assignRandomReviewImages() {
+    var imageElements = document.querySelectorAll('#review-images span[data-image]');
+    var images = Array.from(imageElements).map(el => el.getAttribute('data-image'));
+
+    var reviewImages = document.querySelectorAll('.animation-card_image img');
+    reviewImages.forEach(function (img) {
+        var randomImage = images[Math.floor(Math.random() * images.length)];
+        img.src = randomImage;
+    });
+}
+
 $(document).ready(function () {
     // Initialize the booking modal when it's shown
     $('#bookingModal').on('shown.bs.modal', function () {
@@ -8,8 +19,13 @@ $(document).ready(function () {
         initAddSecondDogHandler(); 
     });
 
-    // Initialize the comments toggle
+    // Initialize functions
     initCommentsToggle();
+
+    assignRandomReviewImages();
+
+    handleNavbarScroll();
+
 });
 
 // Initialize the comments toggle functionality
@@ -110,14 +126,41 @@ function initAddSecondDogHandler() {
     });
 }
 
+// Function to handle navbar style on scroll
+function handleNavbarScroll() {
+    var navbar = document.getElementById("navbar");
+    navbar.classList.add("transparent");
+    window.onscroll = function () {
+        if (window.pageYOffset > 0) {
+            navbar.classList.remove("transparent");
+            navbar.classList.add("sticky");
+        } else {
+            navbar.classList.remove("sticky");
+            navbar.classList.add("transparent");
+        }
+    };
+}
+
 // Slick slider initialization and alert message timeout
 $(window).on("load", function () {
     $(".slider").slick({
-        // Slick slider settings for service page
-    });
-
-    $(".slider2").slick({
         // Slick slider settings for reviews
+        dots: true,
+        arrows: false,
+        autoplay: true,
+        infinite: true,
+        autoplaySpeed: 4000,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
     });
 
     setTimeout(function () {
