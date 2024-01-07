@@ -2,16 +2,16 @@
 
 {% load crispy_forms_tags %}
 
-<div class="container mt-5 mb-5">
-    <div class="row">
+<div class="container">
+    <div class="row justify-content-center">
         <!-- Bookings Section -->
-        <div class="col-md-6 offset-md-3" id="bookings">
+        <div class="col-md-6" id="bookings">
             <div class="row g-0">
-                    <h2 class="title">Your Bookings</h2>
-                    <div class="bookings card mt-4">
+                    <h2 class="title text-center">Your Bookings</h2>
+                    <div class="bookings mt-4">
                         {% for booking in bookings %}
-                        <div class="booking-card"></div>
-                            <div class="booking  {% if booking.is_cancelled %} cancelled {% endif %} mb-4 card-body">
+                        <div class="booking-card">
+                            <div class="booking  {% if booking.is_cancelled %} cancelled {% endif %} mb-4 card-body card">
                                 <h3 class="mb-3" >Service: {{ booking.service.title }}</h3>
                                 <p class="booking-time-text"><strong>When: </strong>
                                     {{ booking.time }}, 
@@ -29,10 +29,12 @@
                                 </div>
                                 {% if not booking.is_cancelled %}
                                 <div class="booking-buttons">
-                                    <a href="{% url 'service_detail' booking.service.slug %}" class="btn btn-outline-success">Re-book</a>
+                                    {% if booking.service.status == 1 %}
+                                    <a href="{% url 'service_detail' booking.service.slug %}" class="btn btn-outline-success px-3">Re-book</a>
+                                    {% endif %}
                                     <form action="{% url 'cancel_booking' booking.id %}" method="post">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger">Cancel</button>
+                                        <button type="submit" class="btn btn-danger px-3">Cancel</button>
                                     </form>
                                 </div>
                                 {% else %}
@@ -40,14 +42,17 @@
                                     <p>Cancelled</p>
                                 </div>
                                 <div class="booking-buttons">
-                                    <a href="{% url 'service_detail' booking.service.slug %}" class="btn btn-outline-success">Re-book</a>
+                                    {% if booking.service.status == 1 %}
+                                    <a href="{% url 'service_detail' booking.service.slug %}" class="btn btn-outline-success px-3">Re-book</a>
+                                    {% endif %}
                                     <form action="{% url 'delete_booking' booking.id %}" method="post">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-warning">Delete</button>
+                                        <button type="submit" class="btn btn-warning px-3">Delete</button>
                                     </form>
                                 </div>
                                 {% endif %}
                             </div>
+                        </div>
                         {% empty %}
                         <div class="booking card mt-2">
                             <div class="card-body"></div>
