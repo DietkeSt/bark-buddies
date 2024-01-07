@@ -56,7 +56,7 @@
 
   <body class="d-flex flex-column h-100 main-bg">
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white justify-content-center">
+    <nav class="navbar navbar-expand-lg navbar-light justify-content-center" id="navbar">
       <div class="container navbar-container mb-2 mb-lg-0">
         <a class="navbar-brand" href="{% url 'home' %}">
           <img
@@ -85,72 +85,71 @@
               <a class="nav-link" href="{% url 'home' %}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#about">About</a>
+                <a class="nav-link" href="{% url 'home' %}#about">About</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#reviews">Testimonials</a>
+                <a class="nav-link" href="{% url 'home' %}#reviews">Testimonials</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#services" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" href="{% url 'home' %}#services" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     Services
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for service in services %}
+                    {% for service in published_services %}
                     <li><a class="dropdown-item" href="{% url 'service_detail' service.slug %}">{{ service.title }}</a></li>
                     {% endfor %}
                 </ul>
             </li>
+            {% if user.is_staff or user.is_superuser %}
+            <li class="nav-item">
+                <a type="nav-link" href="/admin" target="_blank" class="nav-link" aria-label="Opens the Admin Console">
+                    Admin
+                </a>
+            </li>
+            {% endif %}
           </ul>
           <!-- Right links -->
           <div class="collapse navbar-collapse" id="navbarButtonsExample">
             <ul class="navbar-nav ms-auto">
-              {% if user.is_authenticated %}
-                {% if user.is_staff or user.is_superuser %}
-                <li class="nav-item">
-                    <a type="button" href="/admin" class="btn-green-primary nav-link btn btn-success px-3 mx-2 my-2">
-                        Admin
-                    </a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a 
+                        type="button" 
+                        href="{% url 'view_bookings' %}" 
+                        class="btn btn-success px-3 mx-2 my-2">
+                            My Bookings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                        type="button"
+                        href="{% url 'account_logout' %}"
+                        class="btn btn-outline-success px-3 mx-2 my-2"
+                        >
+                        Logout
+                        </a>
+                    </li>
                 {% else %}
-                <li class="nav-item">
-                    <a 
-                    type="button" 
-                    href="{% url 'view_bookings' %}" 
-                    class="btn-green-primary nav-link btn btn-success px-3 mx-2 my-2">
-                        My Bookings
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a
+                        type="button"
+                        href="{% url 'account_signup' %}"
+                        class="btn btn-outline-success px-3 mx-2 my-2"
+                        >
+                        Register
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                        type="button"
+                        href="{% url 'account_login' %}"
+                        class="btn btn-success px-3 mx-2 my-2"
+                        >
+                        Login
+                        </a>
+                    </li>
                 {% endif %}
-                <li class="nav-item">
-                    <a
-                    type="button"
-                    href="{% url 'account_logout' %}"
-                    class="nav-link btn btn-outline-success px-3 mx-2 my-2"
-                    >
-                    Logout
-                    </a>
-                </li>
-              {% else %}
-              <li class="nav-item">
-                <a
-                  type="button"
-                  href="{% url 'account_signup' %}"
-                  class="btn btn-outline-success mx-2 my-2"
-                >
-                  Register
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  type="button"
-                  href="{% url 'account_login' %}"
-                  class="btn btn-success mx-2 my-2"
-                >
-                  Login
-                </a>
-              </li>
-              {% endif %}
             </ul>
           </div>
         </div>
@@ -180,12 +179,51 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer mt-auto py-3 green-bg">
-      <div class="footer-container">
-        <p class="m-0 text-center text-white">
-            &copy; 2023 BarkBuddies. All rights reserved.
-        </p>
-    </div>
+    <footer class="footer pt-5">
+        <div class="container">
+            <!-- Row for footer content -->
+            <div class="row text-center">
+                <!-- Company Information -->
+                <div class="col-md-4 mb-3">
+                    <h5>About BarkBuddies</h5>
+                    <p>Providing reliable and loving care to your furry friends. We're passionate about dogs and their
+                        well-being.</p>
+                    <p><strong>Contact us:</strong><br>
+                        Phone: 123-456-7890<br>
+                        Email: contact@barkbuddies.com
+                    </p>
+                    <p>123 Puppy Lane, Dogtown, 10101</p>
+                </div>
+    
+                <!-- Navigation Links -->
+                <div class="col-md-4 mb-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'home' %}#services">Our Services</a></li>
+                        <li><a href="{% url 'home' %}#reviews">Testimonials</a></li>
+                        <li><a href="{% url 'view_bookings' %}">Bookings</a></li>
+                    </ul>
+                </div>
+    
+                <!-- Social Media Icons -->
+                <div class="col-md-4 mb-3">
+                    <h5>Follow Us</h5>
+                    <ul class="list-unstyled social-icons">
+                        <li><a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i>
+                                Facebook</a></li>
+                        <li><a href="https://www.instagram.com"><i class="fab fa-instagram"></i>
+                                Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+    
+            <!-- Legal Information -->
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <p>&copy; 2024 BarkBuddies. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
     </footer>
     <script src="{% static 'js/booking_script.js' %}"></script>
   </body>
