@@ -3,11 +3,11 @@
 {% load crispy_forms_tags %}
 {% load static %}
 <!-- Hero Section -->
-<div class="hero-section container mt-5 mb-5">
+<div class="hero-section container mb-5">
     <div class="hero-content">
-        <h1 class="mb-2">Welcome to BarkBuddies</h1>
-        <p>Your trusted partner in dog care services.</p>
-        <a href="#services" class="btn btn-green-primary">Book a Service</a>
+        <h1 class="mb-3">Welcome to BarkBuddies</h1>
+        <p class="lead">Your trusted partner in dog care services.</p>
+        <a href="#services" class="btn btn-success btn-lg px-3">Book a Service</a>
     </div>
     <div class="hero-image">
         <img src="{% static 'images/home_hero.png' %}" alt="Hero Image">
@@ -31,32 +31,26 @@
     </div>
 </div>
 <!-- Service Overview Section -->
-<div class="service-section container mb-5" id="services">
-    <div class="row justify-content-center">
-        <h2 class="text-center mb-3">Select from our Collection of Services</h2>
+<div class="slider-wrap service-section container mb-5" id="services">
+    <h2 class="mb-3 text-center">Select from our Collection of Services</h2>
+    <div id="card-slider" class="slider carddeck">
         {% for service in service_list %}
-        <!-- Each service in a 4-column wide div for 3 services per row -->
-        <div class="{% if service_list|length > 2 %}col-md-4{% else %}col-md{% endif %} mb-4">
-            <div class="carddeck">
-                <a href="{% url 'service_detail' service.slug %}" class="service-link">
-                    <div class="service-card-body card">
-                        <div class="image-container">
-                            {% if "placeholder" in service.featured_image.url %}
-                            <img class="card-img-top"
-                                src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg" />
-                            {% else %}
-                            <img class="card-img-top" src="{{ service.featured_image.url }}" />
-                            {% endif %}
-                            <div class="image-flash">
-                                <p class="price-text">Price: {{ service.price }}</p>
-                            </div>
-                        </div>
-                        <div class="service-title px-3">
-                            <h3 class="card-title mb-3 mt-3">{{ service.title }}</h3>
-                        </div>
+        <div class="slider-item justify-content-center card text-center service-card-body">
+            <a href="{% url 'service_detail' service.slug %}" class="service-link">
+                <div class="image-container justify-content-center">
+                    {% if "placeholder" in service.featured_image.url %}
+                    <img class="card-img-top" src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg" />
+                    {% else %}
+                    <img class="card-img-top" src="{{ service.featured_image.url }}" />
+                    {% endif %}
+                    <div class="image-flash px-3">
+                        <p class="price-text text-center">Price: {{ service.price }}</p>
                     </div>
-                </a>
-            </div>
+                </div>
+                <div class="service-title px-3">
+                    <h3 class="card-title mb-3 mt-3">{{ service.title }}</h3>
+                </div>
+            </a>
         </div>
         {% empty %}
         <div class="col-md-6 offset-md-3">
@@ -66,34 +60,35 @@
     </div>
 </div>
 <!-- Reviews Slider Section -->
-<div class="review-section container mb-5" id="reviews">
-    <div class="col">
-        <div class="card">
-            <h2 class="mb-3">High five to all the previous reviews:</h2>
-            <div class="card-body card-body-service-detail">
-                <div class="row g-0">
-                    <div class="slider2 p-4">
-                        {% for comment in comments %}
-                        <div class="slide comment mx-auto">
-                            <blockquote class="blockquote text-center">
-                                <p class="mb-0 mt-1">{{ comment.body | linebreaks }}</p>
-                                <footer class="blockquote-footer">{{ comment.name }}</footer>
-                            </blockquote>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
+<div id="review-images" style="display:none;">
+    {% for i in "123456" %}
+    <span data-image="{% static 'images/review_image' %}{{ i }}.png"></span>
+    {% endfor %}
+</div>
+<div class="slider-wrap container review-section" id="reviews">
+    <h2 class="mb-3 text-center">Testimonials</h2>
+    <div id="card-slider" class="slider carddeck">
+        {% for comment in comments %}
+        <div class="slider-item justify-content-center card text-center">
+            <div class="animation-card_image justify-content-center">
+                <img alt="">
             </div>
-            <!-- Button to Open Modal -->
-            {% if user.is_authenticated %}
-            <div class="text-center mt-2 mb-2">
-                <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reviewModal">
-                    Want to leave a Review?
-                </button>
+            <div class="animation-card_content">
+                <h4 class="animation-card_content_title title-2">{{ comment.name }}</h4>
+                <p class="animation-card_content_description"><blockquote>{{ comment.body | linebreaks }}</blockquote></p>
+                <p class="animation-card_content_city">{{ comment.service.title }}</p>
             </div>
-            {% endif %}
-        </div>
+        </div> 
+        {% endfor %}
     </div>
+    <!-- Button to Open Modal -->
+    {% if user.is_authenticated %}
+    <div class="container text-center mt-5">
+        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reviewModal">
+            Want to leave a Review?
+        </button>
+    </div>
+    {% endif %}
 </div>
 <!-- Review Modal -->
 <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
@@ -111,10 +106,10 @@
                     <form method="post" action="{% url 'submit_home_review' %}" id="comment-form">
                         {{ comment_form | crispy }}
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-success mt-1">
+                        <button type="submit" class="btn btn-success mt-1 px-3">
                             Submit
                         </button>
-                        <button type="button" class="btn btn-outline-success mt-1 mx-2" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-success mt-1 mx-2 px-3" data-bs-dismiss="modal">Close</button>
                     </form>
                 </div>
             </div>
