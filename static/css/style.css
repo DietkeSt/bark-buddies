@@ -4,8 +4,20 @@ html {
     scroll-behavior: smooth;
 }
 
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 main {
     height: auto;
+    margin: 5em 2em;
+    flex: 1;
 }
 
 .thin {
@@ -34,12 +46,85 @@ h1, h2, h3, h4, h5 {
     color: #333;
 }
 
+/* margin and paddings */
+
+.about-section,
+.service-section,
+.review-section {
+    margin-top: 8em;
+}
+
+.hero-section {
+    margin-top: 3em;
+}
+
+.review-section {
+    margin-bottom: 3em
+}
+
+/* button and links */
+
+.btn {
+    border-radius: 2rem !important;
+    border: 1px solid rgba(0, 0, 0, .125);
+    padding: 0.5rem, 1rem;
+}
+
+.btn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-link {
+    color: #198754;
+    border: none;
+}
+
+.btn-link:hover {
+    box-shadow: none;
+}
+
+.link {
+    color: #198754;
+    text-decoration: none;
+}
+
+.link:hover,
+.link:active,
+.btn-link:hover {
+    color: #445261;
+    text-decoration: underline;
+}
+
+.btn-outline-success {
+    color: #198754 !important;
+    background: #fff;
+}
+
+.btn-outline-success:hover, .btn-success {
+    color: #fff !important;
+}
+
 /* navigation bar */
 
-.navbar {
-    height: 12vh;
-    flex-wrap: none;
+#navbar {
+    min-height: 10vh;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    z-index: 500;
 }
+
+#navbar.transparent {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+#navbar.sticky {
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 
 .navbar-nav {
     text-align: center;
@@ -63,15 +148,16 @@ h1, h2, h3, h4, h5 {
 .navbar-collapse.show {
     z-index: 1001;
     background-color: #fff;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-    border-radius: 0.25rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 2rem;
 }
 
 .title-overlay {
     margin-left: -1.25em;
     background-color: rgba(255, 255, 255, 0.7);
-    padding: 0.5rem;
-    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: 2rem;
     font-weight: bold;
     color: #198754;
 }
@@ -83,44 +169,25 @@ h1, h2, h3, h4, h5 {
     background-color: #198754 !important;
 }
 
-.btn-outline-success {
-    color: #198754 !important;
-}
-
-.btn-outline-success:hover {
-    color: #fff !important;
-}
-
-.btn-success {
-    color: #fff !important;
-}
-
 /* alert container */
 
 .alert {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 2em;
     margin-bottom: 2em;
+    padding: 1em;
+    border-radius: 2rem;
+}
+
+.alert-container {
+    padding-top: 10vh;
 }
 
 /* hero */
 
-.hero-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.hero-content {
-    flex: 1;
-    scale: 150%;
-    margin-left: 5em;
-}
-
 .hero-image {
     flex: 0 0 70%;
     height: auto;
-    overflow: hidden;
 }
 
 .hero-image img {
@@ -129,28 +196,15 @@ h1, h2, h3, h4, h5 {
     object-fit: cover;
 }
 
-/* about */
+.hero-section {
+    display: flex;
+}
+
+/* about section */
 
 #about img {
     max-width: 100%;
     height: auto;
-}
-
-.about-section,
-.service-section,
-.review-section {
-    margin-top: 7.5em;
-}
-
-/* forms */
-
-textarea,
-input,
-select {
-    max-height: 7.5em;
-    border-radius: 0.25rem;
-    border: 1px solid #ced4da;
-    padding: 0.375rem 0.75rem;
 }
 
 /* sign up styling */
@@ -188,40 +242,30 @@ form.signup input {
 /* services */
 
 .card {
-    border: none;
-    background-color: transparent;
-    min-height: 20vh;
     justify-content: center;
 }
 
 .card-img,
 .card-img-top {
-    border-radius: 0.25rem;
+    border-radius: 2rem;
 }
 
 .service-card-body {
-    border-radius: 0.25rem;
+    border-radius: 2rem;
     transition: all 0.5s ease;
-    margin: 1em;
     background-color: #fff;
 }
 
 
 .service-card-body:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .card-body {
-    border: 1px solid #445261;
-    border-radius: 0.25rem;
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: 2rem;
     background-color: #fff;
-}
-
-.card-body-service-detail,
-.comment-card {
-    padding: 0;
-    margin: 1em;
 }
 
 .card-body-comments {
@@ -234,16 +278,17 @@ form.signup input {
 
 .image-flash {
     position: absolute;
-    bottom: 5%;
+    bottom: 0;
     min-width: 30%;
-    left: -2px;
+    left: -1.5em;
     background-color: #eac351;
-    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+    border-radius: 2rem;
 }
 
 .price-text {
     color: #445261;
-    margin: 4px;
+    margin: 0.5em;
     text-transform: uppercase;
 }
 
@@ -254,7 +299,6 @@ form.signup input {
     text-align: center;
 }
 
-.service-title:hover,
 .page-link {
     color: #198754;
 }
@@ -272,21 +316,38 @@ form.signup input {
     align-items: center;
 }
 
-.slick-next:before,
-.slick-prev:before {
-    color: #198754;
+/* slider animation */
+
+.slider-item {
+    padding: 1em;
+    margin: 1em;
+    border-radius: 2rem;
+    background-color: #ffffff;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.slick-list {
-    padding-top: 0;
+.animation-card_image {
+    display: flex;
 }
 
-.slick-prev {
-    left: 1rem;
+.animation-card_image img {
+    width: 5em;
+    height: 5em;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-.slick-next {
-    right: 1rem;
+.animation-card_content {
+    width: 100%;
+    padding-top: 1em;
+}
+
+.animation-card_content_city {
+    text-transform: uppercase;
 }
 
 /* comments */
@@ -309,6 +370,25 @@ form.signup input {
 
 #comment-count:hover {
     color: #198754;
+}
+
+/* forms & modals */
+
+textarea,
+input,
+select {
+    max-height: 7.5em;
+    border-radius: 2rem !important;
+    border: 1px solid #ced4da;
+    padding: 1rem;
+}
+
+.modal {
+    z-index: 9999 !important;
+}
+
+div.modal-content {
+    border-radius: 2rem;
 }
 
 /* review comment modal */
@@ -379,6 +459,10 @@ form.signup input {
     gap: 1rem;
 }
 
+.booking.card-body {
+    padding: 2em;
+}
+
 .booking.cancelled {
     background-color: rgba(220, 53, 69, 0.2);
     color: rgba(68, 82, 97, 0.5);
@@ -394,50 +478,19 @@ form.signup input {
     text-transform: uppercase;
     text-align: center;
     transform: rotate(-45deg);
-    font-size: 18px;
-    border-radius: 0.25rem;
+    border-radius: 2rem;
     background-color: #dc3545;
     position: absolute;
     right: -1.5em;
+    bottom: 2em;
 }
 
 .cancelled-overlay p {
     color: #fff;
     margin: 0 1em;
+    font-size: 18px;
+    padding: 0.25rem;
 }
-
-/* button and links */
-
-.btn-green-primary {
-    background-color: #198754;
-    color: #fff;
-}
-
-.btn-green-primary:hover,
-.btn-green-primary:active {
-    background-color: #fff;
-    color: #198754 !important;
-}
-
-.btn-link {
-    color: #198754;
-}
-
-.btn-link:hover {
-    color: #445261;
-}
-
-.link {
-    color: #198754;
-    text-decoration: none;
-}
-
-.link:hover,
-.link:active {
-    color: #445261;
-    text-decoration: underline;
-}
-
 
 /* footer */
 
@@ -445,16 +498,55 @@ form.signup input {
     margin: 0 2em;
 }
 
+/* footer */
+
+.footer-container {
+    margin: 0 2em;
+}
+
+.footer {
+    background-color: #0d442a;
+    padding: 3rem 2rem 1rem 2rem;
+    color: #f8f9fa;
+}
+
+.footer a,
+.footer p {
+    color: #f8f9fa;
+    font-size: 16px;
+}
+
+.footer h5 {
+    color: #f8f9fa;
+    font-size: 20px;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.footer .social-icons li a {
+    color: #f8f9fa;
+    text-decoration: none;
+}
+
 /* Media queries */
 
 @media (max-width: 768px) {
 
     .hero-section {
-        flex-direction: column;
-    }
-
+            flex-direction: column;
+            margin-top: 0;
+        }
+    
     .hero-content {
-        margin: 5em;
+        margin-bottom: 3em;
+    }
+    
+    .about-section,
+    .service-section,
+    .review-section {
+        margin-top: 6em;
     }
 
     .container {
@@ -463,12 +555,10 @@ form.signup input {
 }
 
 @media (max-width: 380px) {
-    .title-overlay {
-        margin-left: -5em;
-    }
+    .navbar img {
+            display: none;
+        }
 
-    #about.container,
-    #reviews.container,
     .card,
     .service-card-body,
     .service-card,
