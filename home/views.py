@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import generic, View
 from django.views.generic import ListView
 from django.contrib import messages
+from django.utils import timezone
 from booking.models import Service, Booking
 from reviews.models import Comment
 from reviews.forms import CommentForm
