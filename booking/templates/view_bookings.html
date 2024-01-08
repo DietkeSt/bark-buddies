@@ -9,13 +9,18 @@
         <!-- Bookings Section -->
         <div class="col-md-6" id="bookings">
             <div class="row g-0">
-                    <h2 class="title text-center">Your Bookings</h2>
+                    <h2 class="title text-center">
+                        Your Bookings
+                    </h2>
                     <div class="bookings mt-4">
                         {% for booking in bookings %}
                         <div class="booking-card">
                             <div class="booking  {% if booking.is_cancelled %} cancelled {% endif %} mb-4 card-body card">
-                                <h3 class="mb-3" >Service: {{ booking.service.title }}</h3>
-                                <p class="booking-time-text"><strong>When: </strong>
+                                <h3 class="mb-3" >
+                                    Service: {{ booking.service.title }}
+                                </h3>
+                                <p class="booking-time-text">
+                                    <strong>When: </strong>
                                     {{ booking.time }}, 
                                     {{ booking.start_date|date:"d/m/Y" }} to {{ booking.end_date|date:"d/m/Y" }}
                                 </p>
@@ -32,11 +37,23 @@
                                 {% if not booking.is_cancelled %}
                                 <div class="booking-buttons">
                                     {% if booking.service.status == 1 %}
-                                    <a href="{% url 'service_detail' booking.service.slug %}" class="btn btn-outline-success px-3">Re-book</a>
+                                    <a 
+                                    href="{% url 'service_detail' booking.service.slug %}" 
+                                    class="btn btn-outline-success px-3" 
+                                    aria-label="Re-book {{ booking.service.title }}"
+                                    >
+                                        Re-book
+                                    </a>
                                     {% endif %}
                                     <form action="{% url 'cancel_booking' booking.id %}" method="post">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger px-3">Cancel</button>
+                                        <button 
+                                        type="submit" 
+                                        class="btn btn-danger px-3"
+                                        aria-label="Cancel booking for {{ booking.service.title }}"
+                                        >
+                                            Cancel
+                                        </button>
                                     </form>
                                 </div>
                                 {% else %}
@@ -45,11 +62,23 @@
                                 </div>
                                 <div class="booking-buttons">
                                     {% if booking.service.status == 1 %}
-                                    <a href="{% url 'service_detail' booking.service.slug %}" class="btn btn-outline-success px-3">Re-book</a>
+                                    <a 
+                                    href="{% url 'service_detail' booking.service.slug %}" 
+                                    class="btn btn-outline-success px-3"
+                                    aria-label="Re-book {{ booking.service.title }}"
+                                    >
+                                        Re-book
+                                    </a>
                                     {% endif %}
                                     <form action="{% url 'delete_booking' booking.id %}" method="post">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-warning px-3">Delete</button>
+                                        <button 
+                                        type="submit" 
+                                        class="btn btn-warning px-3"
+                                        aria-label="Delete booking for {{ booking.service.title }}"
+                                        >
+                                            Delete
+                                        </button>
                                     </form>
                                 </div>
                                 {% endif %}
@@ -72,7 +101,13 @@
     <!-- Button to Open Modal -->
     {% if user.is_authenticated %}
     <div class="text-center m-3">
-        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reviewModal">
+        <button 
+        type="button" 
+        class="btn btn-link" 
+        data-bs-toggle="modal" 
+        data-bs-target="#reviewModal"
+        aria-label="Leave a review"
+        >
             Want to leave a Review?
         </button>
     </div>
@@ -83,21 +118,40 @@
             <div class="modal-content p-4">
                 <!-- Modal Header -->
                 <div class="modal-header mx-3">
-                    <h5 class="modal-title" id="reviewModalLabel">Leave a Review</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="reviewModalLabel">
+                        Leave a Review
+                    </h5>
+                    <button 
+                    type="button" 
+                    class="btn-close" 
+                    data-bs-dismiss="modal" 
+                    aria-label="Close">
+                    </button>
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="card-body-comments" id="comment-form">
-                        <p>Writing as: {{ user.username }}</p>
+                        <p>
+                            Writing as: {{ user.username }}
+                        </p>
                         <form method="post">
                             {{ comment_form | crispy }}
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-success mt-1">
+                            <button 
+                            type="submit" 
+                            class="btn btn-success mt-1"
+                            aria-label="Submit review"
+                            >
                                 Submit
                             </button>
-                            <button type="button" class="btn btn-outline-success mt-1 mx-2"
-                                data-bs-dismiss="modal">Close</button>
+                            <button 
+                            type="button" 
+                            class="btn btn-outline-success mt-1 mx-2"
+                            data-bs-dismiss="modal"
+                            aria-label="Close modal"
+                            >
+                                Close
+                            </button>
                         </form>
                     </div>
                 </div>

@@ -16,27 +16,39 @@
                         <img
                             src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg"
                             class="card-img-top"
-                            alt="Service Image"
+                            alt="Placeholder image for {{ service.title }}"
                             loading="lazy"
                         />
                     {% else %}
                         <img
                             src="{{ service.featured_image.url }}"
                             class="card-img-top"
-                            alt="Service Image"
+                            alt="{{ service.title }} Image"
                             loading="lazy"
                         />
                     {% endif %}
                         <div class="image-flash px-3">
-                            <p class="price-text text-center">EUR {{ service.price }}</p>
+                            <p class="price-text text-center">
+                                EUR {{ service.price }}
+                            </p>
                         </div>
                     </div>
                 </div>
                 <div class="service-text mb-3">
-                    <h1 class="service-title">{{ service.title }}</h1>
-                    <p class="card-text">{{ service.content | safe }}</p>
+                    <h1 class="service-title">
+                        {{ service.title }}
+                    </h1>
+                    <p class="card-text">
+                        {{ service.content | safe }}
+                    </p>
                     <!-- Trigger Modal Button -->
-                    <button type="button" class="btn btn-success px-3 mx-2" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                    <button 
+                    type="button" 
+                    class="btn btn-success px-3 mx-2" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#bookingModal"
+                    aria-label="Book {{ service.title }} now"
+                    >
                         Book Now
                     </button>
                 </div>
@@ -46,30 +58,47 @@
 </div>
 <!-- Service Overview Section -->
 <div class="slider-wrap container review-section">
-    <h2 class="mb-3 text-center">See our other available Services</h2>
+    <h2 class="mb-3 text-center">
+        See our other available Services
+    </h2>
     <div id="card-slider" class="slider carddeck">
         {% for service in other_services %}
         <div class="slider-item justify-content-center card text-center service-card-body">
             <a href="{% url 'service_detail' service.slug %}" class="service-link">
                 <div class="image-container justify-content-center">
                     {% if "placeholder" in service.featured_image.url %}
-                    <img class="card-img-top"
-                        src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg" loading="lazy"/>
+                    <img 
+                        class="card-img-top"
+                        src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg"
+                        alt="Placeholder image for service"
+                        loading="lazy"
+                    />
                     {% else %}
-                    <img class="card-img-top" src="{{ service.featured_image.url }}" loading="lazy"/>
+                    <img 
+                        class="card-img-top" 
+                        src="{{ service.featured_image.url }}" 
+                        alt="{{ service.title }} Image"
+                        loading="lazy"
+                    />
                     {% endif %}
                     <div class="image-flash px-3">
-                        <p class="price-text text-center">EUR {{ service.price }}</p>
+                        <p class="price-text text-center">
+                            EUR {{ service.price }}
+                        </p>
                     </div>
                 </div>
                 <div class="service-title px-3">
-                    <h3 class="card-title mb-3 mt-3">{{ service.title }}</h3>
+                    <h3 class="card-title mb-3 mt-3">
+                        {{ service.title }}
+                    </h3>
                 </div>
             </a>
         </div>
         {% empty %}
         <div class="col-md-6 offset-md-3">
-            <p>No other services available at the moment.</p>
+            <p>
+                No other services available at the moment.
+            </p>
         </div>
         {% endfor %}
     </div>
@@ -82,15 +111,25 @@
                     <div class="row">
                         <div class="col m-3">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="bookingModalLabel">Book Service: {{ service.title }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <h5 class="modal-title" id="bookingModalLabel">
+                                    Book Service: {{ service.title }}
+                                </h5>
+                                <button 
+                                type="button" 
+                                class="btn-close" 
+                                data-bs-dismiss="modal" 
+                                aria-label="Close"
+                                >
+                                </button>
                             </div>
                             <div class="modal-body">
                                 {% if unavailable_dates %}
                                 <div class="alert alert-warning" role="alert">
                                     <strong>Unavailable Dates:</strong>
                                     {% for date in unavailable_dates %}
-                                    <div>{{ date.unavailable_from|date:"d/m/Y" }} to {{ date.unavailable_to|date:"d/m/Y" }}</div>
+                                    <div>
+                                        {{ date.unavailable_from|date:"d/m/Y" }} to {{ date.unavailable_to|date:"d/m/Y" }}
+                                    </div>
                                     {% endfor %}
                                 </div>
                                 {% else %}
@@ -109,13 +148,41 @@
                                     {% csrf_token %}
                                     {{ booking_form.as_p }}
                                 </form>
-                                <p>Original Price: EUR <span id="originalPrice" data-price="{{ service.price }}">{{ service.price }}</span></p></p>
-                                <p>Total Price: EUR <span id="priceText">{{ service.price }}</span></p>
+                                <p>
+                                    Original Price: EUR 
+                                    <span 
+                                    id="originalPrice" 
+                                    data-price="{{ service.price }}"
+                                    >
+                                        {{ service.price }}
+                                    </span>
+                                </p>
+                                <p>
+                                    Total Price: EUR 
+                                    <span id="priceText">
+                                        {{ service.price }}
+                                    </span>
+                                </p>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" form="bookingForm" class="btn btn-success px-3">Book Now</button>
-                                <button type="button" class="btn btn-outline-success px-3" data-bs-dismiss="modal">Close</button>
-                                <p class="text-muted small mt-3">*Adding a second dog increases the price by 50%.</p>
+                                <button 
+                                type="submit" 
+                                form="bookingForm" 
+                                class="btn btn-success px-3"
+                                aria-label="Book {{ service.title }} now"
+                                >
+                                    Book Now
+                                </button>
+                                <button 
+                                type="button" 
+                                class="btn btn-outline-success px-3" 
+                                data-bs-dismiss="modal"
+                                aria-label="Close {{ service.title }} modal">
+                                    Close
+                                </button>
+                                <p class="text-muted small mt-3">
+                                    *Adding a second dog increases the price by 50%.
+                                </p>
                             </div>
                         </div>
                     </div>

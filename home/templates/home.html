@@ -9,56 +9,92 @@
 <!-- Hero Section -->
 <div class="hero-section container mb-5">
     <div class="hero-content">
-        <h1 class="mb-3">Welcome to BarkBuddies</h1>
-        <p class="lead">Your trusted partner in dog care services.</p>
-        <a href="#services" class="btn btn-success btn-lg px-3">Book a Service</a>
+        <h1 class="mb-3">
+            Welcome to BarkBuddies
+        </h1>
+        <p class="lead">
+            Your trusted partner in dog care services.
+        </p>
+        <a 
+        href="#services" 
+        class="btn btn-success btn-lg px-3"
+        aria-label="Book Service">
+            Book a Service
+        </a>
     </div>
     <div class="hero-image">
-        <img src="{% static 'images/home_hero.webp' %}" alt="Hero Image" loading="lazy">
+        <img 
+        src="{% static 'images/home_hero.webp' %}" 
+        alt="Happy dogs playing" 
+        loading="lazy">
     </div>
 </div>
 <!-- About Section -->
 <div class="about-section container mb-5" id="about">
     <div class="row align-items-center">
         <div class="col-md-6 order-2 order-md-1">
-            <img src="{% static 'images/about.webp' %}" alt="About BarkBuddies" class="img-fluid" loading="lazy">
+            <img 
+            src="{% static 'images/about.webp' %}" 
+            alt="Team BarkBuddies with dogs" 
+            class="img-fluid" 
+            loading="lazy">
         </div>
         <div class="col-md-6 order-1 order-md-1">
-            <h2 class="mb-3">About Us</h2>
-            <p>At BarkBuddies, it's more than just dog walking and sitting – it's about creating a family of furry friends and their
-            humans. Born out of a love for dogs and the lush Irish outdoors, we pride ourselves on giving your beloved pooch a wee
-            bit of adventure mixed with lots of cuddles and care. Our team, passionate about pups and their wellbeing, tailors each
-            experience to suit your dog's personality and needs. Whether it’s a merry jaunt through the emerald fields or a cozy
-            snuggle at home, your dog's happiness is our heart's work. Join the BarkBuddies clan, where every wagging tail and happy
-            bark makes our day!</p>
+            <h2 class="mb-3">
+                About Us
+            </h2>
+            <p>
+                At BarkBuddies, it's more than just dog walking and sitting – it's about creating a family of furry friends and their
+                humans. Born out of a love for dogs and the lush Irish outdoors, we pride ourselves on giving your beloved pooch a wee
+                bit of adventure mixed with lots of cuddles and care. Our team, passionate about pups and their wellbeing, tailors each
+                experience to suit your dog's personality and needs. Whether it’s a merry jaunt through the emerald fields or a cozy
+                snuggle at home, your dog's happiness is our heart's work. Join the BarkBuddies clan, where every wagging tail and happy
+                bark makes our day!
+            </p>
         </div>
     </div>
 </div>
 <!-- Service Overview Section -->
 <div class="slider-wrap service-section container mb-5" id="services">
-    <h2 class="mb-3 text-center">Select from our Collection of Services</h2>
+    <h2 class="mb-3 text-center">
+        Select from our Collection of Services
+    </h2>
     <div id="card-slider" class="slider carddeck">
         {% for service in service_list %}
         <div class="slider-item justify-content-center card text-center service-card-body">
             <a href="{% url 'service_detail' service.slug %}" class="service-link">
                 <div class="image-container justify-content-center">
                     {% if "placeholder" in service.featured_image.url %}
-                    <img class="card-img-top" src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg" loading="lazy"/>
+                    <img 
+                    class="card-img-top" 
+                    src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg" 
+                    alt="Placeholder image for {{ service.title }}"
+                    loading="lazy"/>
                     {% else %}
-                    <img class="card-img-top" src="{{ service.featured_image.url }}" loading="lazy"/>
+                    <img 
+                    class="card-img-top" 
+                    src="{{ service.featured_image.url }}" 
+                    alt="{{ service.title }}"
+                    loading="lazy"/>
                     {% endif %}
                     <div class="image-flash px-3">
-                        <p class="price-text text-center">EUR {{ service.price }}</p>
+                        <p class="price-text text-center">
+                            EUR {{ service.price }}
+                        </p>
                     </div>
                 </div>
                 <div class="service-title px-3">
-                    <h3 class="card-title mb-3 mt-3">{{ service.title }}</h3>
+                    <h3 class="card-title mb-3 mt-3">
+                        {{ service.title }}
+                    </h3>
                 </div>
             </a>
         </div>
         {% empty %}
         <div class="col-md-6 offset-md-3">
-            <p>No services available at the moment.</p>
+            <p>
+                No services available at the moment.
+            </p>
         </div>
         {% endfor %}
     </div>
@@ -70,7 +106,9 @@
     {% endfor %}
 </div>
 <div class="slider-wrap container review-section" id="reviews">
-    <h2 class="mb-3 text-center">Testimonials</h2>
+    <h2 class="mb-3 text-center">
+        Testimonials
+    </h2>
     <div id="card-slider" class="slider carddeck">
         {% for comment in comments %}
         <div class="slider-item justify-content-center card text-center">
@@ -78,9 +116,17 @@
                 <img alt="" loading="lazy">
             </div>
             <div class="animation-card_content">
-                <h4 class="animation-card_content_title title-2">{{ comment.name }}</h4>
-                <p class="animation-card_content_description"><blockquote>{{ comment.body | linebreaks }}</blockquote></p>
-                <p class="animation-card_content_city">{{ comment.service.title }}</p>
+                <h4 class="animation-card_content_title title-2">
+                    {{ comment.name }}
+                </h4>
+                <p class="animation-card_content_description">
+                    <blockquote>
+                        "{{ comment.body | linebreaks }}"
+                    </blockquote>
+                </p>
+                <p class="animation-card_content_service">
+                    {{ comment.service.title }}
+                </p>
             </div>
         </div> 
         {% endfor %}
@@ -88,7 +134,13 @@
     <!-- Button to Open Modal -->
     {% if user.is_authenticated %}
     <div class="container text-center mt-5">
-        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reviewModal">
+        <button 
+        type="button" 
+        class="btn btn-link" 
+        data-bs-toggle="modal" 
+        data-bs-target="#reviewModal"
+        aria-label="Leave a review"
+        >
             Want to leave a Review?
         </button>
     </div>
@@ -100,8 +152,15 @@
         <div class="modal-content p-4">
             <!-- Modal Header -->
             <div class="modal-header mx-3">
-                <h5 class="modal-title" id="reviewModalLabel">Leave a Review</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="reviewModalLabel">
+                    Leave a Review
+                </h5>
+                <button 
+                type="button" 
+                class="btn-close" 
+                data-bs-dismiss="modal" 
+                aria-label="Close">
+                </button>
             </div>
             <!-- Modal Body -->
             <div class="modal-body">
@@ -110,10 +169,21 @@
                     <form method="post" action="{% url 'submit_home_review' %}" id="comment-form">
                         {{ comment_form | crispy }}
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-success mt-1 px-3">
+                        <button 
+                        type="submit" 
+                        class="btn btn-success mt-1 px-3"
+                        aria-label="Submit review"
+                        >
                             Submit
                         </button>
-                        <button type="button" class="btn btn-outline-success mt-1 mx-2 px-3" data-bs-dismiss="modal">Close</button>
+                        <button 
+                        type="button" 
+                        class="btn btn-outline-success mt-1 mx-2 px-3" 
+                        data-bs-dismiss="modal"
+                        aria-label="Close review form"
+                        >
+                            Close
+                        </button>
                     </form>
                 </div>
             </div>
