@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- 404 Error Page -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card-body card">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <img src="{% static 'images/error.webp' %}" alt="Computer displays error on screen"
+                        class="img-fluid" loading="lazy">
+                </div>
+                <div class="col-md-6 order-1 order-md-1">
+                    <h2 class="mb-3">
+                        404 Error
+                    </h2>
+                    <p>
+                        Something went wrong as this page is not found!
+                    </p>
+                </div>
+            </div>
+            <div class="text-center m-3">
+                <button href="{% url 'home' %}" type="button" class="btn btn-success px-3" aria-label="Go to Home page">
+                    Go Home
+                </button>
+                {% if user.is_authenticated and user_has_bookings %}
+                <button href="{% url 'view_bookings' %}" type="button" class="btn btn-success px-3"
+                    aria-label="Go to Home page">
+                    Go to your Bookings
+                </button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
