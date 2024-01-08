@@ -22,7 +22,11 @@ class HomeView(ListView):
 
         # Check if the current user has any bookings
         if self.request.user.is_authenticated:
-            user_has_bookings = Booking.objects.filter(user=request.user, end_date__lt=timezone.now(), is_cancelled=False).exists()
+            user_has_bookings = Booking.objects.filter(
+                user=self.request.user,
+                end_date__lt=timezone.now(), 
+                is_cancelled=False
+            ).exists()
             context['user_has_bookings'] = user_has_bookings
         else:
             context['user_has_bookings'] = False
