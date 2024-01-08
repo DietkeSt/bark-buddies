@@ -14,14 +14,14 @@
         <a href="#services" class="btn btn-success btn-lg px-3">Book a Service</a>
     </div>
     <div class="hero-image">
-        <img src="{% static 'images/home_hero.webp' %}" alt="Hero Image">
+        <img src="{% static 'images/home_hero.webp' %}" alt="Hero Image" loading="lazy">
     </div>
 </div>
 <!-- About Section -->
 <div class="about-section container mb-5" id="about">
     <div class="row align-items-center">
         <div class="col-md-6 order-2 order-md-1">
-            <img src="{% static 'images/about.png' %}" alt="About BarkBuddies" class="img-fluid">
+            <img src="{% static 'images/about.png' %}" alt="About BarkBuddies" class="img-fluid" loading="lazy">
         </div>
         <div class="col-md-6 order-1 order-md-1">
             <h2 class="mb-3">About Us</h2>
@@ -43,9 +43,9 @@
             <a href="{% url 'service_detail' service.slug %}" class="service-link">
                 <div class="image-container justify-content-center">
                     {% if "placeholder" in service.featured_image.url %}
-                    <img class="card-img-top" src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg" />
+                    <img class="card-img-top" src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg" loading="lazy"/>
                     {% else %}
-                    <img class="card-img-top" src="{{ service.featured_image.url }}" />
+                    <img class="card-img-top" src="{{ service.featured_image.url }}" loading="lazy"/>
                     {% endif %}
                     <div class="image-flash px-3">
                         <p class="price-text text-center">EUR {{ service.price }}</p>
@@ -75,7 +75,7 @@
         {% for comment in comments %}
         <div class="slider-item justify-content-center card text-center">
             <div class="animation-card_image justify-content-center">
-                <img alt="">
+                <img alt="" loading="lazy">
             </div>
             <div class="animation-card_content">
                 <h4 class="animation-card_content_title title-2">{{ comment.name }}</h4>

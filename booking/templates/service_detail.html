@@ -17,16 +17,18 @@
                             src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg"
                             class="card-img-top"
                             alt="Service Image"
+                            loading="lazy"
                         />
                     {% else %}
                         <img
                             src="{{ service.featured_image.url }}"
                             class="card-img-top"
                             alt="Service Image"
+                            loading="lazy"
                         />
                     {% endif %}
                         <div class="image-flash px-3">
-                            <p class="price-text text-center">Price: EUR {{ service.price }}</p>
+                            <p class="price-text text-center">EUR {{ service.price }}</p>
                         </div>
                     </div>
                 </div>
@@ -52,12 +54,12 @@
                 <div class="image-container justify-content-center">
                     {% if "placeholder" in service.featured_image.url %}
                     <img class="card-img-top"
-                        src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg" />
+                        src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg" loading="lazy"/>
                     {% else %}
-                    <img class="card-img-top" src="{{ service.featured_image.url }}" />
+                    <img class="card-img-top" src="{{ service.featured_image.url }}" loading="lazy"/>
                     {% endif %}
                     <div class="image-flash px-3">
-                        <p class="price-text text-center">Price: EUR {{ service.price }}</p>
+                        <p class="price-text text-center">EUR {{ service.price }}</p>
                     </div>
                 </div>
                 <div class="service-title px-3">
