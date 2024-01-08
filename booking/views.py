@@ -120,10 +120,14 @@ class BookingsView(LoginRequiredMixin, View):
     def get(self, request):
         bookings = Booking.get_future_bookings_for_user(request.user)
         comment_form = CommentForm()
+        user_has_bookings = Booking.objects.filter(user=request.user, end_date__lt=timezone.now(), is_cancelled=False).exists()
+
+
 
         return render(request, 'view_bookings.html', {
             'bookings': bookings,
             'comment_form': comment_form,
+            'user_has_bookings': user_has_bookings,
         })
 
     def post(self, request):
