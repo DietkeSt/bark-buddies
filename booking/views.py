@@ -81,6 +81,11 @@ class BookServiceView(LoginRequiredMixin, View):
             if form.cleaned_data.get('just_one_day'):
                 booking.end_date = booking.start_date
 
+            # Validate the booking date to be at least 24 hours in the future
+            if timezone.now() + timedelta(days=1) > timezone.make_aware(datetime.combine(booking_start, datetime.min.time())):
+                messages.error(request, 'You must book at least 24 hours in advance.')
+                return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
+
             # Check for availability and overlapping bookings
             if not Booking.is_period_available(
                 booking_start,
