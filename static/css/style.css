@@ -200,44 +200,18 @@ h1, h2, h3, h4, h5 {
     display: flex;
 }
 
-/* about section */
+/* home */
 
 #about img {
     max-width: 100%;
     height: auto;
 }
 
-/* sign up styling */
-
-.sign-up-link {
-    color: #198754 !important;
+.anchor-offset {
+    padding-top: 10vh;
+    margin-top: -10vh;
 }
 
-.helptext {
-    display: none;
-}
-
-.mb-3 p:nth-child(1) label,
-.mb-3 p:nth-child(2) label,
-form.signup label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.mb-3 input[type="checkbox"] {
-    margin-left: 5px;
-}
-
-.mb-3 input[type="text"],
-.mb-3 input[type="password"],
-form.signup input {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.signup-card {
-    padding-bottom: 3em;
-}
 
 /* services & cards */
 
@@ -372,6 +346,38 @@ form.signup input {
     color: #198754;
 }
 
+/* sign up styling */
+
+.sign-up-link {
+    color: #198754 !important;
+}
+
+.helptext {
+    display: none;
+}
+
+.mb-3 p:nth-child(1) label,
+.mb-3 p:nth-child(2) label,
+form.signup label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.mb-3 input[type="checkbox"] {
+    margin-left: 5px;
+}
+
+.mb-3 input[type="text"],
+.mb-3 input[type="password"],
+form.signup input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.signup-card {
+    padding-bottom: 3em;
+}
+
 /* forms & modals */
 
 textarea,
@@ -450,7 +456,7 @@ div.modal-content {
      margin: 0 0 0 0.25rem;
 }
 
-/* bookings */
+/* bookings page */
 
 .booking-buttons {
     display: flex;
