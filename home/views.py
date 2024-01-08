@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import generic, View
 from django.views.generic import ListView
 from django.contrib import messages
-from booking.models import Service
+from booking.models import Service, Booking
 from reviews.models import Comment
 from reviews.forms import CommentForm
 
@@ -19,10 +19,16 @@ class HomeView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = Comment.objects.filter(
-            approved=True)[:10]
-        context['comment_form'] = CommentForm(
-        ) if self.request.user.is_authenticated else None
+
+        # Check if the current user has any bookings
+        if self.request.user.is_authenticated:
+            user_has_bookings = Booking.objects.filter(user=request.user, end_date__lt=timezone.now(), is_cancelled=False).exists()
+            context['user_has_bookings'] = user_has_bookings
+        else:
+            context['user_has_bookings'] = False
+
+        context['comments'] = Comment.objects.filter(approved=True)[:10]
+        context['comment_form'] = CommentForm() if self.request.user.is_authenticated else None
         return context
 
 

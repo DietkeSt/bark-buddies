@@ -132,7 +132,7 @@
         {% endfor %}
     </div>
     <!-- Button to Open Modal -->
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and user_has_bookings %}
     <div class="container text-center mt-5">
         <button 
         type="button" 
