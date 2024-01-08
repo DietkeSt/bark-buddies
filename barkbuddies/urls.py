@@ -12,5 +12,3 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 ]
 
-handler404 = 'barkbuddies.views.custom_404'
-handler500 = 'barkbuddies.views.custom_500'
