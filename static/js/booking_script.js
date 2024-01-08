@@ -22,6 +22,8 @@ $(document).ready(function () {
     // Initialize functions
     initCommentsToggle();
 
+    setMinimumDateForBooking();
+
     assignRandomReviewImages();
 
     handleNavbarScroll();
@@ -37,6 +39,18 @@ function initCommentsToggle() {
             commentCard.style.display = commentCard.style.display === "none" ? "block" : "none";
         });
     }
+}
+
+// Set minimum date for the start and end date inputs
+function setMinimumDateForBooking() {
+    var today = new Date();
+    var tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1); // Set to one day ahead
+
+    var minDate = tomorrow.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+
+    $('#id_start_date').attr('min', minDate);
+    $('#id_end_date').attr('min', minDate);
 }
 
 // Initialize the date change handlers
