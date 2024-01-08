@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html class="h-100">
   <head>
-    <title>BarkBuddies</title>
+    <title>
+        BarkBuddies
+    </title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Favicon -->
@@ -51,28 +53,64 @@
           <!-- Left links -->
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}">Home</a>
+                <a 
+                class="nav-link" 
+                href="{% url 'home' %}"
+                aria-label="Navigate to Home"
+                >
+                    Home
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'home' %}#about">About</a>
+                <a 
+                class="nav-link"
+                href="{% url 'home' %}#about"
+                aria-label="Learn about us"
+                >
+                    About
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'home' %}#reviews">Testimonials</a>
+                <a 
+                class="nav-link" 
+                href="{% url 'home' %}#reviews" 
+                aria-label="Read Testimonials"
+                >
+                    Testimonials
+                </a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="{% url 'home' %}#services" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
+                <a 
+                class="nav-link dropdown-toggle" 
+                href="{% url 'home' %}#services" 
+                id="navbarDropdown" 
+                role="button" 
+                data-bs-toggle="dropdown"
+                aria-expanded="false" 
+                aria-label="Explore Services"
+                >
                     Services
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% for service in published_services %}
-                    <li><a class="dropdown-item" href="{% url 'service_detail' service.slug %}">{{ service.title }}</a></li>
+                    <li>
+                        <a 
+                            class="dropdown-item" 
+                            href="{% url 'service_detail' service.slug %}">{{ service.title }}
+                        </a>
+                    </li>
                     {% endfor %}
                 </ul>
             </li>
             {% if user.is_staff or user.is_superuser %}
             <li class="nav-item">
-                <a type="nav-link" href="/admin" target="_blank" class="nav-link" aria-label="Opens the Admin Console">
+                <a 
+                type="nav-link" 
+                href="/admin" 
+                target="_blank" 
+                class="nav-link" 
+                aria-label="Opens the Admin Console in new Tab"
+                >
                     Admin
                 </a>
             </li>
@@ -86,7 +124,9 @@
                         <a 
                         type="button" 
                         href="{% url 'view_bookings' %}" 
-                        class="btn btn-success px-3 mx-2 my-2">
+                        class="btn btn-success px-3 mx-2 my-2"
+                        aria-label="View My Bookings"
+                        >
                             My Bookings
                         </a>
                     </li>
@@ -95,6 +135,7 @@
                         type="button"
                         href="{% url 'account_logout' %}"
                         class="btn btn-outline-success px-3 mx-2 my-2"
+                        aria-label="Logout"
                         >
                         Logout
                         </a>
@@ -105,6 +146,7 @@
                         type="button"
                         href="{% url 'account_signup' %}"
                         class="btn btn-outline-success px-3 mx-2 my-2"
+                        aria-label="Register"
                         >
                         Register
                         </a>
@@ -114,6 +156,7 @@
                         type="button"
                         href="{% url 'account_login' %}"
                         class="btn btn-success px-3 mx-2 my-2"
+                        aria-label="Login"
                         >
                         Login
                         </a>
@@ -168,9 +211,30 @@
                 <div class="col-md-4 mb-3">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="{% url 'home' %}#services">Our Services</a></li>
-                        <li><a href="{% url 'home' %}#reviews">Testimonials</a></li>
-                        <li><a href="{% url 'view_bookings' %}">Bookings</a></li>
+                        <li>
+                            <a 
+                            href="{% url 'home' %}#services"
+                            aria-label="View Our Services"
+                            >
+                                Our Services
+                            </a>
+                        </li>
+                        <li>
+                            <a 
+                            href="{% url 'home' %}#reviews"
+                            aria-label="Read Testimonials"
+                            >
+                                Testimonials
+                            </a>
+                        </li>
+                        <li>
+                            <a 
+                            href="{% url 'view_bookings' %}"
+                            aria-label="Check Your Bookings"
+                            >
+                                Bookings
+                            </a>
+                        </li>
                     </ul>
                 </div>
     
@@ -178,10 +242,26 @@
                 <div class="col-md-4 mb-3">
                     <h5>Follow Us</h5>
                     <ul class="list-unstyled social-icons">
-                        <li><a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i>
-                                Facebook</a></li>
-                        <li><a href="https://www.instagram.com"><i class="fab fa-instagram"></i>
-                                Instagram</a></li>
+                        <li>
+                            <a 
+                            href="https://www.facebook.com" 
+                            target="_blank" 
+                            aria-label="Follow us on Facebook (Opens in new Tab)"
+                            >
+                                <i class="fab fa-facebook-f"></i>
+                                Facebook
+                            </a>
+                        </li>
+                        <li>
+                            <a 
+                            href="https://www.instagram.com" 
+                            target="_blank" 
+                            aria-label="Follow us on Instagram (Opens in new Tab)"
+                            >
+                                <i class="fab fa-instagram"></i>
+                                Instagram
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
