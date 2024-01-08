@@ -23,15 +23,9 @@
                 </div>
             </div>
             <div class="text-center m-3">
-                <button href="{% url 'home' %}" type="button" class="btn btn-success px-3" aria-label="Go to Home page">
+                <button href="{% url 'home' %}" type="button" class="btn btn-success px-3 mx-2" aria-label="Go to Home page">
                     Go Home
                 </button>
-                {% if user.is_authenticated %}
-                <button href="{% url 'view_bookings' %}" type="button" class="btn btn-success px-3"
-                    aria-label="Go to Home page">
-                    Go to your Bookings
-                </button>
-                {% endif %}
             </div>
         </div>
     </div>
