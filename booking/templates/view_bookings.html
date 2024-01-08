@@ -85,8 +85,7 @@
                             </div>
                         </div>
                         {% empty %}
-                        <div class="booking card mt-2">
-                            <div class="card-body"></div>
+                        <div class="booking mt-2">
                             <div class="alert alert-danger card-body-comments" role="alert">
                                 You have no bookings.
                             </div>
@@ -97,9 +96,8 @@
             </div>
         </div>
     </div>
-    <!-- Reviews Section -->
-    <!-- Button to Open Modal -->
-    {% if user.is_authenticated %}
+    <!-- Button to open Reviews Modal -->
+    {% if user.is_authenticated and user_has_bookings %}
     <div class="text-center m-3">
         <button 
         type="button" 
