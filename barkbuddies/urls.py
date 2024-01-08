@@ -1,7 +1,9 @@
 """barkbuddies URL Configuration"""
 
 from django.contrib import admin
+from django.conf.urls import handler404, handler500
 from django.urls import path, include
+from .views import custom_404, custom_500
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
@@ -11,3 +13,5 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 ]
 
+handler404 = 'barkbuddies.custom_404'
+handler500 = 'barkbuddies.custom_500'
