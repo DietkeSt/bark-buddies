@@ -42,15 +42,22 @@
                         {{ service.content | safe }}
                     </p>
                     <!-- Trigger Modal Button -->
-                    <button 
-                    type="button" 
-                    class="btn btn-success px-3 mx-2" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#bookingModal"
-                    aria-label="Book {{ service.title }} now"
-                    >
-                        Book Now
-                    </button>
+                    {% if user.is_authenticated %}
+                        <button 
+                        type="button" 
+                        class="btn btn-success px-3 mx-2" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#bookingModal"
+                        aria-label="Book {{ service.title }} now"
+                        >
+                            Book Now
+                        </button>
+                    {% else %}
+                        <a href="{% url 'account_login' %}?next={{ request.path }}" class="btn btn-success px-3 mx-2"
+                            aria-label="Login to book {{ service.title }}">
+                            Login to book Service
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
