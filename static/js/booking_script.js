@@ -45,9 +45,9 @@ function initCommentsToggle() {
 function setMinimumDateForBooking() {
     var today = new Date();
     var tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1); // Set to one day ahead
+    tomorrow.setDate(tomorrow.getDate() + 2);
 
-    var minDate = tomorrow.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    var minDate = tomorrow.toISOString().split('T')[0];
 
     $('#id_start_date').attr('min', minDate);
     $('#id_end_date').attr('min', minDate);
