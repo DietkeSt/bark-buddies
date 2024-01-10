@@ -71,48 +71,210 @@ Menu        |                        |                  |      |             |
 | 3           |  Click on “Bookings” | User is redirected to My Bookings page | Y |  Available only for logged in users. Will be redirected to the Login page otherwise. |
 
 
+---
+
 ## Testing User Story
+
+| First Time Visitor Goals | Requirements met | Image |
+| ------------------------- | --------------- | ----- |
+| As a User, I want to see a list of available dog sitting services with details on duration and their respective prices. | Upon visiting the homepage, the user clicks on the “Services” section. The user sees a list of available dog sitting services, complete with duration and pricing details. | ![Home page](documentation/features/home_page/home_bookservice.png) ![Home page Services ](documentation/features/home_page/home_servicecollection.png)|
+
+| Frequent Visitor Goals    | Requirements met | Image |
+| ------------------------- | --------------- | ----- |
+| As a user I want to be able to rebook the same service when checking my booking page, so that I don't have to navigate to the service again. | The user logs in and navigates to their My Bookings page and finds the rebook option there. | ![Re-Book Button](documentation/features/mybookings_page/rebook.png) |
+
+| Potential Client Goals    | Requirements met | Image |
+| ------------------------- | --------------- | ----- |
+| As a user, I want to be able to select a specific service and choose the date and time for the dog sitting, ensuring availability for the selected slot. | The user selects a service and then chooses a date and time for the dog sitting. The system ensures the availability of the selected slot before confirming the booking. | ![Booking Process](documentation/features/booking_modal/booking_modal.png) |
+| As a user, I want to view a summary of the total cost before confirming my booking, including a breakdown of individual services selected and their respective prices. | Before finalising the booking, the user reviews a summary of total costs. The summary displays a breakdown of the costs. | ![Booking Costs](documentation/features/booking_modal/total_costs.png) |
+| As a user, I want the ability to cancel my booking up to 24 hours in advance of the start date without incurring any charges. | The user will see the cancellation option in their booking overview. It will work successfully up til 24 hours of the booking date. | ![Cancel Booking](documentation/features/mybookings_page/rebook.png) |
+| As a User, I want to be able to choose just one day, instead of a start and end date, as this would save me time in the booking and result in better user experience. | The user has the option to select “One-Day” for the booking which will automatically set the end date to the same date as the start date. | ![One Day Booking](documentation/features/booking_modal/one_day.png) |
+
+| Pet Sitter (Admin) Goals    | Requirements met | Image |
+| ------------------------- | --------------- | ----- |
+| As a site owner, I want to make sure that services can only be booked when I am available, this is to make sure that I avoid unneeded cancellations. | The admin can block off dates when they are unavailable, these dates will not be bookable for users. | ![Availability](documentation/features/admin/availability.png) |
+| As a site owner, I want the ability to cancel bookings on my end, providing flexibility in managing the dog sitting services. | Available in the Admin overview for each Booking | ![Cancel Booking](documentation/features/admin/cancel_booking.png) |
+| As a site owner, I want the ability to create new dog sitting services and set their respective prices. | New services and their prices can be added through the admin panel.| ![Admin Service](documentation/features/admin/add_service.png) |
+| As a site owner, I want to review and approve comments left by users through the admin dashboard. | The comments can be reviewed and approved in the admin panel. | ![Admin Review Approval](documentation/features/admin/approve_comment.png) |
+| As a Site Owner I want to disable Services so that I can temporarily take them offline, in case I want to offer the service again at a later stage. | In the Admin overview the Services can be set to Draft status to take them offline. | ![Service Draft Status](documentation/features/admin/service_status.png) |
+
+| Pet Owner (User) Goals    | Requirements met | Image |
+| ------------------------- | --------------- | ----- |
+| As a user, I expect the system to prevent double bookings for the same date and time, ensuring that a particular time slot is only available if it has not already been booked. | If the user tries to book a timeslot that is already taken, the system prevents the booking by making the time selection unavailable. | ![Avoid Double Booking](documentation/features/booking_modal/unavailable_time.png) |
+| As a user, I want the option to book multiple dogs for dog boarding on the same date, with a limit of 2 dogs. |  The user can select to add a second dog. | ![Add Dog](documentation/features/booking_modal/total_costs.png) |
+| As a user, I want to book dog walks and check-ins only during available time slots, ensuring that the services are scheduled when the dog sitter is available.  |  The user will receive an alert message if the admin sets unavailable dates in the future. Additionally, these dates will not be bookable by the user. | ![Booking availability alert](documentation/features/booking_modal/alert_booking.png) |
+
+---
+
 
 ## Bugs
 
 ### Known bugs
 
+Booking should only be allowed from 24 hours in the future onwards. However, if a user chooses tomorrow’s date and a timeslot that should be, in theory, more than 24 hours in the future, it still throws the 24 hours booking error.
+
+![Known Bug Date](documentation/bugs/known_bug_dates.png)
+
+![Known Bug Alert](documentation/bugs/known_bug_alert.png)
+
+Until a permanent solution is found, the following was implemented:
+
+- The date of tomorrow will currently be disabled for selection as well.
+
+```
+// Set minimum date for the start and end date inputs
+function setMinimumDateForBooking() {
+   var today = new Date();
+   var tomorrow = new Date(today);
+   tomorrow.setDate(tomorrow.getDate() + 2);
+
+
+   var minDate = tomorrow.toISOString().split('T')[0];
+
+
+   $('#id_start_date').attr('min', minDate);
+   $('#id_end_date').attr('min', minDate);
+}
+```
+
+![Workaround Date Selection](documentation/bugs/date_selection.png)
+
+
+
 ### Solved bugs
 
-## Automated testing
+1. [#One Day Booking not working](https://github.com/DietkeSt/bark-buddies/issues/15)
 
-### Django unit testing
+    ***Issue:***
 
-- test_forms.py, test_models.py, test_views.py and test_urls.py
-- While developing tests I was running the following command:
+    When I click on the service as a user and choose the start date, tick "One Day" and then select the time and click on "book now", the booking is not confirmed and doesn't lead to the booking overview. When I choose an end date instead of "One Day" then it books successfully
 
-```
-python manage.py test <name of the app>
-```
+    ***Fix:***
 
-To create the coverage report, I ran the following command:
+    Due to the End-Date being disabled in the Javascript code, it was not submitted correctly on the form:
 
-```
-coverage run --source=<name of the app> manage.py test
-```
+    `endDateInput.disabled = true;`
 
-```
-coverage report
-```
+    Changing the endDateInput in the function to Read Only solved the issue:
 
-To see the html version of the report, I ran the following command:
+    ```
+    function updateEndDate() {
+        if (checkbox.checked && startDateInput.value) {
+            endDateInput.value = startDateInput.value;
+            endDateInput.readOnly = true;
+            checkUnavailableTimes(); // Check for unavailable times
+        } else {
+            endDateInput.readOnly = false;
+        }
+    }
 
-```
-coverage html
-```
+    ```
 
-```
-    python3 -m http.server
-```
+2. [#Unavailable Times are not displayed](https://github.com/DietkeSt/bark-buddies/issues/18)
 
-The link to the server will appear. Click the link to see the report and find out which parts of code has not been covered in testing.
+    ***Issue:***
 
-### Jest unit testing
+    As a user I can currently select unavailable times on days where those times are already booked, even though a logic is in place that should disable these time slots.
+
+    ***Fix:***
+
+    The Javascript was not fetching the correct link for checking the unavailable times:
+
+    `/get-unavailable-times/?start_date=${startDate}&end_date=${endDate}`
+
+    Included /booking into the link to fix the error:
+
+    ```
+    // Check and update unavailable times
+    function checkUnavailableTimes() {
+    const startDate = $('#id_start_date').val();
+    const endDate = $('#id_end_date').val();
+
+
+    if (startDate && endDate) {
+        fetch(`/booking/get-unavailable-times/?start_date=${startDate}&end_date=${endDate}`)
+            .then(response => response.json())
+            .then(data => {
+                const unavailableTimes = data.unavailable_times;
+                updateAvailableTimes(document.getElementById('id_time'), unavailableTimes);
+            });
+    }
+    }
+    ```
+
+3. [#Unpublished services visible for user](https://github.com/DietkeSt/bark-buddies/issues/19)
+
+    ***Issue:***
+
+    As a user, I can see all services, even though some of them are unpublished.
+
+    ***Fix:***
+
+    The issue was the HomeView, that displayed all services, no matter the status.
+    Adding a query to filter for only published services solved the issue:
+
+    ```
+    def get_queryset(self):
+        # Return only services that are published
+        return Service.objects.filter(status=1)
+
+    ```
+
+4. [#Any user can leave a review](https://github.com/DietkeSt/bark-buddies/issues/20)
+
+    ***Issue:***
+
+    As a user I can leave a review, even when I have not made any bookings in the past.
+
+    ***Fix:***
+
+    Fixed this by checking if user has any bookings in the BookingsView and HomeView:
+
+    `user_has_bookings = Booking.objects.filter(user=request.user, is_cancelled=False).exists()`
+
+    Now, the user can only leave a review with active bookings. To make sure, that the user can only leave a review, if they actually already finished the service, I adjusted the code a bit:
+
+    `user_has_bookings = Booking.objects.filter(user=request.user, end_date__lt=timezone.now(), is_cancelled=False).exists()`
+
+    This ensures that the end_date of the service must have passed, before they can leave a review.
+
+5. [#Booking can be made for past dates](https://github.com/DietkeSt/bark-buddies/issues/21)
+
+    ***Issue:***
+
+    As a user I can currently select past dates to book a service. Instead I should see an error and the booking should not go through.
+
+    ***Fix:***
+
+    Added Javascript for Frontend:
+
+    ```
+    function setMinimumDateForBooking() {
+        var today = new Date();
+        var tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1); // Set to one day ahead
+
+        var minDate = tomorrow.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+
+        $('#id_start_date').attr('min', minDate);
+        $('#id_end_date').attr('min', minDate);
+    }
+    ```
+
+    This will ensure the past dates cannot be selected.
+
+    For Backend:
+
+    ```
+    # Validate the booking date to be at least 24 hours in the future
+            if timezone.now() + timedelta(days=1) > timezone.make_aware(datetime.combine(booking_start, datetime.min.time())):
+                messages.error(request, 'You must book at least 24 hours in advance.')
+                return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
+
+    ```
+
+    This gives the user a warning message if they did book too early.
+
 
 ## Validation
 
