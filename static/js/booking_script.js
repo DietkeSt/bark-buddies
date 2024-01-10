@@ -1,14 +1,3 @@
-function assignRandomReviewImages() {
-    var imageElements = document.querySelectorAll('#review-images span[data-image]');
-    var images = Array.from(imageElements).map(el => el.getAttribute('data-image'));
-
-    var reviewImages = document.querySelectorAll('.animation-card_image img');
-    reviewImages.forEach(function (img) {
-        var randomImage = images[Math.floor(Math.random() * images.length)];
-        img.src = randomImage;
-    });
-}
-
 $(document).ready(function () {
     // Initialize the booking modal when it's shown
     $('#bookingModal').on('shown.bs.modal', function () {
@@ -23,8 +12,6 @@ $(document).ready(function () {
     initCommentsToggle();
 
     setMinimumDateForBooking();
-
-    assignRandomReviewImages();
 
     handleNavbarScroll();
 
