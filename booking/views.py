@@ -7,8 +7,9 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.template.loader import render_to_string
 from .models import Service, Booking, Availability
-from .forms import BookingForm
+from .forms import BookingForm, EditBookingForm
 from reviews.forms import CommentForm
 from django.utils import timezone
 from reviews.models import Comment
@@ -127,8 +128,6 @@ class BookingsView(LoginRequiredMixin, View):
         comment_form = CommentForm()
         user_has_bookings = Booking.objects.filter(user=request.user, end_date__lt=timezone.now(), is_cancelled=False).exists()
 
-
-
         return render(request, 'view_bookings.html', {
             'bookings': bookings,
             'comment_form': comment_form,
@@ -168,6 +167,23 @@ class DeleteBookingView(LoginRequiredMixin, View):
         booking.delete()
         messages.success(request, "Booking deleted successfully.")
         return redirect('view_bookings')
+
+
+class EditBookingView(LoginRequiredMixin, View):
+    def get(self, request, booking_id):
+        booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+        form = EditBookingForm(instance=booking)
+        return render(request, 'edit_booking.html', {'form': form, 'booking': booking})
+
+    def post(self, request, booking_id):
+        booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+        form = EditBookingForm(request.POST, instance=booking)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Booking updated successfully.')
+            return HttpResponseRedirect(reverse('view_bookings'))
+        else:
+            return render(request, 'edit_booking.html', {'form': form, 'booking': booking})
 
 
 class AddCommentView(LoginRequiredMixin, View):
