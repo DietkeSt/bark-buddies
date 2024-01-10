@@ -58,6 +58,7 @@ The app was developed for everyone interested in dog-sitting services.
 |[#Cancel Bookings](https://github.com/DietkeSt/bark-buddies/issues/10)| As a site owner, I want the ability to cancel bookings on my end, providing flexibility in managing the dog sitting services. |
 |[#Create Services and Set Prices](https://github.com/DietkeSt/bark-buddies/issues/11)| As a site owner, I want the ability to create new dog sitting services and set their respective prices. |
 |[#Manage Comments](https://github.com/DietkeSt/bark-buddies/issues/12)| As a site owner, I want to review and approve comments left by users through the admin dashboard. |
+|[#Disable Services](https://github.com/DietkeSt/bark-buddies/issues/17)| As a Site Owner I want to disable Services so that I can temporary take them offline, in case I want to offer the service again at a later stage. |
 
 
 
