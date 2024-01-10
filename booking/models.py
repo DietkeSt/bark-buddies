@@ -88,7 +88,7 @@ class Booking(models.Model):
     time = models.ForeignKey(
         BookingTime, on_delete=models.SET_NULL, blank=True, null=True
         )
-    comments = models.TextField(blank=True, null=True)
+    comments = models.TextField(blank=True, null=True, max_length=400)
     is_cancelled = models.BooleanField(default=False)
     add_second_dog = models.BooleanField(default=False)
     additional_price = models.DecimalField(

@@ -69,7 +69,6 @@ The app was developed for everyone interested in dog-sitting services.
 |[#Multi-Dog Booking](https://github.com/DietkeSt/bark-buddies/issues/6)| As a user, I want the option to book multiple dogs for dog boarding on the same date, with a limit of 2 dogs. |
 |[#Availability Check](https://github.com/DietkeSt/bark-buddies/issues/8)| As a user, I want to book dog walks and check-ins only during available time slots, ensuring that the services are scheduled when the dog sitter is available. |
 
----
 
 ---
 
