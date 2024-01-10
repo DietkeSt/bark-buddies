@@ -45,6 +45,12 @@
                                         Re-book
                                     </a>
                                     {% endif %}
+                                    <a 
+                                    href="{% url 'edit_booking' booking.id %}" 
+                                    class="btn btn-outline-success px-3"
+                                    >
+                                        Edit
+                                    </a>
                                     <form action="{% url 'cancel_booking' booking.id %}" method="post">
                                         {% csrf_token %}
                                         <button 
@@ -156,6 +162,5 @@
             </div>
         </div>
     </div>
-</div>
 
 {% endblock content %}
