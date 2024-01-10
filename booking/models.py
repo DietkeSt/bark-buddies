@@ -96,9 +96,9 @@ class Booking(models.Model):
         )
 
     def save(self, *args, **kwargs):
-        if self.add_second_dog:
+        if self.add_second_dog and self.additional_price == 0:
             self.additional_price = self.service.price * Decimal('0.5')
-        super().save(*args, **kwargs)
+        super(Booking, self).save(*args, **kwargs)
 
     def total_price(self):
         return self.service.price + self.additional_price
