@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.utils import timezone
 from booking.models import Service, Booking
 from reviews.models import Comment
-from reviews.forms import CommentFo
+from reviews.forms import CommentForm
 
 
 class HomeView(ListView):
