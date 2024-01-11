@@ -37,14 +37,14 @@
                             {{ form|crispy }}
                             <p>
                                 Original Price: EUR
-                                <span id="originalPrice" data-price="{{ service.price }}">
-                                    {{ service.price }}
+                                <span id="originalPrice" data-price="{{ booking.service.price }}">
+                                    {{ booking.service.price }}
                                 </span>
                             </p>
                             <p>
                                 Total Price: EUR
                                 <span id="priceText">
-                                    {{ service.price }}
+                                    {{ booking.service.price }}
                                 </span>
                             </p>
                             <button type="submit" class="btn btn-success px-3">Save Changes</button>
