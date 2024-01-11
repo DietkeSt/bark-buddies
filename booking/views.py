@@ -214,56 +214,15 @@ class DeleteBookingView(LoginRequiredMixin, View):
 class EditBookingView(LoginRequiredMixin, View):
     def get(self, request, booking_id):
         booking = get_object_or_404(
-            Booking,
-            id=booking_id,
+            Booking, id=booking_id,
             user=request.user
         )
         form = EditBookingForm(instance=booking)
-        unavailable_dates = Availability.objects.filter(
-            unavailable_to__gte=timezone.now().date()
+        return render(
+            request,
+            'edit_booking.html',
+            {'form': form, 'booking': booking}
         )
-
-        if form.is_valid():
-            booking_start = form.cleaned_data['start_date']
-            booking_end = form.cleaned_data['end_date']
-            booking_time = form.cleaned_data['time']
-
-            # Check for overlapping bookings
-            if Booking.has_overlapping_bookings(
-                booking_start,
-                booking_end,
-                booking_time,
-                exclude_booking_id=booking_id
-            ):
-
-                messages.error(
-                    request, 'Selected time is already booked.'
-                )
-
-            return render(
-                request,
-                'edit_booking.html',
-                {'form': form, 'booking': booking}
-            )
-
-            form.save()
-
-            messages.success(
-                request, 'Booking updated successfully.'
-            )
-            return HttpResponseRedirect(
-                reverse('view_bookings')
-            )
-
-        else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{field}: {error}")
-            return render(request, 'edit_booking.html', {
-                'form': form,
-                'booking': booking,
-                'unavailable_dates': unavailable_dates,
-            })
 
     def post(self, request, booking_id):
         booking = get_object_or_404(
@@ -271,20 +230,52 @@ class EditBookingView(LoginRequiredMixin, View):
             id=booking_id,
             user=request.user
         )
-
-        form = EditBookingForm(
-            request.POST, instance=booking
-        )
+        form = EditBookingForm(request.POST, instance=booking)
 
         if form.is_valid():
+            # Extract dates and time from the form
+            booking_start = form.cleaned_data['start_date']
+            booking_end = form.cleaned_data['end_date']
+            booking_time = form.cleaned_data['time']
+
+            # Check for availability and overlapping bookings
+            if not Booking.is_period_available(booking_start, booking_end):
+                messages.error(
+                    request,
+                    'Selected dates are unavailable.'
+                )
+                return render(
+                    request,
+                    'edit_booking.html',
+                    {'form': form, 'booking': booking}
+                )
+
+            if Booking.has_overlapping_bookings(
+                booking_start,
+                booking_end,
+                booking_time,
+                exclude_booking_id=booking.id
+            ):
+                messages.error(
+                    request,
+                    'Selected time is already booked.'
+                )
+                return render(
+                    request,
+                    'edit_booking.html',
+                    {'form': form, 'booking': booking}
+                )
+
             form.save()
             messages.success(
                 request, 'Booking updated successfully.'
             )
-            return HttpResponseRedirect(
-                reverse('view_bookings')
-            )
+            return redirect(reverse('view_bookings'))
+
         else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
             return render(
                 request,
                 'edit_booking.html',
