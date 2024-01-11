@@ -218,11 +218,15 @@ class EditBookingView(LoginRequiredMixin, View):
             user=request.user
         )
         form = EditBookingForm(instance=booking)
-        return render(
-            request,
-            'edit_booking.html',
-            {'form': form, 'booking': booking}
+        unavailable_dates = Availability.objects.filter(
+            unavailable_to__gte=timezone.now().date()
         )
+        context = {
+            'form': form,
+            'booking': booking,
+            'unavailable_dates': unavailable_dates
+        }
+        return render(request, 'edit_booking.html', context)
 
     def post(self, request, booking_id):
         booking = get_object_or_404(
