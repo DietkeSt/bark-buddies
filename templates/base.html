@@ -28,11 +28,7 @@
     <nav class="navbar navbar-expand-lg navbar-light justify-content-center" id="navbar">
       <div class="container navbar-container mb-2 mb-lg-0">
         <a class="navbar-brand" href="{% url 'home' %}">
-            <img
-                src="{% static 'images/logo-100x100.webp' %}"
-                srcset="{% static 'images/logo-200x200.webp' %} 2x"
-                alt="BarkBuddies Logo"
-            >
+            <img src="{% static 'images/logo-100x100.webp' %}" srcset="{% static 'images/logo-200x200.webp' %} 2x" alt="BarkBuddies Logo">
             <span class="title-overlay">BarkBuddies</span>
         </a>
 
@@ -43,8 +39,7 @@
           data-bs-target="#navbarButtonsExample"
           aria-controls="navbarButtonsExample"
           aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+          aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -55,8 +50,7 @@
                 <a 
                 class="nav-link" 
                 href="{% url 'home' %}"
-                aria-label="Navigate to Home"
-                >
+                aria-label="Navigate to Home">
                     Home
                 </a>
             </li>
@@ -64,8 +58,7 @@
                 <a 
                 class="nav-link"
                 href="{% url 'home' %}#about"
-                aria-label="Learn about us"
-                >
+                aria-label="Learn about us">
                     About
                 </a>
             </li>
@@ -73,29 +66,19 @@
                 <a 
                 class="nav-link" 
                 href="{% url 'home' %}#reviews" 
-                aria-label="Read Testimonials"
-                >
+                aria-label="Read Testimonials">
                     Testimonials
                 </a>
             </li>
             <li class="nav-item dropdown">
-                <a 
-                class="nav-link dropdown-toggle" 
-                href="{% url 'home' %}#services" 
-                id="navbarDropdown" 
-                role="button" 
-                data-bs-toggle="dropdown"
-                aria-expanded="false" 
-                aria-label="Explore Services"
-                >
+                <a class="nav-link dropdown-toggle" href="{% url 'home' %}#services" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Explore Services">
                     Services
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% for service in published_services %}
                     <li>
-                        <a 
-                            class="dropdown-item" 
-                            href="{% url 'service_detail' service.slug %}">{{ service.title }}
+                        <a class="dropdown-item" href="{% url 'service_detail' service.slug %}">
+                            {{ service.title }}
                         </a>
                     </li>
                     {% endfor %}
@@ -103,13 +86,7 @@
             </li>
             {% if user.is_staff or user.is_superuser %}
             <li class="nav-item">
-                <a 
-                type="nav-link" 
-                href="/admin" 
-                target="_blank" 
-                class="nav-link" 
-                aria-label="Opens the Admin Console in new Tab"
-                >
+                <a type="nav-link" href="/admin" target="_blank" class="nav-link" aria-label="Opens the Admin Console in new Tab">
                     Admin
                 </a>
             </li>
@@ -120,43 +97,23 @@
             <ul class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a 
-                        type="button" 
-                        href="{% url 'view_bookings' %}" 
-                        class="btn btn-success px-3 mx-2 my-2"
-                        aria-label="View My Bookings"
-                        >
+                        <a type="button" href="{% url 'view_bookings' %}" class="btn btn-success px-3 mx-2 my-2" aria-label="View My Bookings">
                             My Bookings
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a
-                        type="button"
-                        href="{% url 'account_logout' %}"
-                        class="btn btn-outline-success px-3 mx-2 my-2"
-                        aria-label="Logout"
-                        >
+                        <a type="button" href="{% url 'account_logout' %}" class="btn btn-outline-success px-3 mx-2 my-2" aria-label="Logout">
                         Logout
                         </a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a
-                        type="button"
-                        href="{% url 'account_signup' %}"
-                        class="btn btn-outline-success px-3 mx-2 my-2"
-                        aria-label="Register"
-                        >
+                        <a type="button" href="{% url 'account_signup' %}" class="btn btn-outline-success px-3 mx-2 my-2" aria-label="Register">
                         Register
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a
-                        type="button"
-                        href="{% url 'account_login' %}"
-                        class="btn btn-success px-3 mx-2 my-2"
-                        aria-label="Login"
-                        >
+                        <a type="button" href="{% url 'account_login' %}" class="btn btn-success px-3 mx-2 my-2" aria-label="Login">
                         Login
                         </a>
                     </li>
@@ -196,14 +153,20 @@
             <div class="row text-center">
                 <!-- Company Information -->
                 <div class="col-md-4 mb-3">
-                    <h5>About BarkBuddies</h5>
-                    <p>Providing reliable and loving care to your furry friends. We're passionate about dogs and their
-                        well-being.</p>
-                    <p><strong>Contact us:</strong><br>
+                    <h5>
+                        About BarkBuddies
+                    </h5>
+                    <p>
+                        Providing reliable and loving care to your furry friends. We're passionate about dogs and their well-being.
+                    </p>
+                    <p>
+                        <strong>Contact us:</strong><br>
                         Phone: 123-456-7890<br>
                         Email: contact@barkbuddies.com
                     </p>
-                    <p>123 Puppy Lane, Dogtown, 10101</p>
+                    <p>
+                        123 Puppy Lane, Dogtown, 10101
+                    </p>
                 </div>
     
                 <!-- Navigation Links -->
@@ -211,26 +174,17 @@
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
                         <li>
-                            <a 
-                            href="{% url 'home' %}#services"
-                            aria-label="View Our Services"
-                            >
+                            <a href="{% url 'home' %}#services" aria-label="View Our Services">
                                 Our Services
                             </a>
                         </li>
                         <li>
-                            <a 
-                            href="{% url 'home' %}#reviews"
-                            aria-label="Read Testimonials"
-                            >
+                            <a href="{% url 'home' %}#reviews" aria-label="Read Testimonials">
                                 Testimonials
                             </a>
                         </li>
                         <li>
-                            <a 
-                            href="{% url 'view_bookings' %}"
-                            aria-label="Check Your Bookings"
-                            >
+                            <a href="{% url 'view_bookings' %}" aria-label="Check Your Bookings">
                                 Bookings
                             </a>
                         </li>
@@ -242,21 +196,13 @@
                     <h5>Follow Us</h5>
                     <ul class="list-unstyled social-icons">
                         <li>
-                            <a 
-                            href="https://www.facebook.com" 
-                            target="_blank" 
-                            aria-label="Follow us on Facebook (Opens in new Tab)"
-                            >
+                            <a href="https://www.facebook.com" target="_blank" aria-label="Follow us on Facebook (Opens in new Tab)">
                                 <i class="fab fa-facebook-f"></i>
                                 Facebook
                             </a>
                         </li>
                         <li>
-                            <a 
-                            href="https://www.instagram.com" 
-                            target="_blank" 
-                            aria-label="Follow us on Instagram (Opens in new Tab)"
-                            >
+                            <a href="https://www.instagram.com" target="_blank" aria-label="Follow us on Instagram (Opens in new Tab)">
                                 <i class="fab fa-instagram"></i>
                                 Instagram
                             </a>
