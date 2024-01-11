@@ -123,12 +123,24 @@ class Booking(models.Model):
         )
 
     def save(self, *args, **kwargs):
-        if self.add_second_dog and self.additional_price == 0:
-            self.additional_price = self.service.price * Decimal('0.5')
+        # Calculate the number of days for the booking
+        booking_duration = (self.end_date - self.start_date).days + 1
+
+        # Calculate total price based on the number of days
+        total_price = self.service.price * booking_duration
+
+        # If 'add_second_dog' is true, add 50% of the total price
+        if self.add_second_dog:
+            self.additional_price = total_price * Decimal('0.5')
+        else:
+            self.additional_price = Decimal('0.00')
+            
         super(Booking, self).save(*args, **kwargs)
 
     def total_price(self):
-        return self.service.price + self.additional_price
+        # Calculate the total price including any additional charges
+        booking_duration = (self.end_date - self.start_date).days + 1
+        return (self.service.price * booking_duration) + self.additional_price
 
     # Check if end date is greater than or equal to start date
     class Meta:
@@ -179,8 +191,8 @@ class Booking(models.Model):
         end_date
     ):
         return not Availability.objects.filter(
-            unavailable_from__lt=end_date,
-            unavailable_to__gt=start_date
+            unavailable_from__lte=end_date,
+            unavailable_to__gte=start_date
         ).exists()
 
     def can_cancel(self):
