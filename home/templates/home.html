@@ -1,4 +1,4 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 
 {% load crispy_forms_tags %}
 
@@ -15,10 +15,7 @@
         <p class="lead">
             Your trusted partner in dog care services.
         </p>
-        <a 
-        href="#services" 
-        class="btn btn-success btn-lg px-3"
-        aria-label="Book Service">
+        <a href="#services" class="btn btn-success btn-lg px-3" aria-label="Book Service">
             Book a Service
         </a>
     </div>
@@ -30,18 +27,24 @@
 <div class="about-section container mb-5 anchor-offset" id="about">
     <div class="row align-items-center">
         <div class="col-md-6 order-2 order-md-1">
-            <img src="{% static 'images/about.webp' %}" alt="Team BarkBuddies with dogs" class="img-fluid" loading="lazy">
+            <img src="{% static 'images/about.webp' %}" alt="Team BarkBuddies with dogs" class="img-fluid"
+                loading="lazy">
         </div>
         <div class="col-md-6 order-1 order-md-1">
             <h2 class="mb-3">
                 About Us
             </h2>
             <p>
-                At BarkBuddies, it's more than just dog walking and sitting – it's about creating a family of furry friends and their
-                humans. Born out of a love for dogs and the lush Irish outdoors, we pride ourselves on giving your beloved pooch a wee
-                bit of adventure mixed with lots of cuddles and care. Our team, passionate about pups and their wellbeing, tailors each
-                experience to suit your dog's personality and needs. Whether it’s a merry jaunt through the emerald fields or a cozy
-                snuggle at home, your dog's happiness is our heart's work. Join the BarkBuddies clan, where every wagging tail and happy
+                At BarkBuddies, it's more than just dog walking and sitting – it's about creating a family of furry
+                friends and their
+                humans. Born out of a love for dogs and the lush Irish outdoors, we pride ourselves on giving your
+                beloved pooch a wee
+                bit of adventure mixed with lots of cuddles and care. Our team, passionate about pups and their
+                wellbeing, tailors each
+                experience to suit your dog's personality and needs. Whether it’s a merry jaunt through the emerald
+                fields or a cozy
+                snuggle at home, your dog's happiness is our heart's work. Join the BarkBuddies clan, where every
+                wagging tail and happy
                 bark makes our day!
             </p>
         </div>
@@ -58,9 +61,12 @@
             <a href="{% url 'service_detail' service.slug %}" class="service-link">
                 <div class="image-container justify-content-center">
                     {% if "placeholder" in service.featured_image.url %}
-                    <img class="card-img-top" src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg" alt="Placeholder image for {{ service.title }}" loading="lazy">
+                    <img class="card-img-top"
+                        src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg"
+                        alt="Placeholder image for {{ service.title }}" loading="lazy">
                     {% else %}
-                    <img class="card-img-top" src="{{ service.featured_image.url }}" alt="{{ service.title }}" loading="lazy">
+                    <img class="card-img-top" src="{{ service.featured_image.url }}" alt="{{ service.title }}"
+                        loading="lazy">
                     {% endif %}
                     <div class="image-flash px-3">
                         <p class="price-text text-center">
@@ -100,25 +106,20 @@
                     {{ comment.name }}
                 </h3>
                 <span class="animation-card_content_description">
-                        {{ comment.body | linebreaks }}
+                    {{ comment.body | linebreaks }}
                 </span>
                 <p class="animation-card_content_service">
                     {{ comment.service.title }}
                 </p>
             </div>
-        </div> 
+        </div>
         {% endfor %}
     </div>
     <!-- Button to Open Modal -->
     {% if user.is_authenticated and user_has_bookings %}
     <div class="container text-center mt-5">
-        <button 
-        type="button" 
-        class="btn btn-link" 
-        data-bs-toggle="modal" 
-        data-bs-target="#reviewModal"
-        aria-label="Leave a review"
-        >
+        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reviewModal"
+            aria-label="Leave a review">
             Want to leave a Review?
         </button>
     </div>
@@ -133,11 +134,7 @@
                 <h5 class="modal-title" id="reviewModalLabel">
                     Leave a Review
                 </h5>
-                <button 
-                type="button" 
-                class="btn-close" 
-                data-bs-dismiss="modal" 
-                aria-label="Close">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <!-- Modal Body -->
@@ -149,19 +146,11 @@
                     <form method="post" action="{% url 'submit_home_review' %}" id="comment-form">
                         {{ comment_form | crispy }}
                         {% csrf_token %}
-                        <button 
-                        type="submit" 
-                        class="btn btn-success mt-1 px-3"
-                        aria-label="Submit review"
-                        >
+                        <button type="submit" class="btn btn-success mt-1 px-3" aria-label="Submit review">
                             Submit
                         </button>
-                        <button 
-                        type="button" 
-                        class="btn btn-outline-success mt-1 mx-2 px-3" 
-                        data-bs-dismiss="modal"
-                        aria-label="Close review form"
-                        >
+                        <button type="button" class="btn btn-outline-success mt-1 mx-2 px-3" data-bs-dismiss="modal"
+                            aria-label="Close review form">
                             Close
                         </button>
                     </form>

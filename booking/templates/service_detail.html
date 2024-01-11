@@ -1,3 +1,4 @@
+<!-- service_detail.html -->
 {% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
@@ -13,25 +14,16 @@
             <div class="row g-0">
                 <div class="image-container">
                     {% if "placeholder" in service.featured_image.url %}
-                        <img
-                            src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg"
-                            class="card-img-top"
-                            alt="Placeholder image for {{ service.title }}"
-                            loading="lazy"
-                        />
+                    <img src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg"
+                        class="card-img-top" alt="Placeholder image for {{ service.title }}" loading="lazy">
                     {% else %}
-                        <img
-                            src="{{ service.featured_image.url }}"
-                            class="card-img-top"
-                            alt="{{ service.title }} Image"
-                            loading="lazy"
-                        />
+                    <img src="{{ service.featured_image.url }}" class="card-img-top" alt="{{ service.title }} Image"
+                        loading="lazy">
                     {% endif %}
-                        <div class="image-flash px-3">
-                            <p class="price-text text-center">
-                                EUR {{ service.price }}
-                            </p>
-                        </div>
+                    <div class="image-flash px-3">
+                        <p class="price-text text-center">
+                            EUR {{ service.price }}
+                        </p>
                     </div>
                 </div>
                 <div class="service-text mb-3">
@@ -43,20 +35,15 @@
                     </p>
                     <!-- Trigger Modal Button -->
                     {% if user.is_authenticated %}
-                        <button 
-                        type="button" 
-                        class="btn btn-success px-3 mx-2" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#bookingModal"
-                        aria-label="Book {{ service.title }} now"
-                        >
-                            Book Now
-                        </button>
+                    <button type="button" class="btn btn-success px-3 mx-2" data-bs-toggle="modal"
+                        data-bs-target="#bookingModal" aria-label="Book {{ service.title }} now">
+                        Book Now
+                    </button>
                     {% else %}
-                        <a href="{% url 'account_login' %}?next={{ request.path }}" class="btn btn-success px-3 mx-2"
-                            aria-label="Login to book {{ service.title }}">
-                            Login to book Service
-                        </a>
+                    <a href="{% url 'account_login' %}?next={{ request.path }}" class="btn btn-success px-3 mx-2"
+                        aria-label="Login to book {{ service.title }}">
+                        Login to book Service
+                    </a>
                     {% endif %}
                 </div>
             </div>
@@ -74,19 +61,12 @@
             <a href="{% url 'service_detail' service.slug %}" class="service-link">
                 <div class="image-container justify-content-center">
                     {% if "placeholder" in service.featured_image.url %}
-                    <img 
-                        class="card-img-top"
+                    <img class="card-img-top"
                         src="https://res.cloudinary.com/drqpbtgw4/image/upload/v1701798673/boarding_refclr.jpg"
-                        alt="Placeholder image for service"
-                        loading="lazy"
-                    />
+                        alt="Placeholder image for service" loading="lazy">
                     {% else %}
-                    <img 
-                        class="card-img-top" 
-                        src="{{ service.featured_image.url }}" 
-                        alt="{{ service.title }} Image"
-                        loading="lazy"
-                    />
+                    <img class="card-img-top" src="{{ service.featured_image.url }}" alt="{{ service.title }} Image"
+                        loading="lazy">
                     {% endif %}
                     <div class="image-flash px-3">
                         <p class="price-text text-center">
@@ -114,86 +94,71 @@
 <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col m-3">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="bookingModalLabel">
-                                    Book Service: {{ service.title }}
-                                </h5>
-                                <button 
-                                type="button" 
-                                class="btn-close" 
-                                data-bs-dismiss="modal" 
-                                aria-label="Close"
-                                >
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                {% if unavailable_dates %}
-                                <div class="alert alert-warning" role="alert">
-                                    <strong>Unavailable Dates:</strong>
-                                    {% for date in unavailable_dates %}
-                                    <div>
-                                        {{ date.unavailable_from|date:"d/m/Y" }} to {{ date.unavailable_to|date:"d/m/Y" }}
-                                    </div>
-                                    {% endfor %}
+            <div class="card-body">
+                <div class="row">
+                    <div class="col m-3">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="bookingModalLabel">
+                                Book Service: {{ service.title }}
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {% if unavailable_dates %}
+                            <div class="alert alert-warning" role="alert">
+                                <strong>Unavailable Dates:</strong>
+                                {% for date in unavailable_dates %}
+                                <div>
+                                    {{ date.unavailable_from|date:"d/m/Y" }} to {{ date.unavailable_to|date:"d/m/Y" }}
                                 </div>
-                                {% else %}
-                                <div class="alert alert-success" role="alert">
-                                    All dates available. No set unavailability in the near future.
-                                </div>
-                                {% endif %}
-                                {% if 'comment' not in message.tags %}
-                                    {% for message in messages %}
-                                    <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
-                                        {{ message }}
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-                                <form method="post" action="{% url 'book_service' service.id %}" id="bookingForm">
-                                    {% csrf_token %}
-                                    {{ booking_form.as_p }}
-                                </form>
-                                <p>
-                                    Original Price: EUR 
-                                    <span 
-                                    id="originalPrice" 
-                                    data-price="{{ service.price }}"
-                                    >
-                                        {{ service.price }}
-                                    </span>
-                                </p>
-                                <p>
-                                    Total Price: EUR 
-                                    <span id="priceText">
-                                        {{ service.price }}
-                                    </span>
-                                </p>
+                                {% endfor %}
                             </div>
-                            <div class="modal-footer">
-                                <button 
-                                type="submit" 
-                                form="bookingForm" 
-                                class="btn btn-success px-3"
-                                aria-label="Book {{ service.title }} now"
-                                >
-                                    Book Now
-                                </button>
-                                <button 
-                                type="button" 
-                                class="btn btn-outline-success px-3" 
-                                data-bs-dismiss="modal"
+                            {% else %}
+                            <div class="alert alert-success" role="alert">
+                                All dates available. No set unavailability in the near future.
+                            </div>
+                            {% endif %}
+                            {% if 'comment' not in message.tags %}
+                            {% for message in messages %}
+                            <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            <form method="post" action="{% url 'book_service' service.id %}" id="bookingForm">
+                                {% csrf_token %}
+                                {{ booking_form.as_p }}
+                            </form>
+                            <p>
+                                Original Price: EUR
+                                <span id="originalPrice" data-price="{{ service.price }}">
+                                    {{ service.price }}
+                                </span>
+                            </p>
+                            <p>
+                                Total Price: EUR
+                                <span id="priceText">
+                                    {{ service.price }}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" form="bookingForm" class="btn btn-success px-3"
+                                aria-label="Book {{ service.title }} now">
+                                Book Now
+                            </button>
+                            <button type="button" class="btn btn-outline-success px-3" data-bs-dismiss="modal"
                                 aria-label="Close {{ service.title }} modal">
-                                    Close
-                                </button>
-                                <p class="text-muted small mt-3">
-                                    *Adding a second dog increases the price by 50%.
-                                </p>
-                            </div>
+                                Close
+                            </button>
+                            <p class="text-muted small mt-3">
+                                *Adding a second dog increases the price by 50%.
+                            </p>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </div>

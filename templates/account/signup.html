@@ -12,14 +12,14 @@
                 <div class="card-body card">
                     <div class="row">
                         <div class="col-md-8 mt-3 offset-md-2">
-                            <h2 class="card-title text-center">{% trans "Register" %}</h2>
-
+                            <h2 class="card-title text-center">
+                                {% trans "Register" %}
+                            </h2>
                             <p class="text-center">
                                 {% blocktrans %}
                                 Already have an account?
                                 <br>
-                                Then please <a class="sign-up-link"
-                                    href="{{ login_url }}">login</a>.
+                                Then please <a class="sign-up-link" href="{{ login_url }}">login</a>.
                                 {% endblocktrans %}
                             </p>
                         </div>
@@ -29,17 +29,15 @@
                             {% url 'account_signup' as action_url %}
                             <form method="post" action="{{ action_url }}" class="signup" tags="entrance,signup">
                                 {% csrf_token %}
-
-                                {# Your form fields go here, replace with your actual form code #}
                                 {{ form.as_p }}
-
                                 {% if redirect_field_value %}
                                 <input type="hidden" name="{{ redirect_field_name }}"
                                     value="{{ redirect_field_value }}">
                                 {% endif %}
-
                                 <div class="text-center mb-3">
-                                    <button type="submit" class="btn btn-success px-3" tags="prominent,signup">Register</button>
+                                    <button type="submit" class="btn btn-success px-3" tags="prominent,signup">
+                                        Register
+                                    </button>
                                 </div>
                             </form>
                         </div>

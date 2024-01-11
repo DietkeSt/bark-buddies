@@ -4,7 +4,7 @@
 {% load allauth account socialaccount %}
 
 {% block head_title %}
-    {% trans "Login" %}
+{% trans "Login" %}
 {% endblock head_title %}
 
 {% block content %}
@@ -17,8 +17,8 @@
                         <h2 class="card-title text-center">{% trans "Login" %}</h2>
                         <p class="text-center">
                             {% blocktrans %}
-                                If you have not created an account yet, then please
-                                <a class="sign-up-link" href="{{ signup_url }}">register</a> first.
+                            If you have not created an account yet, then please
+                            <a class="sign-up-link" href="{{ signup_url }}">register</a> first.
                             {% endblocktrans %}
                         </p>
                     </div>
@@ -27,20 +27,19 @@
                     <div class="col-md-8 mt-3 offset-md-2">
                         <form class="login" method="POST" action="{% url 'account_login' %}">
                             {% csrf_token %}
-                            
                             <div class="mb-3">
                                 {{ form.as_p }}
                             </div>
-                            
                             {% if redirect_field_value %}
-                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
                             {% endif %}
-                            
                             <div class="text-center mb-3">
-                                <button type="submit" class="btn btn-success">{% trans "Login" %}</button>
+                                <button type="submit" class="btn btn-success">
+                                    {% trans "Login" %}
+                                </button>
                             </div>
                         </form>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>
