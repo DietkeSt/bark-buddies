@@ -275,6 +275,7 @@ function setMinimumDateForBooking() {
 
     This gives the user a warning message if they did book too early.
 
+---
 
 ## Validation
 
@@ -330,8 +331,46 @@ No errors were found when the code was passed through the CI Python Linter
  [online validation tool](https://pep8ci.herokuapp.com/#). According to the reports, the code is [Pep 8-compliant](https://legacy.python.org/dev/peps/pep-0008/). This checking was done manually by copying python code and pasting it into the validator.
 
 
+---
 
 ## Lighthouse Report
+
+### Home Page
+
+![Lighthouse Report. Home Page](documentation/lighthouse_reports/home_lighthouse.png)
+
+No major issues.
+
+### Login Page
+
+![Lighthouse Report. Login Page](documentation/lighthouse_reports/login_lighthouse.png)
+
+### Logout Page
+
+![Lighthouse Report. Logout Page](documentation/lighthouse_reports/logout_lighthouse.png)
+
+### Registration Page
+
+![Lighthouse Report. Register Page](documentation/register_lighthouse.png)
+
+### My Bookings Page
+
+![Lighthouse Report. My Bookings Page](documentation/lighthouse_reports/bookings_lighthouse.png)
+
+No major issues.
+
+### Edit  Bookings Page
+
+![Lighthouse Report. Edit Bookings Page](documentation/lighthouse_reports/edit_bookings_lighthouse.png)
+
+No major issues.
+
+### Service Detail Page
+
+![Lighthouse Report.Service Detail Page](documentation/lighthouse_reports/service_detail_lighthouse.png)
+
+Major issue here is Bootstrap and Slider that are coming from external CSS and Javascript files.
+
 
 ### All Pages
 
