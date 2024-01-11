@@ -134,7 +134,7 @@ class Booking(models.Model):
             self.additional_price = total_price * Decimal('0.5')
         else:
             self.additional_price = Decimal('0.00')
-            
+
         super(Booking, self).save(*args, **kwargs)
 
     def total_price(self):
