@@ -283,20 +283,35 @@ function setMinimumDateForBooking() {
 
 1. **No errors** or warnings were found on all HTML pages, except for one, when passing through the official [W3C](https://validator.w3.org/) validator. This checking was done manually by opening the View Source code of each page and then copying and pasting the code into the Direct Input validator.
 
+ - Home Page:
+  
     ![Home HTML Validation](documentation/validation/home_html_validator.png)
 
+- Service Page:
+  
     ![Service Detail HTML Validation](documentation/validation/service_detail_html_validator.png)
+
+- Bookings Page:
   
     ![My Bookings HTML Validation](documentation/validation/bookings_html_validator.png)
+
+- Edit Booking Page:
   
     ![Edit Booking Detail HTML Validation](documentation/validation/edit_booking_html_validator.png)
+
+- Logout Page:
   
     ![Logout HTML Validation](documentation/validation/logout_html_validator.png)
+
+- Login Page:
   
     ![Login HTML Validation](documentation/validation/login_html_validator.png)
+    
+- 404 Error Page:
   
     ![404 HTML Validation](documentation/validation/404error_html_validation.png)
-  
+
+- 500 Error Page
     ![500 HTML Validation](documentation/validation/500error_html_validation.png)
 
 1. **Errors** found on the Registration page, that were related to the generated form. As the following was used, the errors were not fixable directly in the HTML code:
