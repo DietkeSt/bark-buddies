@@ -212,15 +212,18 @@ class DeleteBookingView(LoginRequiredMixin, View):
 
 
 class EditBookingView(LoginRequiredMixin, View):
+    def get_unavailable_dates(self):
+        return Availability.objects.filter(
+            unavailable_to__gte=timezone.now().date()
+        )
+        
     def get(self, request, booking_id):
         booking = get_object_or_404(
             Booking, id=booking_id,
             user=request.user
         )
         form = EditBookingForm(instance=booking)
-        unavailable_dates = Availability.objects.filter(
-            unavailable_to__gte=timezone.now().date()
-        )
+        unavailable_dates = self.get_unavailable_dates()
         context = {
             'form': form,
             'booking': booking,
@@ -280,6 +283,7 @@ class EditBookingView(LoginRequiredMixin, View):
             return redirect(reverse('view_bookings'))
 
         else:
+            unavailable_dates = self.get_unavailable_dates()
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{field}: {error}")
@@ -287,6 +291,7 @@ class EditBookingView(LoginRequiredMixin, View):
                 request,
                 'edit_booking.html',
                 {'form': form, 'booking': booking}
+                'unavailable_dates': unavailable_dates,
             )
 
 
