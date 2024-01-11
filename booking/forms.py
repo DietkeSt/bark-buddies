@@ -1,6 +1,7 @@
+# booking/forms.py
+from django import forms
 from .models import Booking, BookingTime
 from reviews.models import Comment
-from django import forms
 
 
 class BookingForm(forms.ModelForm):
@@ -9,7 +10,7 @@ class BookingForm(forms.ModelForm):
         label='Add Second Dog*'
     )
     just_one_day = forms.BooleanField(
-        required=False, 
+        required=False,
         label='One Day'
     )
     time = forms.ModelChoiceField(
@@ -56,22 +57,22 @@ class BookingForm(forms.ModelForm):
 
 class EditBookingForm(forms.ModelForm):
     add_second_dog = forms.BooleanField(
-        required=False, 
+        required=False,
         label='Add Second Dog*'
         )
     just_one_day = forms.BooleanField(
-        required=False, 
+        required=False,
         label='One Day'
         )
 
     class Meta:
         model = Booking
         fields = [
-            'start_date', 
-            'just_one_day', 
-            'end_date', 
-            'time', 
-            'comments', 
+            'start_date',
+            'just_one_day',
+            'end_date',
+            'time',
+            'comments',
             'add_second_dog'
         ]
         widgets = {
@@ -81,7 +82,7 @@ class EditBookingForm(forms.ModelForm):
             'end_date': forms.DateInput(
                 attrs={'type': 'date'}
             ),
-            'time': forms.Select() 
+            'time': forms.Select()
         }
 
     def clean(self):

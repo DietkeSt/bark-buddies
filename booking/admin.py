@@ -1,17 +1,16 @@
+# booking/admin.py
+from datetime import datetime, timedelta
 from django import forms
 from django.contrib import admin
 from django.shortcuts import render
 from django.utils.html import format_html
-from .models import Service, Booking, Availability, BookingTime
-from reviews.models import Comment
 from django_summernote.admin import SummernoteModelAdmin
-from datetime import datetime, timedelta
-from allauth.socialaccount.models import SocialAccount
-from allauth.account.models import EmailAddress
 from django_summernote.models import Attachment
 from django.contrib.sites.models import Site
-from allauth.socialaccount.models import SocialToken
-from allauth.socialaccount.models import SocialApp
+from allauth.socialaccount.models import SocialAccount, SocialToken, SocialApp
+from allauth.account.models import EmailAddress
+from .models import Service, Booking, Availability, BookingTime
+from reviews.models import Comment
 
 
 # Unregister models
@@ -26,7 +25,12 @@ admin.site.unregister(SocialApp)
 @admin.register(Service)
 class ServiceAdmin(SummernoteModelAdmin):
 
-    list_display = ('title', 'slug', 'price', 'status')
+    list_display = (
+        'title',
+        'slug',
+        'price',
+        'status'
+    )
     search_fields = ['title', 'content']
     prepopulated_fields = {'slug': ('title',)}
     list_filter = ('status', 'title')
@@ -69,7 +73,12 @@ class BookingAdmin(admin.ModelAdmin):
         'display_total_price',
         'cancellation_status',
     )
-    list_filter = ['service', 'start_date', 'end_date', 'is_cancelled']
+    list_filter = [
+        'service',
+        'start_date',
+        'end_date',
+        'is_cancelled'
+    ]
     search_fields = ['user__username', 'service__title']
     actions = ['cancel_bookings']
 

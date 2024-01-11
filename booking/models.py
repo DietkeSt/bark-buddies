@@ -1,10 +1,11 @@
-import datetime
+# booking/models.py
 from datetime import timedelta
+import datetime
 from decimal import Decimal
-from django.db import models
-from django.db.models import Q, F, CheckConstraint
-from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
+from django.contrib.auth.models import User
+from django.db import models
+from django.db.models import CheckConstraint, F, Q
 from django.utils import timezone
 from django.utils.text import slugify
 
@@ -35,15 +36,20 @@ class Service(models.Model):
 
     @classmethod
     def get_active_services(cls):
-        return cls.objects.filter(status=1).order_by('title')
+        return cls.objects.filter(
+            status=1
+        ).order_by('title')
 
     @classmethod
     def get_service_with_comments(cls, slug):
         from reviews.models import Comment
-        service = cls.objects.filter(slug=slug, status=1).first()
+        service = cls.objects.filter(
+            slug=slug, status=1
+        ).first()
         if service:
             comments = Comment.objects.filter(
-                service=service, approved=True).order_by('created_on')
+                service=service, approved=True
+            ).order_by('created_on')
             return service, comments
         return None, None
 
@@ -65,7 +71,9 @@ class Service(models.Model):
 
 
 class BookingTime(models.Model):
-    time = models.TimeField(default=datetime.time(8, 0))
+    time = models.TimeField(
+        default=datetime.time(8, 0)
+    )
 
     def __str__(self):
         return f"{self.time.strftime('%H:%M')}"
@@ -76,23 +84,42 @@ class Availability(models.Model):
     unavailable_to = models.DateField()
 
     def __str__(self):
-        return (f"Unavailable from {self.unavailable_from} "
-                f"to {self.unavailable_to}")
+        return (
+            f"Unavailable from {self.unavailable_from} "
+            f"to {self.unavailable_to}"
+        )
 
 
 class Booking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE
+    )
+    service = models.ForeignKey(
+        Service, on_delete=models.CASCADE
+    )
     start_date = models.DateField()
     end_date = models.DateField()
     time = models.ForeignKey(
-        BookingTime, on_delete=models.SET_NULL, blank=True, null=True
-        )
-    comments = models.TextField(blank=True, null=True, max_length=400)
-    is_cancelled = models.BooleanField(default=False)
-    add_second_dog = models.BooleanField(default=False)
+        BookingTime,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True
+    )
+    comments = models.TextField(
+        blank=True,
+        null=True,
+        max_length=400
+    )
+    is_cancelled = models.BooleanField(
+        default=False
+    )
+    add_second_dog = models.BooleanField(
+        default=False
+    )
     additional_price = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0.00
+        max_digits=10,
+        decimal_places=2,
+        default=0.00
         )
 
     def save(self, *args, **kwargs):
@@ -128,11 +155,17 @@ class Booking(models.Model):
     def __str__(self):
         time_str = self.time.time.strftime(
             "%I:%M %p") if self.time else "No time set"
-        return (f"{self.user} booked {self.service} from {self.start_date} "
-                f"to {self.end_date} at {time_str}")
+        return (
+            f"{self.user} booked {self.service} from {self.start_date} "
+            f"to {self.end_date} at {time_str}"
+        )
 
     @staticmethod
-    def has_overlapping_bookings(start_date, end_date, time):
+    def has_overlapping_bookings(
+        start_date,
+        end_date,
+        time
+    ):
         return Booking.objects.filter(
             start_date=start_date,
             end_date=end_date,
@@ -141,7 +174,10 @@ class Booking(models.Model):
         ).exists()
 
     @staticmethod
-    def is_period_available(start_date, end_date):
+    def is_period_available(
+        start_date,
+        end_date
+    ):
         return not Availability.objects.filter(
             unavailable_from__lt=end_date,
             unavailable_to__gt=start_date
