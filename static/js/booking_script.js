@@ -140,7 +140,7 @@ function updateTotalPrice() {
 
         // Calculate total price
         let totalPrice = (originalPrice + additionalPrice) * dayDifference;
-        priceTextElement.text(`EUR ${totalPrice.toFixed(2)}`);
+        priceTextElement.text(`${totalPrice.toFixed(2)}`);
     }
 }
 

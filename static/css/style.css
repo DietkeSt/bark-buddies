@@ -386,8 +386,11 @@ input#id_end_date,
 input#id_time,
 input#id_comments,
 input#id_password,
+input#id_password1,
+input#id_password2,
 input#id_login,
 input#id_email,
+input#id_username,
 select {
     max-height: 7.5em;
     border-radius: 2rem !important;
