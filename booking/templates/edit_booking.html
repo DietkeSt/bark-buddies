@@ -3,53 +3,56 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container">
+<div class="container col-md-6">
     <div class="card-body">
         <div class="row">
             <div class="col m-3">
-                <h2>Edit Booking for {{ booking.service.title }}</h2>
-                {% if unavailable_dates %}
-                    <div class="alert alert-warning" role="alert">
-                        <strong>Unavailable Dates:</strong>
-                        {% for date in unavailable_dates %}
-                        <div>
-                            {{ date.unavailable_from|date:"d/m/Y" }} to {{ date.unavailable_to|date:"d/m/Y" }}
+                <div class="modal-header">
+                    <h2>Edit Booking for {{ booking.service.title }}</h2>
+                </div>
+                <div class="modal-body">
+                    {% if unavailable_dates %}
+                        <div class="alert alert-warning" role="alert">
+                            <strong>Unavailable Dates:</strong>
+                            {% for date in unavailable_dates %}
+                            <div>
+                                {{ date.unavailable_from|date:"d/m/Y" }} to {{ date.unavailable_to|date:"d/m/Y" }}
+                            </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <div class="alert alert-success" role="alert">
-                        All dates available. No set unavailability in the near future.
-                    </div>
-                {% endif %}
-                {% if 'comment' not in message.tags %}
-                {% for message in messages %}
-                    <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-                {% endif %}
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <p>
-                            Original Price: EUR
-                            <span id="originalPrice" data-price="{{ service.price }}">
-                                {{ service.price }}
-                            </span>
-                        </p>
-                        <p>
-                            Total Price: EUR
-                            <span id="priceText">
-                                {{ service.price }}
-                            </span>
-                        </p>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                        <a href="{% url 'view_bookings' %}" class="btn btn-secondary">Cancel</a>
-                        <p class="text-muted small mt-3">
-                            *Adding a second dog increases the price by 50%.
-                        </p>
-                    </form> 
+                    {% else %}
+                        <div class="alert alert-success" role="alert">
+                            All dates available. No set unavailability in the near future.
+                        </div>
+                    {% endif %}
+                    {% if 'comment' not in message.tags %}
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% endif %}
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <p>
+                                Original Price: EUR
+                                <span id="originalPrice" data-price="{{ service.price }}">
+                                    {{ service.price }}
+                                </span>
+                            </p>
+                            <p>
+                                Total Price: EUR
+                                <span id="priceText">
+                                    {{ service.price }}
+                                </span>
+                            </p>
+                            <button type="submit" class="btn btn-success px-3">Save Changes</button>
+                            <a href="{% url 'view_bookings' %}" class="btn btn-success-outline px-3">Cancel</a>
+                            <p class="text-muted small mt-3">
+                                *Adding a second dog increases the price by 50%.
+                            </p>
+                        </form> 
                 </div>
             </div>
         </div>
