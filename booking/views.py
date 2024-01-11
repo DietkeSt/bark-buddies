@@ -57,7 +57,9 @@ class ServiceDetail(View):
         unavailable_dates = Availability.objects.filter(
             unavailable_to__gte=today
         )
-        other_services = Service.objects.filter(status=1).exclude(slug=slug)
+        other_services = Service.objects.filter(
+            status=1
+        ).exclude(slug=slug)
 
         return render(request, "service_detail.html", {
             "service": service,
@@ -83,16 +85,27 @@ class BookServiceView(LoginRequiredMixin, View):
                 booking.end_date = booking.start_date
 
             # Validate the booking date to be at least 24 hours in the future
-            if timezone.now() + timedelta(days=1) > timezone.make_aware(datetime.combine(booking_start, datetime.min.time())):
-                messages.error(request, 'You must book at least 24 hours in advance.')
-                return HttpResponseRedirect(reverse('service_detail', args=[service.slug]))
+            if timezone.now() + timedelta(days=1) > timezone.make_aware(
+                datetime.combine(
+                    booking_start, 
+                    datetime.min.time()
+                )
+            ):
+                messages.error(
+                    request, 'You must book at least 24 hours in advance.'
+                )
+                return HttpResponseRedirect(
+                    reverse('service_detail', args=[service.slug])
+                )
 
             # Check for availability and overlapping bookings
             if not Booking.is_period_available(
                 booking_start,
                 booking_end
             ):
-                messages.error(request, 'Selected dates are unavailable.')
+                messages.error(
+                    request, 'Selected dates are unavailable.'
+                )
                 return HttpResponseRedirect(
                     reverse('service_detail', args=[service.slug])
                 )
@@ -102,7 +115,9 @@ class BookServiceView(LoginRequiredMixin, View):
                 booking_end,
                 booking.time
             ):
-                messages.error(request, 'Selected time is already booked.')
+                messages.error(
+                    request, 'Selected time is already booked.'
+                )
                 return HttpResponseRedirect(
                     reverse('service_detail', args=[service.slug])
                 )
@@ -110,13 +125,19 @@ class BookServiceView(LoginRequiredMixin, View):
             booking.user = request.user
             booking.service = service
             booking.save()
-            messages.success(request, 'Booking successful.')
-            return HttpResponseRedirect(reverse('view_bookings'))
+            messages.success(
+                request, 'Booking successful.'
+            )
+            return HttpResponseRedirect(
+                reverse('view_bookings')
+            )
 
         else:
             for field, errors in form.errors.items():
                 for error in errors:
-                    messages.error(request, f"{field}: {error}")
+                    messages.error(
+                        request, f"{field}: {error}"
+                    )
             return HttpResponseRedirect(
                 reverse('service_detail', args=[service.slug])
             )
@@ -126,7 +147,11 @@ class BookingsView(LoginRequiredMixin, View):
     def get(self, request):
         bookings = Booking.get_future_bookings_for_user(request.user)
         comment_form = CommentForm()
-        user_has_bookings = Booking.objects.filter(user=request.user, end_date__lt=timezone.now(), is_cancelled=False).exists()
+        user_has_bookings = Booking.objects.filter(
+            user=request.user, 
+            end_date__lt=timezone.now(), 
+            is_cancelled=False
+        ).exists()
 
         return render(request, 'view_bookings.html', {
             'bookings': bookings,
@@ -137,20 +162,31 @@ class BookingsView(LoginRequiredMixin, View):
     def post(self, request):
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
-            Comment.create_comment(request.user, comment_form.cleaned_data)
+            Comment.create_comment(
+                request.user, 
+                comment_form.cleaned_data
+            )
             messages.success(
                 request, 'Thanks! Your comment is now being reviewed.'
-                )
+            )
         else:
-            messages.error(request, "There was an error with your submission.")
+            messages.error(
+                request, "There was an error with your submission."
+            )
         return redirect('view_bookings')
 
 
 class CancelBookingView(LoginRequiredMixin, View):
     def post(self, request, booking_id):
-        booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+        booking = get_object_or_404(
+            Booking, 
+            id=booking_id, 
+            user=request.user
+        )
         if booking.cancel_booking():
-            messages.success(request, "Booking cancelled successfully.")
+            messages.success(
+                request, "Booking cancelled successfully."
+            )
         else:
             messages.error(
                 request,
@@ -162,54 +198,57 @@ class CancelBookingView(LoginRequiredMixin, View):
 class DeleteBookingView(LoginRequiredMixin, View):
     def post(self, request, booking_id):
         booking = get_object_or_404(
-            Booking, id=booking_id, user=request.user, is_cancelled=True
+            Booking, 
+            id=booking_id, 
+            user=request.user, 
+            is_cancelled=True
         )
         booking.delete()
-        messages.success(request, "Booking deleted successfully.")
+        messages.success(
+            request, "Booking deleted successfully."
+        )
         return redirect('view_bookings')
 
 
 class EditBookingView(LoginRequiredMixin, View):
     def get(self, request, booking_id):
-        booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+        booking = get_object_or_404(
+            Booking, 
+            id=booking_id, 
+            user=request.user
+        )
         form = EditBookingForm(instance=booking)
         unavailable_dates = Availability.objects.filter(
             unavailable_to__gte=timezone.now().date()
         )
 
         if form.is_valid():
-            booking = form.save(commit=False)
-            booking_start = booking.start_date
-            booking_end = booking.end_date
-
-            # Handle 'just_one_day' field
-            if form.cleaned_data.get('just_one_day'):
-                booking.end_date = booking.start_date
-
-            # Check for availability
-            if not Booking.is_period_available(
-                booking_start,
-                booking_end
-            ):
-                messages.error(request, 'Selected dates are unavailable.')
-                return HttpResponseRedirect(
-                    reverse('service_detail', args=[service.slug])
-                )
+            booking_start = form.cleaned_data['start_date']
+            booking_end = form.cleaned_data['end_date']
+            booking_time = form.cleaned_data['time']
 
             # Check for overlapping bookings
             if Booking.has_overlapping_bookings(
-                booking_start,
-                booking_end,
-                booking.time
+                booking_start, 
+                booking_end, 
+                booking_time, 
+                exclude_booking_id=booking_id
             ):
-                messages.error(request, 'Selected time is already booked.')
-                return HttpResponseRedirect(
-                    reverse('service_detail', args=[service.slug])
-                )
+            messages.error(request, 
+                'Selected time is already booked.'
+            )
+            return render(request, 
+                'edit_booking.html', 
+                {'form': form, 'booking': booking}
+            )
 
             form.save()
-            messages.success(request, 'Booking updated successfully.')
-            return HttpResponseRedirect(reverse('view_bookings'))
+            messages.success(
+                request, 'Booking updated successfully.'
+            )
+            return HttpResponseRedirect(
+                reverse('view_bookings')
+            )
 
         else:
             for field, errors in form.errors.items():
@@ -223,14 +262,28 @@ class EditBookingView(LoginRequiredMixin, View):
 
         
     def post(self, request, booking_id):
-        booking = get_object_or_404(Booking, id=booking_id, user=request.user)
-        form = EditBookingForm(request.POST, instance=booking)
+        booking = get_object_or_404(
+            Booking, 
+            id=booking_id, 
+            user=request.user
+        )
+        form = EditBookingForm(
+            request.POST, instance=booking
+        )
         if form.is_valid():
             form.save()
-            messages.success(request, 'Booking updated successfully.')
-            return HttpResponseRedirect(reverse('view_bookings'))
+            messages.success(
+                request, 'Booking updated successfully.'
+            )
+            return HttpResponseRedirect(
+                reverse('view_bookings')
+            )
         else:
-            return render(request, 'edit_booking.html', {'form': form, 'booking': booking})
+            return render(
+                request,
+                'edit_booking.html', 
+                {'form': form, 'booking': booking}
+            )
 
 
 class AddCommentView(LoginRequiredMixin, View):
