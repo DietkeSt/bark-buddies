@@ -113,17 +113,28 @@ function initAddSecondDogHandler() {
     const addSecondDogCheckbox = document.getElementById('id_add_second_dog');
     const originalPriceElement = document.getElementById('originalPrice');
     const priceText = document.getElementById('priceText');
-    const originalPrice = parseFloat(originalPriceElement.dataset.price);
-    const additionalPrice = originalPrice * 0.5; // 50% additional price for second dog
 
-    addSecondDogCheckbox.addEventListener('change', (event) => {
-        if (event.target.checked) {
+    if (originalPriceElement && priceText && addSecondDogCheckbox) {
+        const originalPrice = parseFloat(originalPriceElement.dataset.price);
+        const additionalPrice = originalPrice * 0.5; // 50% additional price for second dog
+
+        addSecondDogCheckbox.addEventListener('change', function (event) {
+            if (event.target.checked) {
+                let newPrice = originalPrice + additionalPrice;
+                priceText.textContent = `${newPrice.toFixed(2)}`;
+            } else {
+                priceText.textContent = `${originalPrice.toFixed(2)}`;
+            }
+        });
+
+        // Update price on load based on checkbox state
+        if (addSecondDogCheckbox.checked) {
             let newPrice = originalPrice + additionalPrice;
-            priceText.innerHTML = `${newPrice.toFixed(2)}`;
+            priceText.textContent = `${newPrice.toFixed(2)}`;
         } else {
-            priceText.innerHTML = `${originalPrice.toFixed(2)}`;
+            priceText.textContent = `${originalPrice.toFixed(2)}`;
         }
-    });
+    }
 }
 
 // Function to handle navbar style on scroll
