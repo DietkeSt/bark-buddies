@@ -1,14 +1,13 @@
+// Initialize functions
 $(document).ready(function () {
-    // Initialize the booking modal when it's shown
-    $('#bookingModal').on('shown.bs.modal', function () {
-        $('#bookingForm').trigger("reset");
-        initOneDayCheckboxHandler();
-        initDateChangeHandlers();
-        checkUnavailableTimes(); // Check for unavailable times immediately when modal opens
-        initAddSecondDogHandler(); 
-    });
+    initOneDayCheckboxHandler();
 
-    // Initialize functions
+    initDateChangeHandlers();
+
+    checkUnavailableTimes();
+
+    initAddSecondDogHandler();
+
     initCommentsToggle();
 
     setMinimumDateForBooking();
