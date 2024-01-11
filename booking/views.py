@@ -216,7 +216,7 @@ class EditBookingView(LoginRequiredMixin, View):
         return Availability.objects.filter(
             unavailable_to__gte=timezone.now().date()
         )
-        
+
     def get(self, request, booking_id):
         booking = get_object_or_404(
             Booking, id=booking_id,
