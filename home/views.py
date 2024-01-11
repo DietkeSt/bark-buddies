@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.utils import timezone
 from booking.models import Service, Booking
 from reviews.models import Comment
-from reviews.forms import CommentForm
+from reviews.forms import CommentFo
 
 
 class HomeView(ListView):
@@ -25,7 +25,7 @@ class HomeView(ListView):
         if self.request.user.is_authenticated:
             user_has_bookings = Booking.objects.filter(
                 user=self.request.user,
-                end_date__lt=timezone.now(), 
+                end_date__lt=timezone.now(),
                 is_cancelled=False
             ).exists()
             context['user_has_bookings'] = user_has_bookings
@@ -33,7 +33,9 @@ class HomeView(ListView):
             context['user_has_bookings'] = False
 
         context['comments'] = Comment.objects.filter(approved=True)[:10]
-        context['comment_form'] = CommentForm() if self.request.user.is_authenticated else None
+        context[
+            'comment_form'
+        ] = CommentForm() if self.request.user.is_authenticated else None
         return context
 
 
@@ -48,8 +50,12 @@ class SubmitHomeReview(View):
             new_comment.name = request.user.username
             new_comment.approved = False
             new_comment.save()
-            messages.success(request, "Thanks! Your comment is now being reviewed.")
+            messages.success(
+                request, "Thanks! Your comment is now being reviewed."
+            )
         else:
-            messages.error(request, "There was an error with your submission.")
+            messages.error(
+                request, "There was an error with your submission."
+            )
         return redirect('home')
-
+        

@@ -7,6 +7,8 @@ urlpatterns = [
         '', HomeView.as_view(), name='home'
     ),
     path(
-        'submit-review/', SubmitHomeReview.as_view(), name='submit_home_review'
+        'submit-review/',
+        SubmitHomeReview.as_view(),
+        name='submit_home_review'
         ),
 ]

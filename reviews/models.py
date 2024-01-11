@@ -1,10 +1,14 @@
+# reviews/models.py
 from django.db import models
 from booking.models import Service
 
 
 class Comment(models.Model):
     service = models.ForeignKey(
-        Service, on_delete=models.CASCADE, related_name='comments')
+        Service,
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
     name = models.CharField(max_length=80)
     email = models.EmailField(max_length=254)
     body = models.TextField(max_length=400)
@@ -22,7 +26,15 @@ class Comment(models.Model):
         return f"Comment {self.body} by {self.name}"
 
     @classmethod
-    def create_comment(cls, user, form_data):
-        comment = cls(name=user.username, email=user.email, **form_data)
+    def create_comment(
+        cls,
+        user,
+        form_data
+    ):
+        comment = cls(
+            name=user.username,
+            email=user.email,
+            **form_data
+        )
         comment.save()
         return comment
