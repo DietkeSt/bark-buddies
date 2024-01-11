@@ -255,7 +255,6 @@ class EditBookingView(LoginRequiredMixin, View):
                     request,
                     'edit_booking.html',
                     {'form': form, 'booking': booking},
-                    'unavailable_dates': unavailable_dates
                 )
 
             if Booking.has_overlapping_bookings(
@@ -272,7 +271,6 @@ class EditBookingView(LoginRequiredMixin, View):
                     request,
                     'edit_booking.html',
                     {'form': form, 'booking': booking},
-                    'unavailable_dates': unavailable_dates
                 )
 
             form.save()
