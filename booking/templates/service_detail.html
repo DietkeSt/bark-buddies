@@ -30,9 +30,9 @@
                     <h1 class="service-title">
                         {{ service.title }}
                     </h1>
-                    <p class="card-text">
+                    <div class="card-text">
                         {{ service.content | safe }}
-                    </p>
+                    </div>
                     <!-- Trigger Modal Button -->
                     {% if user.is_authenticated %}
                     <button type="button" class="btn btn-success px-3 mx-2" data-bs-toggle="modal"
