@@ -1,4 +1,4 @@
-# models/forms.py
+# reviews/forms.py
 from .models import Comment
 from booking.models import Service
 from django import forms
