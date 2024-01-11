@@ -235,6 +235,9 @@ class EditBookingView(LoginRequiredMixin, View):
             user=request.user
         )
         form = EditBookingForm(request.POST, instance=booking)
+        unavailable_dates = Availability.objects.filter(
+            unavailable_to__gte=timezone.now().date()
+        )
 
         if form.is_valid():
             # Extract dates and time from the form
@@ -251,7 +254,8 @@ class EditBookingView(LoginRequiredMixin, View):
                 return render(
                     request,
                     'edit_booking.html',
-                    {'form': form, 'booking': booking}
+                    {'form': form, 'booking': booking},
+                    'unavailable_dates': unavailable_dates
                 )
 
             if Booking.has_overlapping_bookings(
@@ -267,7 +271,8 @@ class EditBookingView(LoginRequiredMixin, View):
                 return render(
                     request,
                     'edit_booking.html',
-                    {'form': form, 'booking': booking}
+                    {'form': form, 'booking': booking},
+                    'unavailable_dates': unavailable_dates
                 )
 
             form.save()
