@@ -153,7 +153,7 @@
                                 {% endif %}
                                 <form method="post" action="{% url 'book_service' service.id %}" id="bookingForm">
                                     {% csrf_token %}
-                                    {{ booking_form.as_p }}
+                                    {{ booking_form }}
                                 </form>
                                 <p>
                                     Original Price: EUR 
