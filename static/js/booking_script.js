@@ -1,12 +1,18 @@
+/*jshint esversion: 6 */
+
 // Initialize functions
 $(document).ready(function () {
+    // Calculate total price on date change
+    $('#id_start_date, #id_end_date').change(updateTotalPrice);
+    
+    // Initialize functions
+    updateTotalPrice();
+
     initOneDayCheckboxHandler();
 
     initDateChangeHandlers();
 
     checkUnavailableTimes();
-
-    initAddSecondDogHandler();
 
     initCommentsToggle();
 
@@ -108,32 +114,31 @@ function initOneDayCheckboxHandler() {
     }
 }
 
-// Handler for "Add Second Dog" checkbox
-function initAddSecondDogHandler() {
-    const addSecondDogCheckbox = document.getElementById('id_add_second_dog');
-    const originalPriceElement = document.getElementById('originalPrice');
-    const priceText = document.getElementById('priceText');
+// Function to update total price;
+function updateTotalPrice() {
+    const startDateInput = $('#id_start_date');
+    const endDateInput = $('#id_end_date');
+    const originalPriceElement = $('#originalPrice');
+    const priceTextElement = $('#priceText');
+    const addSecondDogCheckbox = $('#id_add_second_dog');
 
-    if (originalPriceElement && priceText && addSecondDogCheckbox) {
-        const originalPrice = parseFloat(originalPriceElement.dataset.price);
-        const additionalPrice = originalPrice * 0.5; // 50% additional price for second dog
+    if (startDateInput.val() && endDateInput.val() && originalPriceElement.length > 0) {
+        const startDate = new Date(startDateInput.val());
+        const endDate = new Date(endDateInput.val());
+        const originalPrice = parseFloat(originalPriceElement.data('price'));
+        let additionalPrice = 0;
 
-        addSecondDogCheckbox.addEventListener('change', function (event) {
-            if (event.target.checked) {
-                let newPrice = originalPrice + additionalPrice;
-                priceText.textContent = `${newPrice.toFixed(2)}`;
-            } else {
-                priceText.textContent = `${originalPrice.toFixed(2)}`;
-            }
-        });
-
-        // Update price on load based on checkbox state
-        if (addSecondDogCheckbox.checked) {
-            let newPrice = originalPrice + additionalPrice;
-            priceText.textContent = `${newPrice.toFixed(2)}`;
-        } else {
-            priceText.textContent = `${originalPrice.toFixed(2)}`;
+        // Check for second dog
+        if (addSecondDogCheckbox.is(':checked')) {
+            additionalPrice = originalPrice * 0.5;
         }
+
+        // Calculate the number of days
+        const dayDifference = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1; // +1 to include start day
+
+        // Calculate total price
+        let totalPrice = (originalPrice + additionalPrice) * dayDifference;
+        priceTextElement.text(`EUR ${totalPrice.toFixed(2)}`);
     }
 }
 
