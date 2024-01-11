@@ -176,14 +176,18 @@ class Booking(models.Model):
     def has_overlapping_bookings(
         start_date,
         end_date,
-        time
+        time,
+        exclude_booking_id=None
     ):
-        return Booking.objects.filter(
+        query = Booking.objects.filter(
             start_date=start_date,
             end_date=end_date,
             time=time,
             is_cancelled=False
-        ).exists()
+        )
+        if exclude_booking_id:
+            query = query.exclude(id=exclude_booking_id)
+        return query.exists()
 
     @staticmethod
     def is_period_available(
