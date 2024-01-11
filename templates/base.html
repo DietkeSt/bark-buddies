@@ -26,102 +26,97 @@
   <body class="d-flex flex-column h-100 main-bg">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light justify-content-center" id="navbar">
-      <div class="container navbar-container mb-2 mb-lg-0">
-        <a class="navbar-brand" href="{% url 'home' %}">
-            <img src="{% static 'images/logo-100x100.webp' %}" srcset="{% static 'images/logo-200x200.webp' %} 2x" alt="BarkBuddies Logo">
-            <span class="title-overlay">BarkBuddies</span>
-        </a>
-
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarButtonsExample"
-          aria-controls="navbarButtonsExample"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarButtonsExample">
-          <!-- Left links -->
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a 
-                class="nav-link" 
-                href="{% url 'home' %}"
-                aria-label="Navigate to Home">
-                    Home
-                </a>
-            </li>
-            <li class="nav-item">
-                <a 
-                class="nav-link"
-                href="{% url 'home' %}#about"
-                aria-label="Learn about us">
-                    About
-                </a>
-            </li>
-            <li class="nav-item">
-                <a 
-                class="nav-link" 
-                href="{% url 'home' %}#reviews" 
-                aria-label="Read Testimonials">
-                    Testimonials
-                </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="{% url 'home' %}#services" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Explore Services">
-                    Services
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for service in published_services %}
-                    <li>
-                        <a class="dropdown-item" href="{% url 'service_detail' service.slug %}">
-                            {{ service.title }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </li>
-            {% if user.is_staff or user.is_superuser %}
-            <li class="nav-item">
-                <a type="nav-link" href="/admin" target="_blank" class="nav-link" aria-label="Opens the Admin Console in new Tab">
-                    Admin
-                </a>
-            </li>
-            {% endif %}
-          </ul>
-          <!-- Right links -->
-          <div class="collapse navbar-collapse" id="navbarButtonsExample">
+        <div class="container navbar-container mb-2 mb-lg-0">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/logo-100x100.webp' %}" srcset="{% static 'images/logo-200x200.webp' %} 2x" alt="BarkBuddies Logo">
+                <span class="title-overlay">BarkBuddies</span>
+            </a>
+            <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarButtonsExample"
+            aria-controls="navbarButtonsExample"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarButtonsExample">
+            <!-- Left links -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a 
+                    class="nav-link" 
+                    href="{% url 'home' %}"
+                    aria-label="Navigate to Home">
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a 
+                    class="nav-link"
+                    href="{% url 'home' %}#about"
+                    aria-label="Learn about us">
+                        About
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a 
+                    class="nav-link" 
+                    href="{% url 'home' %}#reviews" 
+                    aria-label="Read Testimonials">
+                        Testimonials
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="{% url 'home' %}#services" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Explore Services">
+                        Services
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% for service in published_services %}
+                        <li>
+                            <a class="dropdown-item" href="{% url 'service_detail' service.slug %}">
+                                {{ service.title }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% if user.is_staff or user.is_superuser %}
+                <li class="nav-item">
+                    <a href="/admin" target="_blank" class="nav-link" aria-label="Opens the Admin Console in new Tab">
+                        Admin
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+            <!-- Right links -->
             <ul class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a type="button" href="{% url 'view_bookings' %}" class="btn btn-success px-3 mx-2 my-2" aria-label="View My Bookings">
+                        <a href="{% url 'view_bookings' %}" class="btn btn-success px-3 mx-2 my-2" aria-label="View My Bookings">
                             My Bookings
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a type="button" href="{% url 'account_logout' %}" class="btn btn-outline-success px-3 mx-2 my-2" aria-label="Logout">
-                        Logout
+                        <a href="{% url 'account_logout' %}" class="btn btn-outline-success px-3 mx-2 my-2" aria-label="Logout">
+                            Logout
                         </a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a type="button" href="{% url 'account_signup' %}" class="btn btn-outline-success px-3 mx-2 my-2" aria-label="Register">
-                        Register
+                        <a href="{% url 'account_signup' %}" class="btn btn-outline-success px-3 mx-2 my-2" aria-label="Register">
+                            Register
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a type="button" href="{% url 'account_login' %}" class="btn btn-success px-3 mx-2 my-2" aria-label="Login">
-                        Login
+                        <a href="{% url 'account_login' %}" class="btn btn-success px-3 mx-2 my-2" aria-label="Login">
+                            Login
                         </a>
                     </li>
                 {% endif %}
             </ul>
-          </div>
         </div>
-      </div>
     </nav>
 
     <div class="alert-container">
@@ -214,13 +209,15 @@
             <!-- Legal Information -->
             <div class="row mt-4">
                 <div class="col-12 text-center">
-                    <p>&copy; 2024 BarkBuddies. All rights reserved.</p>
+                    <p>
+                        &copy; 2024 BarkBuddies. All rights reserved.
+                    </p>
                 </div>
             </div>
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
         crossorigin="anonymous"></script>
