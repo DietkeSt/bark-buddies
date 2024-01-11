@@ -2,8 +2,8 @@
 
 // Initialize functions
 $(document).ready(function () {
-    // Calculate total price on date change
-    $('#id_start_date, #id_end_date').change(updateTotalPrice);
+    // Event listeners for date change and checkbox change
+    $('#id_start_date, #id_end_date, #id_just_one_day, #id_add_second_dog').change(updateTotalPrice);
     
     // Initialize functions
     updateTotalPrice();
@@ -118,19 +118,21 @@ function initOneDayCheckboxHandler() {
 function updateTotalPrice() {
     const startDateInput = $('#id_start_date');
     const endDateInput = $('#id_end_date');
+    const oneDayCheckbox = $('#id_just_one_day');
+    const addSecondDogCheckbox = $('#id_add_second_dog');
     const originalPriceElement = $('#originalPrice');
     const priceTextElement = $('#priceText');
-    const addSecondDogCheckbox = $('#id_add_second_dog');
 
     if (startDateInput.val() && endDateInput.val() && originalPriceElement.length > 0) {
         const startDate = new Date(startDateInput.val());
-        const endDate = new Date(endDateInput.val());
+        let endDate = new Date(endDateInput.val());
         const originalPrice = parseFloat(originalPriceElement.data('price'));
-        let additionalPrice = 0;
+        let additionalPrice = addSecondDogCheckbox.is(':checked') ? originalPrice * 0.5 : 0;
 
-        // Check for second dog
-        if (addSecondDogCheckbox.is(':checked')) {
-            additionalPrice = originalPrice * 0.5;
+        // Adjust end date for "One Day" checkbox
+        if (oneDayCheckbox.is(':checked')) {
+            endDate = new Date(startDateInput.val());
+            endDateInput.val(startDateInput.val()); // Set end date to start date
         }
 
         // Calculate the number of days
