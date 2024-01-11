@@ -381,12 +381,21 @@ form.signup input {
 /* forms & modals */
 
 textarea,
-input,
+input#id_start_date,
+input#id_end_date,
+input#id_time,
+input#id_comments,
 select {
     max-height: 7.5em;
     border-radius: 2rem !important;
     border: 1px solid #ced4da;
-    padding: 1rem;
+    padding: 1rem !important;
+    margin-bottom: 1rem;
+}
+
+#div_id_just_one_day,
+#div_id_add_second_dog {
+    margin-bottom: 1rem;
 }
 
 .modal {
