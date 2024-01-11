@@ -282,9 +282,54 @@ function setMinimumDateForBooking() {
 
 ### CSS Validation
 
+![CSS Validation Report](documentation/validation/css_validation.png)
+
+  No errors or warnings were found when passing through the official [W3C (Jigsaw)](https://jigsaw.w3.org/css-validator/validator.html.en#validate_by_input) validator when using Direct Input. Avoided using checks by URI, because it would show several issues caused by usages of Bootstrap styling. However, CSS works well on various devices and resolutions.
+
+
 ### JS Validation
 
 ### Python Validation
+
+Validation for the following apps can be found here:
+
+1. barkbuddies:
+   
+ - [barkbuddies_wsgi](documentation/validation/barkbuddies_wsgi.png)
+ - [barkbuddies_asgi](documentation/validation/barkbuddies_asgi.png)
+ - [barkbuddies_settings](documentation/validation/barkbuddies_settings.png)
+ - [barkbuddies_url](documentation/validation/barkbuddies_url.png)
+ - [barkbuddies_views](documentation/validation/barkbuddies_views.png)
+ - [barkbuddies_url](documentation/validation/barkbuddies_url.png)
+
+2. booking
+ - [booking_views](documentation/validation/booking_views.png)
+ - [booking_urls](documentation/validation/booking_urls.png)
+ - [booking_models](documentation/validation/booking_models.png)
+ - [booking_forms](documentation/validation/booking_forms.png)
+ - [booking_apps](documentation/validation/booking_apps.png)
+ - [booking_admin](documentation/validation/booking_admin.png)
+
+
+3. home
+
+ - [home_views](documentation/validation/home_views.png)
+ - [home_apps](documentation/validation/home_apps.png)
+ - [home_urls](documentation/validation/home_urls.png)
+
+
+4. reviews
+ 
+ - [reviews_forms](documentation/validation/reviews_forms.png)
+ - [reviews_apps](documentation/validation/reviews_apps.png)
+ - [reviews_admin](documentation/validation/reviews_admin.png)
+ - [review_models](documentation/validation/review_models.png)
+
+
+No errors were found when the code was passed through the CI Python Linter
+ [online validation tool](https://pep8ci.herokuapp.com/#). According to the reports, the code is [Pep 8-compliant](https://legacy.python.org/dev/peps/pep-0008/). This checking was done manually by copying python code and pasting it into the validator.
+
+
 
 ## Lighthouse Report
 
