@@ -339,7 +339,6 @@ No errors were found when the code was passed through the CI Python Linter
 
 ![Lighthouse Report. Home Page](documentation/lighthouse_reports/home_lighthouse.png)
 
-No major issues.
 
 ### Login Page
 
@@ -351,19 +350,17 @@ No major issues.
 
 ### Registration Page
 
-![Lighthouse Report. Register Page](documentation/register_lighthouse.png)
+![Lighthouse Report. Register Page](documentation/lighthouse_reports/register_lighthouse.png)
 
 ### My Bookings Page
 
 ![Lighthouse Report. My Bookings Page](documentation/lighthouse_reports/bookings_lighthouse.png)
 
-No major issues.
 
 ### Edit  Bookings Page
 
-![Lighthouse Report. Edit Bookings Page](documentation/lighthouse_reports/edit_bookings_lighthouse.png)
+![Lighthouse Report. Edit Bookings Page](documentation/lighthouse_reports/edit_booking_lighthouse.png)
 
-No major issues.
 
 ### Service Detail Page
 
