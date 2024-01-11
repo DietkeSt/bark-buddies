@@ -176,12 +176,52 @@ class EditBookingView(LoginRequiredMixin, View):
         unavailable_dates = Availability.objects.filter(
             unavailable_to__gte=timezone.now().date()
         )
-        return render(request, 'edit_booking.html', {
-            'form': form, 
-            'booking': booking,
-            'unavailable_dates': unavailable_dates,
-        })
 
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking_start = booking.start_date
+            booking_end = booking.end_date
+
+            # Handle 'just_one_day' field
+            if form.cleaned_data.get('just_one_day'):
+                booking.end_date = booking.start_date
+
+            # Check for availability
+            if not Booking.is_period_available(
+                booking_start,
+                booking_end
+            ):
+                messages.error(request, 'Selected dates are unavailable.')
+                return HttpResponseRedirect(
+                    reverse('service_detail', args=[service.slug])
+                )
+
+            # Check for overlapping bookings
+            if Booking.has_overlapping_bookings(
+                booking_start,
+                booking_end,
+                booking.time
+            ):
+                messages.error(request, 'Selected time is already booked.')
+                return HttpResponseRedirect(
+                    reverse('service_detail', args=[service.slug])
+                )
+
+            form.save()
+            messages.success(request, 'Booking updated successfully.')
+            return HttpResponseRedirect(reverse('view_bookings'))
+
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+            return render(request, 'edit_booking.html', {
+                'form': form, 
+                'booking': booking,
+                'unavailable_dates': unavailable_dates,
+            })
+
+        
     def post(self, request, booking_id):
         booking = get_object_or_404(Booking, id=booking_id, user=request.user)
         form = EditBookingForm(request.POST, instance=booking)
