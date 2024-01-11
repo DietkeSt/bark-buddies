@@ -63,13 +63,6 @@ class EditBookingForm(forms.ModelForm):
         required=False, 
         label='One Day'
         )
-    time = forms.ModelChoiceField(
-        queryset=BookingTime.objects.all(),
-        to_field_name="time",
-        required=True,
-        widget=forms.Select(),
-        empty_label=None
-    )
 
     class Meta:
         model = Booking
@@ -87,7 +80,8 @@ class EditBookingForm(forms.ModelForm):
             ),
             'end_date': forms.DateInput(
                 attrs={'type': 'date'}
-            )
+            ),
+            'time': forms.Select() 
         }
 
     def clean(self):
