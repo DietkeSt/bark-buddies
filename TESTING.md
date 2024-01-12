@@ -437,16 +437,33 @@ No errors were found when the code was passed through the CI Python Linter
 
 Major issue here is Bootstrap and Slider that are coming from external CSS and Javascript files.
 
-
-### All Pages
+---
 
 ## Compatibility
 
-Testing was conducted on the following browsers;
+Testing was conducted on the following browsers:
 
-- Safari;
-- Chrome;
-- Firefox;
+- ### Safari
+
+Please find the YouTube Video here:
+
+[![Safari Compatibility Test](https://img.youtube.com/vi/zX1vNLPp2QA/hqdefault.jpg
+)](https://youtu.be/zX1vNLPp2QA)
+
+- ### Chrome
+  
+Please find the YouTube Video here:
+
+[![Chrome Compatibility Test](https://img.youtube.com/vi/jS2PGRqCAy8/hqdefault.jpg
+)](https://youtu.be/jS2PGRqCAy8)
+
+- ### Firefox
+  
+Please find the YouTube Video here:
+
+[![Firefox Compatibility Test](https://img.youtube.com/vi/ma2HrcFa/hqdefault.jpg
+)](https://youtu.be/ma2HrcFa-N4)
+
 
 # Responsiveness
 
