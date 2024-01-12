@@ -291,7 +291,7 @@ class EditBookingView(LoginRequiredMixin, View):
                 request,
                 'edit_booking.html',
                 {'form': form, 'booking': booking},
-                'unavailable_dates': unavailable_dates,
+                'unavailable_dates': unavailable_dates
             )
 
 
