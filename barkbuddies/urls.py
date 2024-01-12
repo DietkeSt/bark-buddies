@@ -13,5 +13,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 ]
 
+# Custom error handlers
 handler404 = 'barkbuddies.views.custom_404'
 handler500 = 'barkbuddies.views.custom_500'

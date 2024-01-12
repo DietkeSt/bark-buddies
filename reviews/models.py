@@ -4,6 +4,9 @@ from booking.models import Service
 
 
 class Comment(models.Model):
+    """
+    Model representing a comment on a service.
+    """
     service = models.ForeignKey(
         Service,
         on_delete=models.CASCADE,
@@ -16,21 +19,29 @@ class Comment(models.Model):
     approved = models.BooleanField(default=False)
 
     class Meta:
+        """
+        Meta options for Comment model.
+        """
         ordering = ['created_on']
 
     def approve(self):
+        """
+        Approve the comment.
+        """
         self.approved = True
         self.save()
 
     def __str__(self):
+        """
+        String representation of the Comment.
+        """
         return f"Comment {self.body} by {self.name}"
 
     @classmethod
-    def create_comment(
-        cls,
-        user,
-        form_data
-    ):
+    def create_comment(cls, user, form_data):
+        """
+        Create a comment from form data.
+        """
         comment = cls(
             name=user.username,
             email=user.email,

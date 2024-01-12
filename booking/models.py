@@ -17,11 +17,14 @@ STATUS = (
 
 
 class ServiceManager(models.Manager):
+    """ Custom manager for Service model. """
     def active_services(self):
+        """ Return active services. """
         return self.get_queryset().filter(status=1)
 
 
 class Service(models.Model):
+    """ Represents a service in the booking system. """
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     content = models.TextField(max_length=400)
@@ -36,6 +39,7 @@ class Service(models.Model):
 
     @classmethod
     def get_active_services(cls):
+        """ Return active services sorted by title. """
         return cls.objects.filter(
             status=1
         ).order_by('title')
@@ -71,6 +75,7 @@ class Service(models.Model):
 
 
 class BookingTime(models.Model):
+    """ Represents a specific time for bookings. """
     time = models.TimeField(
         default=datetime.time(8, 0)
     )
@@ -80,6 +85,7 @@ class BookingTime(models.Model):
 
 
 class Availability(models.Model):
+    """ Represents unavailable dates for booking. """
     unavailable_from = models.DateField()
     unavailable_to = models.DateField()
 
@@ -91,6 +97,7 @@ class Availability(models.Model):
 
 
 class Booking(models.Model):
+    """ Represents a booking made by a user. """
     user = models.ForeignKey(
         User, on_delete=models.CASCADE
     )
@@ -123,6 +130,7 @@ class Booking(models.Model):
         )
 
     def save(self, *args, **kwargs):
+        """ Save method with custom price calculation. """
         # Calculate the number of days for the booking
         booking_duration = (self.end_date - self.start_date).days + 1
 
@@ -205,6 +213,7 @@ class Booking(models.Model):
 
     @classmethod
     def get_future_bookings_for_user(cls, user):
+        """ Return future bookings for a given user. """
         current_date = timezone.now().date()
         return cls.objects.filter(
             user=user,

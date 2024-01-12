@@ -17,6 +17,7 @@ from reviews.models import Comment
 
 
 class GetUnavailableTimes(View):
+    """ Returns unavailable times for bookings via AJAX. """
     def get(self, request):
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
@@ -49,7 +50,7 @@ class GetUnavailableTimes(View):
 
 
 class ServiceDetail(View):
-
+    """ Displays detail for a single service. """
     def get(self, request, slug, *args, **kwargs):
         service = get_object_or_404(Service, slug=slug)
         comments = service.comments.filter(approved=True)
@@ -73,6 +74,7 @@ class ServiceDetail(View):
 
 
 class BookServiceView(LoginRequiredMixin, View):
+    """ Handles the booking process for a service. """
     def post(self, request, service_id):
         service = get_object_or_404(Service, id=service_id)
         form = BookingForm(request.POST)
@@ -145,6 +147,7 @@ class BookServiceView(LoginRequiredMixin, View):
 
 
 class BookingsView(LoginRequiredMixin, View):
+    """ Displays user's bookings and handles comment submissions. """
     def get(self, request):
         bookings = Booking.get_future_bookings_for_user(request.user)
         comment_form = CommentForm()
@@ -178,6 +181,7 @@ class BookingsView(LoginRequiredMixin, View):
 
 
 class CancelBookingView(LoginRequiredMixin, View):
+    """ Allows users to cancel their bookings. """
     def post(self, request, booking_id):
         booking = get_object_or_404(
             Booking,
@@ -197,6 +201,7 @@ class CancelBookingView(LoginRequiredMixin, View):
 
 
 class DeleteBookingView(LoginRequiredMixin, View):
+    """ Allows users to delete their cancelled bookings. """
     def post(self, request, booking_id):
         booking = get_object_or_404(
             Booking,
@@ -212,7 +217,9 @@ class DeleteBookingView(LoginRequiredMixin, View):
 
 
 class EditBookingView(LoginRequiredMixin, View):
+    """ Provides functionality to edit an existing booking. """
     def get_unavailable_dates(self):
+        """ Helper to get unavailable dates for booking editing. """
         return Availability.objects.filter(
             unavailable_to__gte=timezone.now().date()
         )
@@ -299,6 +306,7 @@ class EditBookingView(LoginRequiredMixin, View):
 
 
 class AddCommentView(LoginRequiredMixin, View):
+    """ Handles the addition of new comments to bookings. """
     def post(self, request):
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():

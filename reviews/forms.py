@@ -5,14 +5,20 @@ from django import forms
 
 
 class CommentForm(forms.ModelForm):
+    """
+    Form for Comment model with custom field settings.
+    """
+
     class Meta:
+        """
+        Meta options for CommentForm.
+        """
         model = Comment
-        fields = (
-            'service',
-            'body',
-        )
+        fields = ('service', 'body',)
 
     def __init__(self, *args, **kwargs):
+        """
+        Init method to set 'service' field queryset.
+        """
         super(CommentForm, self).__init__(*args, **kwargs)
-        # Set 'service' field to only include published services
         self.fields['service'].queryset = Service.objects.filter(status=1)

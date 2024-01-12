@@ -10,23 +10,28 @@ from reviews.forms import CommentForm
 
 
 class HomeView(ListView):
+    """
+    View for displaying the home page with service list.
+    """
     model = Service
     template_name = 'home.html'
     context_object_name = 'service_list'
 
     def get_queryset(self):
-        # Return only services that are published
+        """
+        Return published services.
+        """
         return Service.objects.filter(status=1)
 
     def get_context_data(self, **kwargs):
+        """
+        Add additional context to the view.
+        """
         context = super().get_context_data(**kwargs)
-
-        # Check if the current user has any bookings
-        if self.request.user.is_authenticated:
+        user = self.request.user
+        if user.is_authenticated:
             user_has_bookings = Booking.objects.filter(
-                user=self.request.user,
-                end_date__lt=timezone.now(),
-                is_cancelled=False
+                user=user, end_date__lt=timezone.now(), is_cancelled=False
             ).exists()
             context['user_has_bookings'] = user_has_bookings
         else:
@@ -35,12 +40,18 @@ class HomeView(ListView):
         context['comments'] = Comment.objects.filter(approved=True)[:10]
         context[
             'comment_form'
-        ] = CommentForm() if self.request.user.is_authenticated else None
+        ] = CommentForm() if user.is_authenticated else None
         return context
 
 
 class SubmitHomeReview(View):
+    """
+    View for submitting comments on the home page.
+    """
     def post(self, request, *args, **kwargs):
+        """
+        Handle the post request to submit a comment.
+        """
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             service_id = request.POST.get('service')
@@ -58,4 +69,3 @@ class SubmitHomeReview(View):
                 request, "There was an error with your submission."
             )
         return redirect('home')
-        

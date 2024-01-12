@@ -5,6 +5,7 @@ from reviews.models import Comment
 
 
 class BookingForm(forms.ModelForm):
+    """ Form for creating and editing bookings. """
     add_second_dog = forms.BooleanField(
         required=False,
         label='Add Second Dog*'
@@ -22,6 +23,7 @@ class BookingForm(forms.ModelForm):
     )
 
     class Meta:
+        """ Meta class for BookingForm. """
         model = Booking
         fields = [
             'start_date',
@@ -41,6 +43,7 @@ class BookingForm(forms.ModelForm):
         }
 
     def clean(self):
+        """ Custom clean method to handle 'just_one_day' logic. """
         cleaned_data = super().clean()
         just_one_day = cleaned_data.get(
             'just_one_day'
@@ -56,6 +59,7 @@ class BookingForm(forms.ModelForm):
 
 
 class EditBookingForm(forms.ModelForm):
+    """ Form for editing existing bookings. """
     add_second_dog = forms.BooleanField(
         required=False,
         label='Add Second Dog*'
@@ -66,6 +70,7 @@ class EditBookingForm(forms.ModelForm):
         )
 
     class Meta:
+        """ Meta class for EditBookingForm. """
         model = Booking
         fields = [
             'start_date',
@@ -86,6 +91,7 @@ class EditBookingForm(forms.ModelForm):
         }
 
     def clean(self):
+        """ Custom clean method for 'just_one_day' in edit form. """
         cleaned_data = super().clean()
         just_one_day = cleaned_data.get('just_one_day')
         start_date = cleaned_data.get('start_date')
