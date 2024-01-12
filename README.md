@@ -210,7 +210,7 @@ The thoughtful selection and use of imagery in BarkBuddies play a significant ro
 - [Home Wireframe](documentation/wireframes/home_wireframe.png)
 - [Service Wireframe](documentation/wireframes/service_wireframe.png)
 - [Booking Module Wireframe](documentation/wireframes/bookingmodul_wireframe.png)
-- [My Bookings Wireframes](documentation/wireframes/service_wireframe.png)
+- [My Bookings Wireframes](documentation/wireframes/mybookings_wireframe.png)
 
 
 ---
@@ -505,7 +505,7 @@ Please refer to the [DEPLOYMENT.md](DEPLOYMENT.md) file for all deployment-relat
 - [Coolors](https://coolors.co/): for providing a free platform to generate your own palette.
 - [Freepik @pch.vector](https://www.freepik.com/author/pch-vector): for providing free images to use for the project.
 - [Responsive Viewer](https://chrome.google.com/webstore/detail/responsive-viewer/inmopeiepgfljkpkidclfgbgbmfcennb/related?hl=en): for providing a free platform to test website responsiveness
-- [GoFullPage](chrome://extensions/?id=fdpohaocaechififmbbbbbknoalclacl): for allowing to create free full web page screenshots;
+* [GoFullPage](https://chromewebstore.google.com/detail/gofullpage-full-page-scre/fdpohaocaechififmbbbbbknoalclacl): for allowing to create free full web page screenshots;
 - [Programming with Mosh](https://www.youtube.com/watch?v=rHux0gMZ3Eg): for the many Django tutorials on YouTube.
 - [John Abdsho](https://www.youtube.com/watch?v=s5xbtuo9pR0): for the insights on how to create a booking system.
 - [Djangoproject](https://docs.djangoproject.com/en/5.0/howto/): for the many helpful how-to guides for Django. 
