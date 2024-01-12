@@ -46,11 +46,21 @@ Menu        |                        |                  |      |             |
 | 2           |  If Booking available, click on “Re-Book” button underneath a Booking | Redirect to the Service Detail page where users can place another booking. | Y |  Available only for logged in users with a booking.  |
 | 3           |  If Booking cancelled, click on “Re-Book” button underneath a Booking | Redirect to the Service Detail page where users can place another booking. | Y |  Available only for logged in users with a cancelled booking.  |
 | 4           |  If Booking cancelled, click on “Delete” button underneath a Booking | Stay on the same page and an alert appears confirming deletion. The booking disappears. If there are no bookings, a message stating that the user has no bookings appears. | Y |  Available only for logged in users with a cancelled booking.  |
-| 5           |  Click on “Want to leave a Review?” | Review Modal opens. | Y |  Available only for logged in users with a past booking.  |
+| 5           |  If Booking, click on  “Edit” | Edit Booking Page opens. | Y |   |
+| 6           |  Click on “Want to leave a Review?” | Review Modal opens. | Y |  Available only for logged in users with a past booking.  |
 | Service Detail page |            |                  |      |             |
 | 1           |  Click "Book Now" button underneath the Service text | Booking Modal for this Service opens | Y | Available only to logged in users  |
 | 2           |  Click "Login to book Service" button underneath the Service text | User is redirected to login and is then redirected back to the Service Detail page. | Y | Only visible if not logged in  |
 | 3           |  Click any of the other Service cards underneath | User is redirected to the Service Detail page of that service. | Y |   |
+| Edit Booking Page |            |                  |      |             |
+| 1           |  Click on “Calendar” Icon to select Start Date | Calendar for selection opens. Paste dates are automatically disabled.  | Y |   |
+| 2           |  Click "One Day" checkmark | End date field is filled automatically with the same date as the start date. | Y |   |
+| 3           |  Click on “Calendar” Icon to select End Date | Calendar for selection opens. Paste dates are automatically disabled. | Y | Only clickable if One Day check is not ticked.  |
+| 4          |  Click on “Time” dropdown to select a timeslot | Dropdown with available times appears and time can be selected. Unavailable times are disabled. | N | Unavailable times are not diaabled, added to unfixed bugs.  |
+| 5           |  Enter a comment | Field will only accept up to 400 characters. | Y |   |
+| 6           |  Tick checkmark “Add Second Dog” | The total price will automatically change and add 50% of the price. | Y |   |
+| 7           |  Click “Close” button | The booking modal closes and the user stays on the Service Detail page. | Y |   |
+| 8           |  Click “Book Now” button | The booking modal closes and the user gets a confirmation alert for successful booking, or an error if unsuccessful. The booking is displayed on the page. | Y |   |
 | Booking Modal |            |                  |      |             |
 | 1           |  Click on “Calendar” Icon to select Start Date | Calendar for selection opens. Paste dates are automatically disabled.  | Y |   |
 | 2           |  Click "One Day" checkmark | End date field is filled automatically with the same date as the start date. | Y |   |
@@ -69,6 +79,7 @@ Menu        |                        |                  |      |             |
 | 1           |  Click on “Our Services” | User is navigated to service section of Home page  | Y |   |
 | 2           |  Click on “Testimonials” |  User is redirected to the review section of Home page | Y |   |
 | 3           |  Click on “Bookings” | User is redirected to My Bookings page | Y |  Available only for logged in users. Will be redirected to the Login page otherwise. |
+| 4           |  Click on Social Links | Social Page is opened in a new Tab. | Y |   |
 
 
 ---
@@ -111,13 +122,13 @@ Menu        |                        |                  |      |             |
 
 ### Known bugs
 
-Booking should only be allowed from 24 hours in the future onwards. However, if a user chooses tomorrow’s date and a timeslot that should be, in theory, more than 24 hours in the future, it still throws the 24 hours booking error.
+1. Booking should only be allowed from 24 hours in the future onwards. However, if a user chooses tomorrow’s date and a timeslot that should be, in theory, more than 24 hours in the future, it still throws the 24 hours booking error.
 
-![Known Bug Date](documentation/bugs/known_bug_dates.png)
+    ![Known Bug Date](documentation/bugs/known_bug_dates.png)
 
-![Known Bug Alert](documentation/bugs/known_bug_alert.png)
+    ![Known Bug Alert](documentation/bugs/known_bug_alert.png)
 
-Until a permanent solution is found, the following was implemented:
+    Until a permanent solution is found, the following was implemented:
 
 - The date of tomorrow will currently be disabled for selection as well.
 
@@ -139,6 +150,9 @@ function setMinimumDateForBooking() {
 
 ![Workaround Date Selection](documentation/bugs/date_selection.png)
 
+2. Verified Bug during Validation. The Edit Booking Page does currently not check for booked timeslots, so these are not disabled on selection.
+
+    This is added to future development. 
 
 
 ### Solved bugs
@@ -149,7 +163,7 @@ function setMinimumDateForBooking() {
 
     When I click on the service as a user and choose the start date, tick "One Day" and then select the time and click on "book now", the booking is not confirmed and doesn't lead to the booking overview. When I choose an end date instead of "One Day" then it books successfully
 
-    ***Fix:***
+    ***Bug Fix:***
 
     Due to the End-Date being disabled in the Javascript code, it was not submitted correctly on the form:
 
@@ -176,7 +190,7 @@ function setMinimumDateForBooking() {
 
     As a user I can currently select unavailable times on days where those times are already booked, even though a logic is in place that should disable these time slots.
 
-    ***Fix:***
+    ***Bug Fix:***
 
     The Javascript was not fetching the correct link for checking the unavailable times:
 
@@ -208,7 +222,7 @@ function setMinimumDateForBooking() {
 
     As a user, I can see all services, even though some of them are unpublished.
 
-    ***Fix:***
+    ***Bug Fix:***
 
     The issue was the HomeView, that displayed all services, no matter the status.
     Adding a query to filter for only published services solved the issue:
@@ -226,7 +240,7 @@ function setMinimumDateForBooking() {
 
     As a user I can leave a review, even when I have not made any bookings in the past.
 
-    ***Fix:***
+    ***Bug Fix:***
 
     Fixed this by checking if user has any bookings in the BookingsView and HomeView:
 
@@ -244,7 +258,7 @@ function setMinimumDateForBooking() {
 
     As a user I can currently select past dates to book a service. Instead I should see an error and the booking should not go through.
 
-    ***Fix:***
+    ***Bug Fix:***
 
     Added Javascript for Frontend:
 
@@ -330,7 +344,22 @@ function setMinimumDateForBooking() {
   No errors or warnings were found when passing through the official [W3C (Jigsaw)](https://jigsaw.w3.org/css-validator/validator.html.en#validate_by_input) validator when using Direct Input. Avoided using checks by URI, because it would show several issues caused by usages of Bootstrap styling. However, CSS works well on various devices and resolutions.
 
 
-### JS Validation
+### JS Validation:
+
+No errors or warning messages were found when passing through the official [JSHint](https://www.jshint.com/) validator. 
+
+![JSHint Validation](documentation/validation/jshint_validator.png)
+
+However, the validator has pointed out the usage of bootstrap and jQuery, but these are needed for the application to work. 
+
+jQuery is used in the application for its simplicity and efficiency in DOM manipulation and event handling, while custom JavaScript is employed to implement specific functionalities and logic that are unique to the application’s requirements, for example setting a minimum date for the booking calendar and handling the navbar scrolling.
+
+The following was added on top of the file to remove these comments:
+```
+/*jshint esversion: 6 */
+/*globals $:false, bootstrap:false */
+```
+
 
 ### Python Validation
 
