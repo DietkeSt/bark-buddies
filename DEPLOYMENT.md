@@ -41,7 +41,6 @@ Create a local copy of the GitHub repository by following one of the two process
 
       os.environ['SECRET_KEY'] = 'Add a secret key'
       os.environ['DATABASE_URL'] = 'will be used to connect to the database'
-      os.environ['DEBUG'] = 'True'
     ```
 
     *During the development stage DEBUG is set to True, but it is vital to change it to False.*
