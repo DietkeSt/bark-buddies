@@ -92,7 +92,7 @@ The app was developed for everyone interested in dog-sitting services.
 - ### Databases:
 
     + [SQLite (Development)](https://www.sqlite.org/): was used as a development database.
-    + [PostgreSQL (Production)](https://www.sqlite.org/): is used as a production database.
+    + [ElephantSQL](https://www.elephantsql.com/): is used as production database.
 
 
 - ### Hosting Platform:
@@ -107,7 +107,6 @@ The app was developed for everyone interested in dog-sitting services.
     + [Spycopg2](https://www.python.org/dev/peps/pep-0249/): the database driver used to connect to the database.
     + [Django-allauth](https://django-allauth.readthedocs.io/en/latest/): the authentication library used to create the user accounts.
     + [Django-crispy-forms](https://django-cryptography.readthedocs.io/en/latest/): was used to control the rendering behavior of Django forms.
-    + [ElephantSQL](https://www.elephantsql.com/): the cloud database used to store all the data.
     + [GitHub](https://github.com/): used to host the website's source code.
     + [Codeanywhere](https://app.codeanywhere.com/): the IDE used to develop the website.
     + [Chrome DevTools](https://developer.chrome.com/docs/devtools/open/): was used to debug the website.
@@ -120,7 +119,7 @@ The app was developed for everyone interested in dog-sitting services.
     + [W3C Validator](https://validator.w3.org/): was used to validate HTML5 code for the website.
     + [W3C CSS validator](https://jigsaw.w3.org/css-validator/): was used to validate CSS code for the website.
     + [JShint](https://jshint.com/): was used to validate JS code for the website.
-    + [PEP8](https://pep8.org/): was used to validate Python code for the website
+    + [CI Python Linter](https://pep8ci.herokuapp.com/#): was used to validate Python code for the website
 
 
 ---
@@ -228,6 +227,7 @@ GitHub Project Management played a crucial role in the development of BarkBuddie
 - By leveraging GitHub's issue tracking, each user story was documented and updated, fostering a user-centric development approach.
 
     ![GitHub Project Management](documentation/agile/agile_userstories.png)
+    
     [User Stories View](https://github.com/users/DietkeSt/projects/3/views/1?filterQuery=-status%3A%22Todo+%28Styling%29%22%2C%22In+Progress+%28Styling%29%22%2C%22Todo+%28Bug%29%22%2C%22In+Progress+%28Bug%29%22&sliceBy%5BcolumnId%5D=Labels&sliceBy%5Bvalue%5D=user+story)
 
 
@@ -237,6 +237,7 @@ GitHub Project Management played a crucial role in the development of BarkBuddie
 - The platform facilitated the tracking of progress on these tasks. It ensured that styling decisions enhanced the user interface and contributed to a seamless user experience.
 
     ![GitHub Project Management](documentation/agile/agile_styling.png)
+    
     [Bugs View](https://github.com/users/DietkeSt/projects/3/views/2?filterQuery=-status%3ATodo%2C%22In+Progress%22%2C%22Todo+%28Styling%29%22%2C%22In+Progress+%28Styling%29%22&sliceBy%5BcolumnId%5D=Labels&sliceBy%5Bvalue%5D=bug)
 
 3. **Bug Tracking and Resolution:**
@@ -245,6 +246,7 @@ GitHub Project Management played a crucial role in the development of BarkBuddie
 - It was easy to contribute to bug resolution, making the process more dynamic and efficient.
 
     ![GitHub Project Management](documentation/agile/agile_bugs.png)
+    
     [Styling View](https://github.com/users/DietkeSt/projects/3/views/3?filterQuery=-status%3A%22In+Progress%22%2CTodo%2C%22Todo+%28Bug%29%22%2C%22In+Progress+%28Bug%29%22&sliceBy%5BcolumnId%5D=Labels&sliceBy%5Bvalue%5D=styling)
 
 
@@ -337,7 +339,7 @@ The User Flow chart delineates the pathways a typical user follows. Starting fro
 ### Database
 
 * During the earliest stages of the project, the database was created using SQLite.
-* The database was then migrated to PostgreSQL.
+* The database was then migrated to ElephantSQL.
 
 ### Entity-Relationship Diagram
 
@@ -454,7 +456,7 @@ While the Admin has all functionalities of CRUD available in the backend. The us
 
 3. **Update:**
 - Services: Admin can update service details, regular users cannot.
-- Bookings: Users can update their bookings by cancelling or deleting.
+- Bookings: Users can update their bookings by cancelling or editing.
 - Comments: Only Admin can approve comments.
 - Availability: Only Admin can modify unavailable dates.
 
@@ -464,12 +466,18 @@ While the Admin has all functionalities of CRUD available in the backend. The us
 - Comments: Only Admin can delete comments.
 - Availability: Only Admin can remove unavailable dates.
 
+---
+## Future Development
+
+1. Change password will be implemented, allauth can be used for that.
+2. The users will get a User Profile to upload their profile pictures, edit their reviews and update their personal details.
+3. Unit Testing will be implemented.
+4. Outstanding Bugs will be fixed. 
 
 ---
 ## Testing
 
 Please refer to the [TESTING.md](TESTING.md) file for all test-related documentation.
-
 
 
 ---
@@ -493,7 +501,7 @@ Please refer to the [DEPLOYMENT.md](DEPLOYMENT.md) file for all deployment-relat
 - [ElephantSQL](https://www.elephantsql.com/): for the free hosting of the database.
 - [Font awesome](https://fontawesome.com/): for the free access to icons.
 - [jQuery](https://jquery.com/): for providing varieties of tools to make standard HTML code look appealing.
-- [Postgresql](https://www.postgresql.org/): for providing a free database.
+- [ElephantSQL](https://www.elephantsql.com/): for providing a free database.
 - [Coolors](https://coolors.co/): for providing a free platform to generate your own palette.
 - [Freepik @pch.vector](https://www.freepik.com/author/pch-vector): for providing free images to use for the project.
 - [Responsive Viewer](https://chrome.google.com/webstore/detail/responsive-viewer/inmopeiepgfljkpkidclfgbgbmfcennb/related?hl=en): for providing a free platform to test website responsiveness
@@ -501,6 +509,8 @@ Please refer to the [DEPLOYMENT.md](DEPLOYMENT.md) file for all deployment-relat
 - [Programming with Mosh](https://www.youtube.com/watch?v=rHux0gMZ3Eg): for the many Django tutorials on YouTube.
 - [John Abdsho](https://www.youtube.com/watch?v=s5xbtuo9pR0): for the insights on how to create a booking system.
 - [Djangoproject](https://docs.djangoproject.com/en/5.0/howto/): for the many helpful how-to guides for Django. 
+- [Bootstrap](https://getbootstrap.com/) for responsive frontend design.
+- [Code Institute](https://codeinstitute.net/ie/) for use of training material, tutorials and free resources.
 
 
 
