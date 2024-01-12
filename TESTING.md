@@ -150,9 +150,7 @@ function setMinimumDateForBooking() {
 
 ![Workaround Date Selection](documentation/bugs/date_selection.png)
 
-2. Verified Bug during Validation. The Edit Booking Page does currently not check for booked timeslots, so these are not disabled on selection.
-
-    This is added to future development. 
+2. Verified Bug during Validation. The Edit Booking Page does currently not check for booked timeslots, so these are not disabled on selection. However, for now the user still gets an error message and cannot book the timeslot, if it's already taken.
 
 
 ### Solved bugs
