@@ -290,8 +290,11 @@ class EditBookingView(LoginRequiredMixin, View):
             return render(
                 request,
                 'edit_booking.html',
-                {'form': form, 'booking': booking},
-                'unavailable_dates': unavailable_dates
+                {
+                    'form': form, 
+                    'booking': booking, 
+                    'unavailable_dates': unavailable_dates
+                }
             )
 
 
