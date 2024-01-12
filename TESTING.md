@@ -465,7 +465,29 @@ Please find the YouTube Video here:
 )](https://youtu.be/ma2HrcFa-N4)
 
 
+---
+
 # Responsiveness
 
-- Devtools
-- Responsive Viewer
+The responsiveness was checked manually by using devtools (Chrome) throughout the whole development. It was also checked with [Responsive Viewer](https://chrome.google.com/webstore/detail/responsive-viewer/inmopeiepgfljkpkidclfgbgbmfcennb/related?hl=en) Chrome extension.
+
+Here are the screenshots of the Responsive Viewer tests:
+
+- [Responsive Home Page](documentation/responsiveness/responsive_home.png)
+
+- [Responsive Login Page](documentation/responsiveness/responsive_login.png)
+
+- [Responsive Logout Page](documentation/responsiveness/responsive_logout.png)
+
+- [Responsive Registration Page](documentation/responsiveness/responsive_register.png)
+
+- [Responsive Bookings Page](documentation/responsiveness/responsive_bookings.png)
+
+- [Responsive Service Detail Page](documentation/responsiveness/responsive_service_detail.png)
+
+- [Responsive Review Modal](documentation/responsiveness/responsive_review_modal.png)
+
+- [Responsive Booking Modal](documentation/responsiveness/responsive_booking_form.png)
+
+---
+
